@@ -1,0 +1,507 @@
+@font-face {
+    font-family: "RussoOne";
+    src: url("font/russo_one-webfont.eot");
+	src: url("font/russo_one-webfont.eot?#iefix") format("embedded-opentype"),
+		 url("font/russo_one-webfont.woff") format("woff"),
+		 url("font/russo_one-webfont.ttf") format("truetype"),
+		 url("font/russo_one-webfont.svg#OpenSansSemibold") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+html {
+	font-size: 16px;
+	position: relative;
+}
+html * {
+	box-sizing: border-box;
+	font-family: RussoOne;
+}
+html,
+body,
+.header,
+#videos,
+.line {
+	width: 100%;
+}
+.three {
+	display: inline-block;
+	height: 100%;
+	line-height: 0;
+	vertical-align: middle;
+	width: 33.3333%;
+}
+
+.line {
+	background-image: -webkit-linear-gradient(0deg, #c1d7ea 50%, #e8f1f7);
+	background-image: -moz-linear-gradient(0deg, #c1d7ea 50%, #e8f1f7);
+	background-image: linear-gradient(0deg, #c1d7ea 50%, #e8f1f7);
+	height: 30.250em;
+	padding: 3.625em 0 4.000em 5.34979%;
+	position: relative;
+}
+.slider-wrapper {
+	overflow: hidden;
+}
+.slider {
+	list-style-type: none;
+	width: 5000px;
+}
+.element {
+	position: relative;
+	float: left;
+	width: 30.000em;
+	height: 22.625em;
+	background-color: white;
+	margin-left: 0.375em;
+}
+.element img {
+	max-width: 100%;
+}
+.transform-90 {
+	bottom: 2.909em;
+	left: 1em;
+	color: #009de3;
+	font-size: 1.375em;
+	position: absolute;
+	-webkit-transform-origin:0 0;
+	-moz-transform-origin:0 0;
+	-ms-transform-origin:0 0;
+	-o-transform-origin:0 0;
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg);
+	-o-transform: rotate(-90deg);
+}
+.arrow-wrapper {
+	position: absolute;
+	height: 5.563em;
+	top: 3.625em;
+	width: 3.4668%;
+}
+.arrow-wrapper.arrow-wrapper-prev {
+	left: 0;
+}
+.arrow-wrapper.arrow-wrapper-next {
+	background-color: white;
+	right: 0;
+}
+.header {
+	background: url('images/background-header.png');
+	height: 5.375em;
+	padding: 0.875em 1.0742% 0.875em 0.8301%;
+}
+div.play {
+	box-sizing: border-box;
+	color: white;
+  	font-size: 0.875em;
+	left: 37.7083%;
+	opacity: 85;
+	padding: 1.143em 6.4583% 0.786em 2.5%;
+  	padding-left: 2.5%;
+	position: absolute;
+	text-align: center;
+	top: 6.714em;
+}
+div.background {
+	filter:alpha(opacity=85);
+  	opacity: 0.85;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	-webkit-transform: skew(-15deg);
+	-moz-transform: skew(-15deg);
+	-o-transform: skew(-15deg);
+    background: #e96f26;
+    z-index: 0;
+}
+.triangle {
+	margin-left: 44.7761%;
+	position: relative;
+	width: 0;
+	height: 0;
+	border-left: 2.286em solid white;
+	border-top: 1.786em solid transparent;
+	border-bottom: 1.786em solid transparent;
+	z-index: 1;
+}
+.play .text {
+	display: inline-block;
+	margin-top: 0.429em;
+	position: relative;
+	z-index: 1;
+}
+.element-text {
+	background-color: white;
+	bottom: 0;
+	display: inline-block;
+	padding: 0 6.25% 2.92% 0.625em;
+	position: absolute;
+	width: 100%;
+}
+.element-text-title {
+	margin-top: 0.292em;
+	font-size: 1.500em;
+	color: #d72658;
+	padding-right: 13.3%;
+	
+}
+.element-text-tiser {
+	font-size: 1.063em;
+	margin-top: 1.125em;
+	padding-right: 2.25%;
+}
+.element-text-time {
+	color: #02a4ec;
+	font-size: 1.063em;
+	margin-right: 1.875%;
+}
+.element-text-date {
+	color: #564f52;
+	font-size: 1em;
+}
+.element-comments {
+	top: 0.500em;
+	color: #d03f79;
+	font-size: 1.250em;
+	position: absolute;
+	right: 0.750em;
+	z-index: 2;
+}
+.content {
+	width: auto;
+	overflow: hidden;
+}
+
+/* Иконки и кнопки */
+.icon {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+}
+.icon-reload {
+	background-image: url("images/icon-reload.png");
+	background-position: center right;
+	float: right;
+	width: 8%;
+}
+.icon-logo {
+	background-image: url("images/icon-logo.png");
+	cursor: auto;
+}
+.icon-menu {
+	background-image: url("images/icon-menu.png");
+	background-position: left center;
+	cursor: pointer;
+	float: left;
+	height: 100%;
+	width: 9%;
+}
+.icon-arrow-prev,
+.icon-arrow-next {
+	background-image: url("images/icon-arrow.png");
+	height: 2.875em;
+	margin: 1.375em auto 1.313em;
+	width: 38.0282%;
+}
+.icon-arrow-prev {
+	left: 1.7578%;
+}
+.icon-arrow-next {
+	left: 0;
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+.icon-comments {
+	background-image: url("images/icon-comments-purple.png");
+	display: inline-block;
+	height: 1.313em;
+	vertical-align: middle;
+	width: 1.313em;
+}
+.sport-icon-element {
+	color: white;
+	display: inline-block;
+	font-size: 1.125em;
+	height: 13.333em;
+	margin: 0 1.1363636363636365%;
+	overflow: hidden;
+	padding: 3.556em 0;
+	text-align: center;
+	width: 30.831643002028397%;
+}
+.sport-icon-element .icon {
+	height: 4.444em;
+	position: relative;
+	margin-bottom: 0.750em;
+}
+.sport-icon-element:hover {
+	color: #FFF000;
+	background-image: url("images/background-sport-type.png");
+	background-size: cover;
+}
+.sport-icon-element:hover .icon:after {
+	content: '';
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+.biatlon .icon {
+	background-image: url("images/sport-biatlon.png");
+}
+.bobsplay .icon {
+	background-image: url("images/sport-bobsplay.png");
+}
+.skeleton .icon {
+	background-image: url("images/sport-skeleton.png");
+}
+.kyorling .icon {
+	background-image: url("images/sport-kyorling.png");
+}
+.hockey .icon {
+	background-image: url("images/sport-hockey.png");
+}
+.sanki .icon {
+	background-image: url("images/sport-sanki.png");
+}
+.figure .icon {
+	background-image: url("images/sport-figure.png");
+}
+.short_track .icon {
+	background-image: url("images/sport-short_track.png");
+}
+.speed_konki .icon {
+	background-image: url("images/sport-speed_konki.png");
+}
+.mountains_skiing .icon {
+	background-image: url("images/sport-mountains_skiing.png");
+}
+.skiing_race .icon {
+	background-image: url("images/sport-skiing_race.png");
+}
+.skiing_dvoeborie .icon {
+	background-image: url("images/sport-skiing_dvoeborie.png");
+}
+.prizhki .icon {
+	background-image: url("images/sport-prizhki.png");
+}
+.freestyle .icon {
+	background-image: url("images/sport-freestyle.png");
+}
+.snowboarding .icon {
+	background-image: url("images/sport-snowboarding.png");
+}
+.biatlon:hover .icon:after {
+	background-image: url("images/sport-biatlon-yellow.png");
+}
+.bobsplay:hover .icon:after {
+	background-image: url("images/sport-bobsplay-yellow.png");
+}
+.skeleton:hover .icon:after {
+	background-image: url("images/sport-skeleton-yellow.png");
+}
+.kyorling:hover .icon:after {
+	background-image: url("images/sport-kyorling-yellow.png");
+}
+.hockey:hover .icon:after {
+	background-image: url("images/sport-hockey-yellow.png");
+}
+.sanki:hover .icon:after {
+	background-image: url("images/sport-sanki-yellow.png");
+}
+.figure:hover .icon:after {
+	background-image: url("images/sport-figure-yellow.png");
+}
+.short_track:hover .icon:after {
+	background-image: url("images/sport-short_track-yellow.png");
+}
+.speed_konki:hover .icon:after {
+	background-image: url("images/sport-speed_konki-yellow.png");
+}
+.mountains_skiing:hover .icon:after {
+	background-image: url("images/sport-mountains_skiing-yellow.png");
+}
+.skiing_race:hover .icon:after {
+	background-image: url("images/sport-skiing_race-yellow.png");
+}
+.skiing_dvoeborie:hover .icon:after {
+	background-image: url("images/sport-skiing_dvoeborie-yellow.png");
+}
+.prizhki:hover .icon:after {
+	background-image: url("images/sport-prizhki-yellow.png");
+}
+.freestyle:hover .icon:after {
+	background-image: url("images/sport-freestyle-yellow.png");
+}
+.snowboarding:hover .icon:after {
+	background-image: url("images/sport-snowboarding-yellow.png");
+}
+.button {
+	background-image: url("images/background-button.png");
+	background-size: 100% 100%;
+	bottom: 0;
+	color: white;
+	cursor: pointer;
+	display: block;
+	font-size: 1.750em;
+	left: 0;
+	line-height: 3.000em;
+	margin: 1.607em auto;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	width: 83.54661791590493%;
+}
+
+/* Левая панель */
+#left-panel-visibility {
+	display: none;
+}
+.panel.left {
+	background: url("images/background-sport-type-horizontal.png") 0 0 no-repeat;
+	background-size: contain;
+	background-size: 100% 100%;
+	float: left;
+	margin-left: -26.708984375%;
+	height: 90.625em;
+	padding: 2.813em 1.5380859375%;
+	position: relative;
+	width: 26.708984375%;
+}
+#left-panel-visibility:checked~.panel {
+	-webkit-transform: translateX(100%);
+	-moz-transform: translateX(100%);
+	transform: translateX(100%);
+}
+#left-panel-visibility:checked~.content {
+	margin-right: 26.708984375%;
+	-webkit-transform: translateX(36.44237175216523%);
+	-moz-transform: translateX(36.44237175216523%);
+	transform: translateX(36.44237175216523%);
+}
+.panel.left #sport_types {
+	height: 100%;
+	width: 100%;
+}
+
+.animated {
+	-moz-transition: -moz-transform 0.2s linear;
+	-webkit-transition: -webkit-transform 0.2s linear, margin 0.2s linear;
+	transition: transform 0.2s linear;
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+	html {
+		font-size: 8px;
+		height: 768px;
+		width: 1024px;
+	}
+	.panel.left {
+		height: 725px;
+	}
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+	html {
+		font-size: 8px;
+		height: 1024px;
+		width: 768px;
+	}
+	.header {
+		position: absolute;
+		top: 0;
+		z-index: 1;
+	}
+	.element {
+		height: 181px;
+		width: 240px;
+	}
+	.line {
+		background-image: -webkit-linear-gradient(90deg, #c1d7ea, #e8f1f7);
+		background-image: -moz-linear-gradient(90deg, #c1d7ea, #e8f1f7);
+		background-image: linear-gradient(90deg, #c1d7ea, #e8f1f7);
+		float: left;
+		height: 100%;
+		padding: 5.625em 1.0416666666666665%;
+		width: 256px;
+	}
+	.slider-wrapper {
+		height: 100%;
+	}
+	.slider {
+		width: 100%;
+	}
+	.element {
+		margin: 0 0 0.875em;
+	}
+	.content {
+		height: 122.625em;
+		overflow: hidden;
+		width: auto;
+	}
+	.panel.left {
+		background-image: url("images/background-sport-type-vertical.png");
+		float: none;
+		height: 35.313em;
+		margin: -30.313em 0 0;
+		width: 100%;
+	}
+	#left-panel-visibility:checked~.panel {
+		-webkit-transform: none;
+		margin-top: 5.375em;
+	}
+	#left-panel-visibility:checked~.content {
+		-webkit-transform: none;
+		margin-right: 0;
+		/*height: 87.312em;*/
+	}
+	.transform-90 {
+		bottom: auto;
+		left: 4.6875%;
+		line-height: 4.091em;
+		top: 0;
+		-webkit-transform: none;
+		-moz-transform: none;
+		-ms-transform: none;
+		-o-transform: none;
+	}
+	.arrow-wrapper {
+		bottom: auto;
+		height: 4.091em;
+		left: auto;
+		right: 1.0416666666666665%;
+		top: auto;
+		width: 17.3828125%;
+	}
+	.arrow-wrapper.arrow-wrapper-prev {
+		-webkit-transform: rotate(90deg);
+		left: auto;
+		top: 0;
+	}
+	.arrow-wrapper.arrow-wrapper-next {
+		-webkit-transform: rotate(90deg);
+		background-color: white;
+		bottom: 0;
+	}
+	.button {
+		width: 44.62890625%;
+	}
+}
+
+@media only screen and (min-device-width : 1280px) and (max-device-width : 1920px) and (orientation : landscape) {
+	html {
+		font-size: 15px;
+		width: 1920px
+	}
+
+}
