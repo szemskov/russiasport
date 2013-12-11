@@ -1,0 +1,68 @@
+2013-12-11 12:21:25.718 RussiaSport[18242:80b] *** Terminating app due to uncaught exception 'NSUnknownKeyException', reason: '[<UIApplication 0xbb7e640> setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key view.'
+*** First throw call stack:
+(
+	0   CoreFoundation                      0x000cb5e4 __exceptionPreprocess + 180
+	1   libobjc.A.dylib                     0x01cc68b6 objc_exception_throw + 44
+	2   CoreFoundation                      0x0015b6a1 -[NSException raise] + 17
+	3   Foundation                          0x019879ee -[NSObject(NSKeyValueCoding) setValue:forUndefinedKey:] + 282
+	4   Foundation                          0x018f3cfb _NSSetUsingKeyValueSetter + 88
+	5   Foundation                          0x018f3253 -[NSObject(NSKeyValueCoding) setValue:forKey:] + 267
+	6   Foundation                          0x0195570a -[NSObject(NSKeyValueCoding) setValue:forKeyPath:] + 412
+	7   UIKit                               0x005d3a15 -[UIRuntimeOutletConnection connect] + 106
+	8   libobjc.A.dylib                     0x01cd87d2 -[NSObject performSelector:] + 62
+	9   CoreFoundation                      0x000c6b6a -[NSArray makeObjectsPerformSelector:] + 314
+	10  UIKit                               0x005d256e -[UINib instantiateWithOwner:options:] + 1417
+	11  UIKit                               0x005d42fb -[NSBundle(UINSBundleAdditions) loadNibNamed:owner:options:] + 165
+	12  UIKit                               0x003313bb -[UIApplication _loadMainNibFileNamed:bundle:] + 58
+	13  UIKit                               0x003316e9 -[UIApplication _loadMainInterfaceFile] + 245
+	14  UIKit                               0x0033028f -[UIApplication _runWithURL:payload:launchOrientation:statusBarStyle:statusBarHidden:] + 543
+	15  UIKit                               0x0034487c -[UIApplication handleEvent:withNewEvent:] + 3447
+	16  UIKit                               0x00344de9 -[UIApplication sendEvent:] + 85
+	17  UIKit                               0x00332025 _UIApplicationHandleEvent + 736
+	18  GraphicsServices                    0x0316a2f6 _PurpleEventCallback + 776
+	19  GraphicsServices                    0x03169e01 PurpleEventCallback + 46
+	20  CoreFoundation                      0x00046d65 __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE1_PERFORM_FUNCTION__ + 53
+	21  CoreFoundation                      0x00046a9b __CFRunLoopDoSource1 + 523
+	22  CoreFoundation                      0x0007177c __CFRunLoopRun + 2156
+	23  CoreFoundation                      0x00070ac3 CFRunLoopRunSpecific + 467
+	24  CoreFoundation                      0x000708db CFRunLoopRunInMode + 123
+	25  UIKit                               0x0032fadd -[UIApplication _run] + 840
+	26  UIKit                               0x00331d3b UIApplicationMain + 1225
+	27  RussiaSport                         0x0002054c main + 92
+	28  libdyld.dylib                       0x024c170d start + 1
+)
+libc++abi.dylib: terminating with uncaught exception of type NSException
+2013-12-11 12:25:21.738 RussiaSport[19405:80b] *** Terminating app due to uncaught exception 'NSUnknownKeyException', reason: '[<UIApplication 0xa62ac90> setValue:forUndefinedKey:]: this class is not key value coding-compliant for the key view.'
+*** First throw call stack:
+(
+	0   CoreFoundation                      0x000cb5e4 __exceptionPreprocess + 180
+	1   libobjc.A.dylib                     0x01cc68b6 objc_exception_throw + 44
+	2   CoreFoundation                      0x0015b6a1 -[NSException raise] + 17
+	3   Foundation                          0x019879ee -[NSObject(NSKeyValueCoding) setValue:forUndefinedKey:] + 282
+	4   Foundation                          0x018f3cfb _NSSetUsingKeyValueSetter + 88
+	5   Foundation                          0x018f3253 -[NSObject(NSKeyValueCoding) setValue:forKey:] + 267
+	6   Foundation                          0x0195570a -[NSObject(NSKeyValueCoding) setValue:forKeyPath:] + 412
+	7   UIKit                               0x005d3a15 -[UIRuntimeOutletConnection connect] + 106
+	8   libobjc.A.dylib                     0x01cd87d2 -[NSObject performSelector:] + 62
+	9   CoreFoundation                      0x000c6b6a -[NSArray makeObjectsPerformSelector:] + 314
+	10  UIKit                               0x005d256e -[UINib instantiateWithOwner:options:] + 1417
+	11  UIKit                               0x005d42fb -[NSBundle(UINSBundleAdditions) loadNibNamed:owner:options:] + 165
+	12  UIKit                               0x003313bb -[UIApplication _loadMainNibFileNamed:bundle:] + 58
+	13  UIKit                               0x003316e9 -[UIApplication _loadMainInterfaceFile] + 245
+	14  UIKit                               0x0033028f -[UIApplication _runWithURL:payload:launchOrientation:statusBarStyle:statusBarHidden:] + 543
+	15  UIKit                               0x0034487c -[UIApplication handleEvent:withNewEvent:] + 3447
+	16  UIKit                               0x00344de9 -[UIApplication sendEvent:] + 85
+	17  UIKit                               0x00332025 _UIApplicationHandleEvent + 736
+	18  GraphicsServices                    0x0316a2f6 _PurpleEventCallback + 776
+	19  GraphicsServices                    0x03169e01 PurpleEventCallback + 46
+	20  CoreFoundation                      0x00046d65 __CFRUNLOOP_IS_CALLING_OUT_TO_A_SOURCE1_PERFORM_FUNCTION__ + 53
+	21  CoreFoundation                      0x00046a9b __CFRunLoopDoSource1 + 523
+	22  CoreFoundation                      0x0007177c __CFRunLoopRun + 2156
+	23  CoreFoundation                      0x00070ac3 CFRunLoopRunSpecific + 467
+	24  CoreFoundation                      0x000708db CFRunLoopRunInMode + 123
+	25  UIKit                               0x0032fadd -[UIApplication _run] + 840
+	26  UIKit                               0x00331d3b UIApplicationMain + 1225
+	27  RussiaSport                         0x0002054c main + 92
+	28  libdyld.dylib                       0x024c170d start + 1
+)
+libc++abi.dylib: terminating with uncaught exception of type NSException

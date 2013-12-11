@@ -16,6 +16,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+var tags = {
+	    "biatlon": {"name":"Биатлон", "tid":190991, "active":0},
+		"bobsplay": {"name":"Бобслей", "tid":190992, "active":0},
+		"skeleton": {"name":"Горные лыжи", "tid":191005, "active":0},
+		"kyorling": {"name":"Керлинг", "tid":190994, "active":0},
+		"skiing_dvoeborie": {"name":"Лыжное двоеборье", "tid":191007, "active":0},
+		"skiing_race": {"name":"Лыжные гонки", "tid":191006, "active":0},
+		"prizhki": {"name":"Прыжки на лыжах с трамплина", "tid":191008, "active":0},
+		"sanki": {"name":"Санный спорт", "tid":190996, "active":0},
+		"skeleton": {"name":"Скелетон", "tid":190993, "active":0},
+		"speed_konki": {"name":"Скоростной бег на коньках", "tid":190999, "active":0},
+		"snowboarding": {"name":"Сноуборд", "tid":191010, "active":0},
+		"figure": {"name":"Фигурное катание", "tid":190997, "active":0},
+		"freestyle": {"name":"Фристайл", "tid":191009, "active":0},
+		"hockey": {"name":"Хоккей", "tid":190995, "active":0},
+		"short_track": {"name":"Шорт-трек", "tid":190998, "active":0}
+};
 var app = {
     // Application Constructor
     initialize: function() {
@@ -37,11 +55,6 @@ var app = {
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-    	navigator.splashscreen.hide();
-    	//this.checkConnection();
-        app.receivedEvent('deviceready');
-    },
     onPause: function() {
         app.receivedEvent('pause');
     },
@@ -58,9 +71,15 @@ var app = {
     receivedEvent: function(id) {
         console.log('Received Event: ' + id);
     },
-    checkConnection: function(id) {
-        var networkState = Connection.CELL; //navigator.connection.type;
-        alert(networkState);
+    initPanel: function() {
+    	var panel = jQuery('#sport_types');
+    	for(var data_type in tags){
+    		
+    		panel.append('<div class="sport-icon-element sport-icon-element-1 '+data_type+'"><div data-type="'+data_type+'" class="icon"></div>'+tags[data_type].name+'</div>');
+    	}
+    },
+    checkConnection: function() {
+        var networkState = navigator.connection.type;
 
         var states = {};
         states[Connection.UNKNOWN]  = 'Unknown connection';
@@ -72,6 +91,18 @@ var app = {
         states[Connection.CELL]     = 'Cell generic connection';
         states[Connection.NONE]     = 'No network connection';
 
-        alert('Connection type: ' + states[networkState]);
+        console.log('Connection type: ' + states[networkState]);
+        return navigator.online;
+    },
+    onDeviceReady: function() {
+        //navigator.splashscreen.hide();
+        app.receivedEvent('deviceready');
+        app.initPanel();
+        
+        /*if(!app.checkConnection()){
+            console.log('online');
+        } else {
+            console.log('offline');
+        }*/
     }
 };

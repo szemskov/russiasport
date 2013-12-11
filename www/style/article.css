@@ -1,0 +1,79 @@
+@font-face {
+    font-family: "RussoOne";
+    src: url("font/russo_one-webfont.eot");
+	src: url("font/russo_one-webfont.eot?#iefix") format("embedded-opentype"),
+		 url("font/russo_one-webfont.woff") format("woff"),
+		 url("font/russo_one-webfont.ttf") format("truetype"),
+		 url("font/russo_one-webfont.svg#OpenSansSemibold") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+html {
+	font-size: 16px;
+	position: relative;
+}
+html * {
+	box-sizing: border-box;
+	font-family: RussoOne;
+}
+.header {
+	background: url('images/background-header.png');
+	height: 5.375em;
+	padding: 0.875em 1.0742% 0.875em 0.8301%;
+}
+.three {
+	display: inline-block;
+	height: 100%;
+	line-height: 0;
+	vertical-align: middle;
+	width: 33.3333%;
+}
+.icon {
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	cursor: pointer;
+	height: 100%;
+	width: 100%;
+}
+.icon-reload {
+	background-image: url("images/icon-reload.png");
+	background-position: center right;
+	float: right;
+	width: 8%;
+}
+.icon-logo {
+	background-image: url("images/icon-logo.png");
+	cursor: auto;
+}
+.icon-menu {
+	background-image: url("images/icon-menu.png");
+	background-position: left center;
+	float: left;
+	height: 100%;
+	width: 9%;
+}
+.popup-line {
+	background-color: #b32155;
+	color: white;
+	font-size: 1.875em;
+	opacity: 0.9;
+	padding: 0.500em 1.171875%; 
+	text-align: right;
+}
+.popup-line .date {
+	display: block;
+	float: right;
+}
+.popup-line .navigate {
+	display: block;
+	float: left;
+}
+.captured-image {
+	width: 100%;
+}
+.clearfix:after {
+	content: "";
+	clear: both;
+	display: table;
+}
