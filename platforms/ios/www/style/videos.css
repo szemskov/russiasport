@@ -196,7 +196,6 @@ div.background {
 .icon-menu {
 	background-image: url("images/icon-menu.png");
 	background-position: left center;
-	cursor: pointer;
 	float: left;
 	height: 100%;
 	width: 9%;
@@ -226,6 +225,7 @@ div.background {
 }
 .sport-icon-element {
 	color: white;
+	cursor: pointer;
 	display: inline-block;
 	font-size: 1.125em;
 	height: 13.333em;
@@ -240,12 +240,14 @@ div.background {
 	position: relative;
 	margin-bottom: 0.750em;
 }
-.sport-icon-element:hover {
+.sport-icon-element:hover,
+.sport-icon-element.active {
 	color: #FFF000;
 	background-image: url("images/background-sport-type.png");
-	background-size: cover;
+	background-size: 100% 100%;
 }
-.sport-icon-element:hover .icon:after {
+.sport-icon-element:hover .icon:after,
+.sport-icon-element.active .icon:after  {
 	content: '';
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -301,49 +303,64 @@ div.background {
 .snowboarding .icon {
 	background-image: url("images/sport-snowboarding.png");
 }
-.biatlon:hover .icon:after {
+.biatlon:hover .icon:after,
+.biatlon.active .icon:after {
 	background-image: url("images/sport-biatlon-yellow.png");
 }
-.bobsplay:hover .icon:after {
+.bobsplay:hover .icon:after,
+.bobsplay.active .icon:after {
 	background-image: url("images/sport-bobsplay-yellow.png");
 }
-.skeleton:hover .icon:after {
+.skeleton:hover .icon:after,
+.skeleton.active .icon:after {
 	background-image: url("images/sport-skeleton-yellow.png");
 }
-.kyorling:hover .icon:after {
+.kyorling:hover .icon:after,
+.kyorling.active .icon:after {
 	background-image: url("images/sport-kyorling-yellow.png");
 }
-.hockey:hover .icon:after {
+.hockey:hover .icon:after,
+.hockey.active .icon:after {
 	background-image: url("images/sport-hockey-yellow.png");
 }
-.sanki:hover .icon:after {
+.sanki:hover .icon:after,
+.sanki.active .icon:after {
 	background-image: url("images/sport-sanki-yellow.png");
 }
-.figure:hover .icon:after {
+.figure:hover .icon:after,
+.figure.active .icon:after {
 	background-image: url("images/sport-figure-yellow.png");
 }
-.short_track:hover .icon:after {
+.short_track:hover .icon:after,
+.short_track.active .icon:after {
 	background-image: url("images/sport-short_track-yellow.png");
 }
-.speed_konki:hover .icon:after {
+.speed_konki:hover .icon:after,
+.speed_konki.active .icon:after {
 	background-image: url("images/sport-speed_konki-yellow.png");
 }
-.mountains_skiing:hover .icon:after {
+.mountains_skiing:hover .icon:after,
+.mountains_skiing.active .icon:after {
 	background-image: url("images/sport-mountains_skiing-yellow.png");
 }
-.skiing_race:hover .icon:after {
+.skiing_race:hover .icon:after,
+ .skiing_race.active .icon:after {
 	background-image: url("images/sport-skiing_race-yellow.png");
 }
-.skiing_dvoeborie:hover .icon:after {
+.skiing_dvoeborie:hover .icon:after,
+.skiing_dvoeborie.active .icon:after {
 	background-image: url("images/sport-skiing_dvoeborie-yellow.png");
 }
-.prizhki:hover .icon:after {
+.prizhki:hover .icon:after,
+.prizhki.active .icon:after {
 	background-image: url("images/sport-prizhki-yellow.png");
 }
-.freestyle:hover .icon:after {
+.freestyle:hover .icon:after,
+.freestyle.active .icon:after {
 	background-image: url("images/sport-freestyle-yellow.png");
 }
-.snowboarding:hover .icon:after {
+.snowboarding:hover .icon:after,
+.snowboarding.active .icon:after {
 	background-image: url("images/sport-snowboarding-yellow.png");
 }
 .button {
@@ -391,6 +408,7 @@ div.background {
 }
 .panel.left #sport_types {
 	height: 100%;
+	text-align: center;
 	width: 100%;
 }
 
@@ -418,6 +436,7 @@ div.background {
 		width: 768px;
 	}
 	.header {
+		height: 5.375em;
 		position: absolute;
 		top: 0;
 		z-index: 1;
@@ -433,7 +452,12 @@ div.background {
 		float: left;
 		height: 100%;
 		padding: 5.625em 1.0416666666666665%;
-		width: 256px;
+		width: 33.333333333333336%;
+	}
+	.sport-icon-element {
+		height: 10.556em;
+		padding: 1.556em 0;
+		width: 9.895833333333332%;
 	}
 	.slider-wrapper {
 		height: 100%;
@@ -445,15 +469,16 @@ div.background {
 		margin: 0 0 0.875em;
 	}
 	.content {
-		height: 122.625em;
+		height: 121.875em;
 		overflow: hidden;
 		width: auto;
 	}
 	.panel.left {
 		background-image: url("images/background-sport-type-vertical.png");
 		float: none;
-		height: 35.313em;
-		margin: -30.313em 0 0;
+		height: 35.188em;
+		margin: -22.75em 0 0;
+		padding: 1.313em 1.2369791666666665%;
 		width: 100%;
 	}
 	#left-panel-visibility:checked~.panel {
@@ -463,6 +488,7 @@ div.background {
 	#left-panel-visibility:checked~.content {
 		-webkit-transform: none;
 		margin-right: 0;
+		margin-bottom: 28.125em;
 		/*height: 87.312em;*/
 	}
 	.transform-90 {
@@ -494,14 +520,14 @@ div.background {
 		bottom: 0;
 	}
 	.button {
+		margin: 1.036em auto;
 		width: 44.62890625%;
 	}
 }
-
+/*
 @media only screen and (min-device-width : 1280px) and (max-device-width : 1920px) and (orientation : landscape) {
 	html {
 		font-size: 15px;
 		width: 1920px
 	}
-
-}
+}*/
