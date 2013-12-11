@@ -98,6 +98,16 @@ var app = {
         //navigator.splashscreen.hide();
         app.receivedEvent('deviceready');
         app.initPanel();
+
+        /* Клик по кнопкам в левой панели */
+        var panel = document.getElementById('sport_types');
+        buttons = document.querySelectorAll('.sport-icon-element');
+        for (var i=0, length=buttons.length; i<length; i+=1) {
+            buttons[i][ document.ontouchstart ? 'ontouchstart' : 'onclick' ] = function() {
+                this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
+                //тут должна быть подгрзука видео данной категории
+            }
+        }
         
         /*if(!app.checkConnection()){
             console.log('online');

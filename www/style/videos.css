@@ -28,7 +28,7 @@ body,
 	height: 100%;
 	line-height: 0;
 	vertical-align: middle;
-	width: 33.3333%;
+	width: 33.3333% !important;
 }
 
 .line {
@@ -186,19 +186,17 @@ div.background {
 .icon-reload {
 	background-image: url("images/icon-reload.png");
 	background-position: center right;
-	float: right;
-	width: 8%;
+	height: 2.750em;
 }
 .icon-logo {
 	background-image: url("images/icon-logo.png");
 	cursor: auto;
+	height: 2.750em;
 }
 .icon-menu {
 	background-image: url("images/icon-menu.png");
 	background-position: left center;
-	float: left;
-	height: 100%;
-	width: 9%;
+	height: 3.875em;
 }
 .icon-arrow-prev,
 .icon-arrow-next {
