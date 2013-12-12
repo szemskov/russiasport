@@ -130,7 +130,7 @@ var app = {
 								'<p class="element-text-title">'+news.node_title+'</p>'+
 								'<span class="element-text-time">15:00</span>'+
 								'<span class="element-text-date">сегодня</span>'+
-								'<p class="element-text-tiser">'+jQuery(news.teaser).text()+'</p>'+
+								'<p class="element-text-tiser">'+this.wrapText( jQuery(news.teaser).text() )+'</p>'+
 								'<p class="element-comments">'+
 									'<span class="icon icon-comments"></span>'+
 									news.comment_count+
@@ -146,9 +146,10 @@ var app = {
 	    	console.log('Video:');
 	    	console.dir(json);
     	}
+        var html = '';
     	for(var i in json){
     		var video = json[i];
-    		html = jQuery('<li class="element swiper-slide">'+
+    		html+='<li class="element swiper-slide">'+
 							'<div class="play">'+
 							  '<div class="triangle"></div>'+
 							  '<span class="text">cмотреть</span>'+
@@ -164,10 +165,10 @@ var app = {
 									'0'+
 								'</p>'+
 							'</div>'+
-						  '</li>'
-    			   );
-    		jQuery(sources['video']['ph']).append(html);
-    	}
+						  '</li>';
+        }
+    	jQuery(sources['video']['ph']).append(html);
+        this.initSlider();
     },
     onGetLive: function(json){
     	if(DEBUG){
@@ -229,7 +230,6 @@ var app = {
 
 
             $('.icon.icon-menu').on('click', function() {
-                alert();
                 $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
             })
 
@@ -297,5 +297,11 @@ var app = {
             })
         }, false);
 
+    },
+    wrapText: function(text) {
+        if (text.length>109) {
+            text = text.split('').splice(0, 109).join('')+'&hellip;';
+        }
+        return text;
     }
 };

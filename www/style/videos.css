@@ -55,7 +55,7 @@ body,
 	width: 30.000em;
 }
 .element img {
-	max-width: 100%;
+	width: 100%;
 }
 .transform-90 {
 	bottom: 2.909em;
@@ -145,12 +145,15 @@ div.background {
 	font-size: 1.500em;
 	color: #d72658;
 	padding-right: 13.3%;
-	
 }
 .element-text-tiser {
 	font-size: 1.063em;
+	max-height: 3.6em;
+	line-height: 1.2em;
+	overflow: hidden;
 	margin-top: 1.125em;
 	padding-right: 2.25%;
+	position: relative;
 }
 .element-text-time {
 	color: #02a4ec;
@@ -426,7 +429,7 @@ div.background {
 	}
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+@media only screen and (min-device-width : 768px) and (max-device-width : 2048) and (orientation : portrait) {
 	html {
 		font-size: 8px;
 		height: 1024px;
@@ -453,7 +456,7 @@ div.background {
 	}
 	.sport-icon-element {
 		height: 10.556em;
-		padding: 1.556em 0;
+		padding: 1.556em 0 0;
 		width: 9.895833333333332%;
 	}
 	.slider-wrapper {
