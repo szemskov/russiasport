@@ -24,6 +24,7 @@
 /Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/plugins \
 /Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/res \
 /Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/style \
+/Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/js/idangerous.swiper-2.1.min.js \
 /Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/js/index.js \
 /Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/js/jquery-2.0.3.min.js \
 /Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/js/videos.js \
@@ -71,6 +72,7 @@
 /Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/style/article.css \
 /Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/style/cssreset-min.css \
 /Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/style/font \
+/Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/style/idangerous.swiper.css \
 /Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/style/images \
 /Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/style/videos.css \
 /Users/sergeyzemskov/Zend/workspaces/DefaultWorkspace/RussiasportiPad_3.2.0/platforms/android/assets/www/style/font/russo_one-webfont.eot \

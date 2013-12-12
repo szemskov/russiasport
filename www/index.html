@@ -31,7 +31,7 @@
 	    			</div>
 	    			<h2 class="transform-90">Трансляции</h2>
 	    			<div class="slider-wrapper">
-						<ul class="slider">
+						<ul id="live" class="slider">
 			    			<li class="element">
 			    				<div class="play">
 			    						<div class="triangle"></div>
@@ -114,7 +114,7 @@
 	    			</div>
 	    			<h2 class="transform-90">Видео</h2>
 	    			<div class="slider-wrapper">
-			    		<ul class="slider">
+			    		<ul id="video" class="slider">
 			    			<li class="element">
 			    				<div class="play">
 			    						<div class="triangle"></div>
@@ -195,7 +195,7 @@
 	    			</div>
 	    			<h2 class="transform-90">Новости</h2>
 	    			<div class="slider-wrapper swiper-container">
-			    		<ul class="slider swiper-wrapper">
+			    		<ul id="news" class="slider swiper-wrapper">
 			    			<li class="element swiper-slide">
 			    				<img src="style/images/example.jpg" style="max-width:100%;">
 			    				<div class="element-text">
@@ -263,5 +263,6 @@
 	<script type="text/javascript" charset="utf-8" src="js/index.js"></script>
     <script type="text/javascript" charset="utf-8">
         app.initialize();
+        app.onDeviceReady();
     </script>
 </html>
