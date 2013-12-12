@@ -125,12 +125,12 @@ var app = {
     	for(var i in json){
     		var news = json[i];
     		html = jQuery('<li class="element swiper-slide">'+
-							'<img src="'+news.image+'" style="max-width:100%;" alt="" title="" />'+
+							((typeof(news.image)=='string')?'<img src="'+news.image.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
 							'<div class="element-text">'+
 								'<p class="element-text-title">'+news.node_title+'</p>'+
 								'<span class="element-text-time">15:00</span>'+
 								'<span class="element-text-date">сегодня</span>'+
-								'<p class="element-text-tiser">'+news.teaser+'</p>'+
+								'<p class="element-text-tiser">'+jQuery(news.teaser).text()+'</p>'+
 								'<p class="element-comments">'+
 									'<span class="icon icon-comments"></span>'+
 									news.comment_count+
@@ -154,7 +154,7 @@ var app = {
 							  '<span class="text">cмотреть</span>'+
 							  '<div class="background"></div>'+
 							 '</div>'+
-							'<img src="'+video.uri+'" alt="" title=""/>'+
+							'<img src="'+video.uri.replace('webta.','')+'" alt="" title=""/>'+
 							'<div class="element-text">'+
 								'<p class="element-text-title">'+video.title+'</p>'+
 								'<span class="element-text-time">15:00</span>'+
