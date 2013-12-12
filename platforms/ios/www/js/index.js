@@ -98,6 +98,28 @@ var app = {
         //navigator.splashscreen.hide();
         app.receivedEvent('deviceready');
         app.initPanel();
+
+        /* Клик по кнопкам в левой панели */
+        $('#sport_types').on('click.touch', '.sport-icon-element', function() {
+            this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
+        });
+
+            /* слайдер */
+  var mySwiper = new Swiper('.swiper-container',{
+    pagination: '.pagination',
+    loop:true,
+    grabCursor: true,
+    paginationClickable: true,
+    slidesPerView: 'auto'
+  })
+  $('.arrow-left').on('click', function(e){
+    e.preventDefault()
+    mySwiper.swipePrev()
+  })
+  $('.arrow-right').on('click', function(e){
+    e.preventDefault()
+    mySwiper.swipeNext()
+  })
         
         /*if(!app.checkConnection()){
             console.log('online');

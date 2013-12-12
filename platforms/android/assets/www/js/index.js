@@ -16,6 +16,24 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+var tags = {
+	    "biatlon": {"name":"Биатлон", "tid":190991, "active":0},
+		"bobsplay": {"name":"Бобслей", "tid":190992, "active":0},
+		"skeleton": {"name":"Горные лыжи", "tid":191005, "active":0},
+		"kyorling": {"name":"Керлинг", "tid":190994, "active":0},
+		"skiing_dvoeborie": {"name":"Лыжное двоеборье", "tid":191007, "active":0},
+		"skiing_race": {"name":"Лыжные гонки", "tid":191006, "active":0},
+		"prizhki": {"name":"Прыжки на лыжах с трамплина", "tid":191008, "active":0},
+		"sanki": {"name":"Санный спорт", "tid":190996, "active":0},
+		"skeleton": {"name":"Скелетон", "tid":190993, "active":0},
+		"speed_konki": {"name":"Скоростной бег на коньках", "tid":190999, "active":0},
+		"snowboarding": {"name":"Сноуборд", "tid":191010, "active":0},
+		"figure": {"name":"Фигурное катание", "tid":190997, "active":0},
+		"freestyle": {"name":"Фристайл", "tid":191009, "active":0},
+		"hockey": {"name":"Хоккей", "tid":190995, "active":0},
+		"short_track": {"name":"Шорт-трек", "tid":190998, "active":0}
+};
 var app = {
     // Application Constructor
     initialize: function() {
@@ -37,9 +55,6 @@ var app = {
     //
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicity call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-    },
     onPause: function() {
         app.receivedEvent('pause');
     },
@@ -54,14 +69,62 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        /*var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');*/
-    	alert(id);
-
         console.log('Received Event: ' + id);
+    },
+    initPanel: function() {
+    	var panel = jQuery('#sport_types');
+    	for(var data_type in tags){
+    		
+    		panel.append('<div class="sport-icon-element sport-icon-element-1 '+data_type+'"><div data-type="'+data_type+'" class="icon"></div>'+tags[data_type].name+'</div>');
+    	}
+    },
+    checkConnection: function() {
+        var networkState = navigator.connection.type;
+
+        var states = {};
+        states[Connection.UNKNOWN]  = 'Unknown connection';
+        states[Connection.ETHERNET] = 'Ethernet connection';
+        states[Connection.WIFI]     = 'WiFi connection';
+        states[Connection.CELL_2G]  = 'Cell 2G connection';
+        states[Connection.CELL_3G]  = 'Cell 3G connection';
+        states[Connection.CELL_4G]  = 'Cell 4G connection';
+        states[Connection.CELL]     = 'Cell generic connection';
+        states[Connection.NONE]     = 'No network connection';
+
+        console.log('Connection type: ' + states[networkState]);
+        return navigator.online;
+    },
+    onDeviceReady: function() {
+        //navigator.splashscreen.hide();
+        app.receivedEvent('deviceready');
+        app.initPanel();
+
+        /* Клик по кнопкам в левой панели */
+        $('#sport_types').on('click.touch', '.sport-icon-element', function() {
+            this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
+        });
+
+            /* слайдер */
+  var mySwiper = new Swiper('.swiper-container',{
+    pagination: '.pagination',
+    loop:true,
+    grabCursor: true,
+    paginationClickable: true,
+    slidesPerView: 'auto'
+  })
+  $('.arrow-left').on('click', function(e){
+    e.preventDefault()
+    mySwiper.swipePrev()
+  })
+  $('.arrow-right').on('click', function(e){
+    e.preventDefault()
+    mySwiper.swipeNext()
+  })
+        
+        /*if(!app.checkConnection()){
+            console.log('online');
+        } else {
+            console.log('offline');
+        }*/
     }
 };

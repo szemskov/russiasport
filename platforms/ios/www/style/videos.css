@@ -28,7 +28,7 @@ body,
 	height: 100%;
 	line-height: 0;
 	vertical-align: middle;
-	width: 33.3333%;
+	width: 33.3333% !important;
 }
 
 .line {
@@ -47,12 +47,12 @@ body,
 	width: 5000px;
 }
 .element {
-	position: relative;
 	float: left;
-	width: 30.000em;
 	height: 22.625em;
-	background-color: white;
-	margin-left: 0.375em;
+	padding-left: 0.375em;
+	position: relative;
+	width: 30.375em;
+	/*margin-left: 0.375em;*/
 }
 .element img {
 	max-width: 100%;
@@ -77,6 +77,7 @@ body,
 	height: 5.563em;
 	top: 3.625em;
 	width: 3.4668%;
+	z-index: 1;
 }
 .arrow-wrapper.arrow-wrapper-prev {
 	left: 0;
@@ -135,10 +136,9 @@ div.background {
 .element-text {
 	background-color: white;
 	bottom: 0;
-	display: inline-block;
 	padding: 0 6.25% 2.92% 0.625em;
 	position: absolute;
-	width: 100%;
+	width: auto;
 }
 .element-text-title {
 	margin-top: 0.292em;
@@ -186,19 +186,17 @@ div.background {
 .icon-reload {
 	background-image: url("images/icon-reload.png");
 	background-position: center right;
-	float: right;
-	width: 8%;
+	height: 2.750em;
 }
 .icon-logo {
 	background-image: url("images/icon-logo.png");
 	cursor: auto;
+	height: 2.750em;
 }
 .icon-menu {
 	background-image: url("images/icon-menu.png");
 	background-position: left center;
-	float: left;
-	height: 100%;
-	width: 9%;
+	height: 3.875em;
 }
 .icon-arrow-prev,
 .icon-arrow-next {
@@ -240,13 +238,12 @@ div.background {
 	position: relative;
 	margin-bottom: 0.750em;
 }
-.sport-icon-element:hover,
 .sport-icon-element.active {
 	color: #FFF000;
 	background-image: url("images/background-sport-type.png");
 	background-size: 100% 100%;
 }
-.sport-icon-element:hover .icon:after,
+/*.sport-icon-element:hover .icon:after,*/
 .sport-icon-element.active .icon:after  {
 	content: '';
 	background-position: center center;
@@ -303,63 +300,63 @@ div.background {
 .snowboarding .icon {
 	background-image: url("images/sport-snowboarding.png");
 }
-.biatlon:hover .icon:after,
+/*.biatlon:hover .icon:after,*/
 .biatlon.active .icon:after {
 	background-image: url("images/sport-biatlon-yellow.png");
 }
-.bobsplay:hover .icon:after,
+/*.bobsplay:hover .icon:after,*/
 .bobsplay.active .icon:after {
 	background-image: url("images/sport-bobsplay-yellow.png");
 }
-.skeleton:hover .icon:after,
+/*.skeleton:hover .icon:after,*/
 .skeleton.active .icon:after {
 	background-image: url("images/sport-skeleton-yellow.png");
 }
-.kyorling:hover .icon:after,
+/*.kyorling:hover .icon:after,*/
 .kyorling.active .icon:after {
 	background-image: url("images/sport-kyorling-yellow.png");
 }
-.hockey:hover .icon:after,
+/*.hockey:hover .icon:after,*/
 .hockey.active .icon:after {
 	background-image: url("images/sport-hockey-yellow.png");
 }
-.sanki:hover .icon:after,
+/*.sanki:hover .icon:after,*/
 .sanki.active .icon:after {
 	background-image: url("images/sport-sanki-yellow.png");
 }
-.figure:hover .icon:after,
+/*.figure:hover .icon:after,*/
 .figure.active .icon:after {
 	background-image: url("images/sport-figure-yellow.png");
 }
-.short_track:hover .icon:after,
+/*.short_track:hover .icon:after,*/
 .short_track.active .icon:after {
 	background-image: url("images/sport-short_track-yellow.png");
 }
-.speed_konki:hover .icon:after,
+/*.speed_konki:hover .icon:after,*/
 .speed_konki.active .icon:after {
 	background-image: url("images/sport-speed_konki-yellow.png");
 }
-.mountains_skiing:hover .icon:after,
+/*.mountains_skiing:hover .icon:after,*/
 .mountains_skiing.active .icon:after {
 	background-image: url("images/sport-mountains_skiing-yellow.png");
 }
-.skiing_race:hover .icon:after,
+/*.skiing_race:hover .icon:after,*/
  .skiing_race.active .icon:after {
 	background-image: url("images/sport-skiing_race-yellow.png");
 }
-.skiing_dvoeborie:hover .icon:after,
+/*.skiing_dvoeborie:hover .icon:after,*/
 .skiing_dvoeborie.active .icon:after {
 	background-image: url("images/sport-skiing_dvoeborie-yellow.png");
 }
-.prizhki:hover .icon:after,
+/*.prizhki:hover .icon:after,*/
 .prizhki.active .icon:after {
 	background-image: url("images/sport-prizhki-yellow.png");
 }
-.freestyle:hover .icon:after,
+/*.freestyle:hover .icon:after,*/
 .freestyle.active .icon:after {
 	background-image: url("images/sport-freestyle-yellow.png");
 }
-.snowboarding:hover .icon:after,
+/*.snowboarding:hover .icon:after,*/
 .snowboarding.active .icon:after {
 	background-image: url("images/sport-snowboarding-yellow.png");
 }
