@@ -105,21 +105,75 @@ var app = {
         });
 
             /* слайдер */
-  var mySwiper = new Swiper('.swiper-container',{
-    pagination: '.pagination',
-    loop:true,
-    grabCursor: true,
-    paginationClickable: true,
-    slidesPerView: 'auto'
-  })
-  $('.arrow-left').on('click', function(e){
-    e.preventDefault()
-    mySwiper.swipePrev()
-  })
-  $('.arrow-right').on('click', function(e){
-    e.preventDefault()
-    mySwiper.swipeNext()
-  })
+            var GlobalScope = this;
+
+            /* Клик по кнопкам в левой панели */
+            $('#sport_types').on('click.touch', '.sport-icon-element', function() {
+                this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
+            })
+
+
+            $('.icon.icon-menu').on('click', function() {
+                alert();
+                $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
+            })
+            /* слайдер(ы) */
+            var mySwipers = new Array();
+
+            $(".content .line").each(function(i) {
+                var $this = $(this),
+                    mySwiper = null;
+                mySwiper = mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
+                    pagination: '.pagination',
+                    loop: false,
+                    grabCursor: true,
+                    mode: screen.width>screen.height ? 'horizontal' : 'vertical', 
+                    paginationClickable: true,
+                    slidesPerView: 'auto'
+                });
+
+                $this.find('.arrow-wrapper-prev').on('click', function(e){
+                    e.preventDefault();
+                    mySwiper.swipePrev();
+                })
+
+                $this.find('.arrow-wrapper-next').on('click', function(e){
+                    e.preventDefault();
+                    mySwiper.swipeNext();
+                })
+
+            })
+
+            //event на изменение orientation change дисплея// 
+            var supportsOrientationChange = "onorientationchange" in window,
+                orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+            window.addEventListener(orientationEvent, function() {
+                $(".content .line").each(function(i) {
+                    if (!mySwipers[i]) return true;
+                    var $this = $(this);
+                    $this.find('.slider.swiper-wrapper').removeAttr('style');
+                    var activeIndex = mySwipers[i].activeIndex,
+                        horizontal_orientation = screen.width>screen.height ? true : false;
+                    mySwipers[i].destroy();
+                    mySwipers[i] = new Swiper( $('.swiper-container')[2] ,{
+                        pagination: '.pagination',
+                        loop: false,
+                        mode: horizontal_orientation ? 'horizontal' : 'vertical', 
+                        grabCursor: true,
+                        paginationClickable: true,
+                        slidesPerView: 'auto'
+                    });
+                    mySwipers[i].swipeTo(activeIndex);
+                    $this.find('.arrow-wrapper-prev').on('click', function(e){
+                        e.preventDefault();
+                        mySwiper[i].swipePrev();
+                    })
+                    $this.find('.arrow-wrapper-next').on('click', function(e){
+                        e.preventDefault();
+                        mySwiper[i].swipeNext();
+                    })
+                })
+            }, false);
         
         /*if(!app.checkConnection()){
             console.log('online');

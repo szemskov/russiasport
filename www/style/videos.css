@@ -47,12 +47,12 @@ body,
 	width: 5000px;
 }
 .element {
+	box-sizing: content-box;
 	float: left;
 	height: 22.625em;
 	padding-left: 0.375em;
 	position: relative;
-	width: 30.375em;
-	/*margin-left: 0.375em;*/
+	width: 30.000em;
 }
 .element img {
 	max-width: 100%;
@@ -474,7 +474,7 @@ div.background {
 		background-image: url("images/background-sport-type-vertical.png");
 		float: none;
 		height: 35.188em;
-		margin: -22.75em 0 0;
+		margin: -29.813000000000002em 0 0;
 		padding: 1.313em 1.2369791666666665%;
 		width: 100%;
 	}
