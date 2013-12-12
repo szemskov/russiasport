@@ -17,6 +17,8 @@
  * under the License.
  */
 
+var DEBUG = true;
+
 var tags = {
 	    "biatlon": {"name":"Биатлон", "tid":190991, "active":0},
 		"bobsplay": {"name":"Бобслей", "tid":190992, "active":0},
@@ -34,6 +36,30 @@ var tags = {
 		"hockey": {"name":"Хоккей", "tid":190995, "active":0},
 		"short_track": {"name":"Шорт-трек", "tid":190998, "active":0}
 };
+
+var sources = {
+		"news" : {"ph":"#news",
+			      "url":"http://russiasport.ru/api.php?wall&format=json&uid=35&offset=:offset&count=:limit",
+			      "limit":12,"offset":0,
+			      "callback":"app.onGetNews"},
+		"video" : {"ph":"#video",
+			       "url":"http://russiasport.ru/api.php?video&format=json&proccess&offset=:offset&count=:limit",
+			       "limit":12,
+			       "offset":0,
+			       "callback":"app.onGetVideo"},
+		"live" : {"ph":"#live",
+			      "url":"http://russiasport.ru/api.php?video&format=json&proccess&live&offset=:offset&count=:limit",
+			      "limit":12,
+			      "offset":0,
+			      "callback":"app.onGetLive"},
+};
+
+if(DEBUG){
+	for(var i in sources){
+		sources[i]['url'] = sources[i]['url'].replace('russiasport.ru','russiasport.webta.ru');
+	}
+}
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -69,13 +95,48 @@ var app = {
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
-        console.log('Received Event: ' + id);
+    	if(DEBUG){
+        	console.log('Received Event: ' + id);
+    	}
     },
     initPanel: function() {
     	var panel = jQuery('#sport_types');
     	for(var data_type in tags){
-    		
     		panel.append('<div class="sport-icon-element sport-icon-element-1 '+data_type+'"><div data-type="'+data_type+'" class="icon"></div>'+tags[data_type].name+'</div>');
+    	}
+    },
+    initContent: function() {
+    	//remove old data and load from server
+    	for(var i in sources){
+    		$(sources[i]['ph']+' li').remove();
+    		app.__load(sources[i]);
+    	}
+
+    },
+    onGetNews: function(json){
+    	console.dir(json);
+    },
+    onGetVideo: function(json){
+    	console.dir(json);
+    },
+    onGetLive: function(json){
+    	console.dir(json);
+    },
+    __load: function(source){
+    	if(navigator.onLine){
+    		url = app.prepareUrl(source);
+    		$.ajax({
+    			   type: 'GET',
+    			    url: url,
+    			    contentType: "application/json",
+    			    jsonpCallback: source.callback,
+    			    dataType: 'jsonp',
+    			    error: function(e) {
+    			       console.log(e.message);
+    			    }
+    			});
+    	} else {
+    		alert('Нет интернет соединения');
     	}
     },
     checkConnection: function() {
@@ -94,37 +155,41 @@ var app = {
         console.log('Connection type: ' + states[networkState]);
         return navigator.online;
     },
+    prepareUrl: function(source) {
+    	url = source.url.replace(':limit',source.limit).replace(':offset',source.offset).replace(':callback',source.callback);
+    	return url;
+    },
     onDeviceReady: function() {
-        //navigator.splashscreen.hide();
         app.receivedEvent('deviceready');
+        
+        /*init panel*/
         app.initPanel();
-
+        app.receivedEvent('initpanel');
+        
         /* Клик по кнопкам в левой панели */
         $('#sport_types').on('click.touch', '.sport-icon-element', function() {
             this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
         });
-
-            /* слайдер */
-  var mySwiper = new Swiper('.swiper-container',{
-    pagination: '.pagination',
-    loop:true,
-    grabCursor: true,
-    paginationClickable: true,
-    slidesPerView: 'auto'
-  })
-  $('.arrow-left').on('click', function(e){
-    e.preventDefault()
-    mySwiper.swipePrev()
-  })
-  $('.arrow-right').on('click', function(e){
-    e.preventDefault()
-    mySwiper.swipeNext()
-  })
+        app.receivedEvent('init sports buttons');
         
-        /*if(!app.checkConnection()){
-            console.log('online');
-        } else {
-            console.log('offline');
-        }*/
+        /*грузим контент*/
+        app.initContent();
+        app.receivedEvent('init content');
+        
+		/* слайдер */
+		var mySwiper = new Swiper('.swiper-container',{ pagination: '.pagination',
+														loop:true,
+														grabCursor: true,
+														paginationClickable: true,
+														slidesPerView: 'auto'});
+		$('.arrow-left').on('click', function(e){
+		    e.preventDefault()
+		    mySwiper.swipePrev()
+		});
+		$('.arrow-right').on('click', function(e){
+		    e.preventDefault()
+		    mySwiper.swipeNext()
+		});
+		app.receivedEvent('init swiper');
     }
 };
