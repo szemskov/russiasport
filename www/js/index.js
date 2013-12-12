@@ -100,14 +100,26 @@ var app = {
         app.initPanel();
 
         /* Клик по кнопкам в левой панели */
-        var panel = document.getElementById('sport_types');
-        buttons = document.querySelectorAll('.sport-icon-element');
-        for (var i=0, length=buttons.length; i<length; i+=1) {
-            buttons[i][ document.ontouchstart ? 'ontouchstart' : 'onclick' ] = function() {
-                this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
-                //тут должна быть подгрзука видео данной категории
-            }
-        }
+        $('#sport_types').on('click.touch', '.sport-icon-element', function() {
+            this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
+        });
+
+            /* слайдер */
+  var mySwiper = new Swiper('.swiper-container',{
+    pagination: '.pagination',
+    loop:true,
+    grabCursor: true,
+    paginationClickable: true,
+    slidesPerView: 'auto'
+  })
+  $('.arrow-left').on('click', function(e){
+    e.preventDefault()
+    mySwiper.swipePrev()
+  })
+  $('.arrow-right').on('click', function(e){
+    e.preventDefault()
+    mySwiper.swipeNext()
+  })
         
         /*if(!app.checkConnection()){
             console.log('online');
