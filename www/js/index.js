@@ -127,6 +127,9 @@ var app = {
             $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
         });
         
+		$('.icon-reload').on('click', function() {
+            app.initContent();
+        });
 
     },
     initContent: function() {
@@ -148,12 +151,12 @@ var app = {
     	for(var i in json){
     		var news = json[i];
     		html += '<li class="element swiper-slide">'+
-						((typeof(news.image)=='string')?'<img src="'+news.image.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
+						((typeof(news.image)=='string')?'<img src="'+news.image480x360.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
 						'<div class="element-text">'+
 							'<p class="element-text-title">'+news.node_title+'</p>'+
-							'<span class="element-text-time">15:00</span>'+
-							'<span class="element-text-date">сегодня</span>'+
-							'<p class="element-text-tiser">'+this.wrapText( jQuery(news.teaser).text() )+'</p>'+
+							'<span class="element-text-time">'+news.time+'</span>'+
+							'<span class="element-text-date">'+news.dt+'</span>'+
+							'<p class="element-text-tiser">'+this.wrapText(news.teaser)+'</p>'+
 							'<p class="element-comments">'+
 								'<span class="icon icon-comments"></span>'+
 								news.comment_count+
@@ -179,14 +182,14 @@ var app = {
 					  '<span class="text">cмотреть</span>'+
 					  '<div class="background"></div>'+
 					 '</div>'+
-					'<img src="'+video.uri.replace('webta.','')+'" alt="" title=""/>'+
+					'<img src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
 					'<div class="element-text">'+
 						'<p class="element-text-title">'+video.title+'</p>'+
-						'<span class="element-text-time">15:00</span>'+
-						'<span class="element-text-date">сегодня</span>'+
+						'<span class="element-text-time">'+video.time+'</span>'+
+						'<span class="element-text-date">'+video.dt+'</span>'+
 						'<p class="element-comments">'+
 							'<span class="icon icon-comments"></span>'+
-							'0'+
+							video.comment_count+
 						'</p>'+
 					'</div>'+
 				  '</li>';
@@ -210,14 +213,14 @@ var app = {
 					  '<span class="text">cмотреть</span>'+
 					  '<div class="background"></div>'+
 					 '</div>'+
-					'<img src="'+video.uri.replace('webta.','')+'" alt="" title=""/>'+
+					'<img src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
 					'<div class="element-text">'+
 						'<p class="element-text-title">'+video.title+'</p>'+
-						'<span class="element-text-time">15:00</span>'+
-						'<span class="element-text-date">сегодня</span>'+
+						'<span class="element-text-time">'+video.time+'</span>'+
+						'<span class="element-text-date">'+video.dt+'</span>'+
 						'<p class="element-comments">'+
 							'<span class="icon icon-comments"></span>'+
-							'0'+
+							video.comment_count+
 						'</p>'+
 					'</div>'+
 				  '</li>';
@@ -271,8 +274,7 @@ var app = {
          /*грузим контент*/
         app.initContent();
         app.receivedEvent('init content');
-        app.receivedEvent('init swiper');
-
+        app.innerWidth = window.innerWidth;
         var supportsOrientationChange = "onorientationchange" in window,
             orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
         window.addEventListener(orientationEvent, function() {
@@ -310,8 +312,6 @@ var app = {
                 }
             }
         }, false);
-
-        app.receivedEvent('init sports buttons');
         
     },
     initSlider: function(element) {
