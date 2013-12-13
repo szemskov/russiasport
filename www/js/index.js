@@ -43,19 +43,19 @@ if(!tags){
 
 var sources = {
 		"news" : {"ph":"#news",
-			      "url":"http://russiasport.ru/api.php?wall&format=json&uid=35&offset=:offset&count=:limit",
+			      "url":"http://russiasport.ru/api.php?wall&format=json&uid=35&offset=:offset&count=:limit&tids=:tids",
 			      "limit":12,
 			      "offset":0,
 			      "stop":false,
 			      "callback":"app.onGetNews"},
 		"video" : {"ph":"#video",
-			       "url":"http://russiasport.ru/api.php?video&format=json&proccess&offset=:offset&count=:limit",
+			       "url":"http://russiasport.ru/api.php?video&format=json&proccess&offset=:offset&count=:limit&tids=:tids",
 			       "limit":12,
 			       "offset":0,
 			       "stop":false,
 			       "callback":"app.onGetVideo"},
 		"live" : {"ph":"#live",
-			      "url":"http://russiasport.ru/api.php?video&format=json&proccess&live&offset=:offset&count=:limit",
+			      "url":"http://russiasport.ru/api.php?video&format=json&proccess&live&offset=:offset&count=:limit&tids=:tids",
 			      "limit":12,
 			      "offset":0,
 			      "stop":false,
@@ -144,7 +144,7 @@ var app = {
     onGetNews: function(json){
     	if(DEBUG){
 	    	console.log('News:');
-	    	//sconsole.dir(json);
+	    	console.dir(json);
     	}
     	jQuery(sources['news']['ph']+' img').remove();
     	var html = '';
@@ -170,7 +170,7 @@ var app = {
     onGetVideo: function(json){
     	if(DEBUG){
 	    	console.log('Video:');
-	    	//console.dir(json);
+	    	console.dir(json);
     	}
     	jQuery(sources['video']['ph']+' img').remove();
         var html = '';
@@ -262,9 +262,23 @@ var app = {
         return navigator.online;
     },
     prepareUrl: function(source) {
-    	url = source.url.replace(':limit',source.limit).replace(':offset',source.offset).replace(':callback',source.callback);
+		var tids = this._getActiveTags();
+		//init placeholders
+    	url = source.url.replace(':limit',source.limit)
+		                .replace(':offset',source.offset)
+						.replace(':callback',source.callback)
+						.replace(':tids',tids);
     	return url;
     },
+	_getActiveTags: function(){
+		var tids = [];
+		for(var i in tags){
+			if(tags[i].active){
+				tids.push(tags[i].tid);
+			}
+		}
+		return tids.join();
+	},
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         
