@@ -44,6 +44,7 @@ body,
 }
 .slider {
 	list-style-type: none;
+	overflow: hidden;
 	width: 5000px;
 }
 .element {
@@ -229,7 +230,7 @@ div.background {
 	height: 13.333em;
 	margin: 0 1.1363636363636365%;
 	overflow: hidden;
-	padding: 3.556em 0;
+	x-padding: 3.556em 0 0;
 	text-align: center;
 	width: 30.831643002028397%;
 }
@@ -442,8 +443,12 @@ only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (
 	}
 	.element {
 		height: 181px;
+        padding-bottom: 1em;
 		width: 240px;
 	}
+    .element-text {
+        margin-bottom: 1em;
+    }
 	.line {
 		background-image: -webkit-linear-gradient(90deg, #c1d7ea, #e8f1f7);
 		background-image: -moz-linear-gradient(90deg, #c1d7ea, #e8f1f7);
@@ -464,9 +469,6 @@ only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (
 	.slider {
 		height: 100%;
 		width: 100%;
-	}
-	.element {
-		margin: 0 0 0.875em;
 	}
 	.content {
 		height: 121.875em;

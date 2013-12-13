@@ -18,24 +18,28 @@
  */
 
 var DEBUG = true;
-
-var tags = {
-	    "biatlon": {"name":"Биатлон", "tid":190991, "active":0},
-		"bobsplay": {"name":"Бобслей", "tid":190992, "active":0},
-		"skeleton": {"name":"Горные лыжи", "tid":191005, "active":0},
-		"kyorling": {"name":"Керлинг", "tid":190994, "active":0},
-		"skiing_dvoeborie": {"name":"Лыжное двоеборье", "tid":191007, "active":0},
-		"skiing_race": {"name":"Лыжные гонки", "tid":191006, "active":0},
-		"prizhki": {"name":"Прыжки на лыжах с трамплина", "tid":191008, "active":0},
-		"sanki": {"name":"Санный спорт", "tid":190996, "active":0},
-		"skeleton": {"name":"Скелетон", "tid":190993, "active":0},
-		"speed_konki": {"name":"Скоростной бег на коньках", "tid":190999, "active":0},
-		"snowboarding": {"name":"Сноуборд", "tid":191010, "active":0},
-		"figure": {"name":"Фигурное катание", "tid":190997, "active":0},
-		"freestyle": {"name":"Фристайл", "tid":191009, "active":0},
-		"hockey": {"name":"Хоккей", "tid":190995, "active":0},
-		"short_track": {"name":"Шорт-трек", "tid":190998, "active":0}
-};
+var tags = window.localStorage.getItem("tags");
+if(!tags){
+	tags = {
+		    "biatlon": {"name":"Биатлон", "tid":190991, "active":0},
+			"bobsplay": {"name":"Бобслей", "tid":190992, "active":0},
+			"skeleton": {"name":"Горные лыжи", "tid":191005, "active":0},
+			"kyorling": {"name":"Керлинг", "tid":190994, "active":0},
+			"skiing_dvoeborie": {"name":"Лыжное двоеборье", "tid":191007, "active":0},
+			"skiing_race": {"name":"Лыжные гонки", "tid":191006, "active":0},
+			"prizhki": {"name":"Прыжки на лыжах с трамплина", "tid":191008, "active":0},
+			"sanki": {"name":"Санный спорт", "tid":190996, "active":0},
+			"skeleton": {"name":"Скелетон", "tid":190993, "active":0},
+			"speed_konki": {"name":"Скоростной бег на коньках", "tid":190999, "active":0},
+			"snowboarding": {"name":"Сноуборд", "tid":191010, "active":0},
+			"figure": {"name":"Фигурное катание", "tid":190997, "active":0},
+			"freestyle": {"name":"Фристайл", "tid":191009, "active":0},
+			"hockey": {"name":"Хоккей", "tid":190995, "active":0},
+			"short_track": {"name":"Шорт-трек", "tid":190998, "active":0}
+	};
+} else {
+	tags = $.parseJSON(tags);
+}
 
 var sources = {
 		"news" : {"ph":"#news",
@@ -57,12 +61,6 @@ var sources = {
 			      "stop":false,
 			      "callback":"app.onGetLive"},
 };
-
-if(DEBUG){
-	for(var i in sources){
-		sources[i]['url'] = sources[i]['url'].replace('russiasport.ru','russiasport.webta.ru');
-	}
-}
 
 var app = {
     // Application Constructor
@@ -104,10 +102,32 @@ var app = {
     	}
     },
     initPanel: function() {
-    	var panel = jQuery('#sport_types');
-    	for(var data_type in tags){
-    		panel.append('<div class="sport-icon-element sport-icon-element-1 '+data_type+'"><div data-type="'+data_type+'" class="icon"></div>'+tags[data_type].name+'</div>');
+    	if(DEBUG){
+    		for(var i in sources){
+    			sources[i]['url'] = sources[i]['url'].replace('russiasport.ru','russiasport.webta.ru');
+    		}
     	}
+    	var panel = jQuery('#sport_types');
+    	i=0;
+    	for(var data_type in tags){
+    		panel.append('<div class="sport-icon-element sport-icon-element-'+(++i)+' '+data_type+(tags[data_type].active?' active':'')+'"><div data-type="'+data_type+'" class="icon"></div>'+tags[data_type].name+'</div>');
+    	}
+    	
+        /* Клик по кнопкам в левой панели */
+        $('#sport_types').on('click.touch', '.sport-icon-element', function() {
+        	/*вид спорта*/
+        	var type = this.classList[2];
+        	tags[type].active = this.classList.contains('active')?0:1;
+        	window.localStorage.setItem("tags", $.toJSON(tags));
+            this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
+        });
+
+
+        $('.icon.icon-menu').on('click', function() {
+            $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
+        });
+        
+
     },
     initContent: function() {
     	//remove old data and load from server
@@ -121,7 +141,7 @@ var app = {
     onGetNews: function(json){
     	if(DEBUG){
 	    	console.log('News:');
-	    	console.dir(json);
+	    	//sconsole.dir(json);
     	}
     	jQuery(sources['news']['ph']+' img').remove();
     	var html = '';
@@ -142,11 +162,12 @@ var app = {
 					 '</li>';
     	}
     	jQuery(sources['news']['ph']).append(html);
+        this.initSlider(sources['news']['ph']);
     },
     onGetVideo: function(json){
     	if(DEBUG){
 	    	console.log('Video:');
-	    	console.dir(json);
+	    	//console.dir(json);
     	}
     	jQuery(sources['video']['ph']+' img').remove();
         var html = '';
@@ -171,12 +192,12 @@ var app = {
 				  '</li>';
         }
     	jQuery(sources['video']['ph']).append(html);
-        this.initSlider();
+        this.initSlider(sources['video']['ph']);
     },
     onGetLive: function(json){
     	if(DEBUG){
 	    	console.log('Live:');
-	    	console.dir(json);
+	    	//console.dir(json);
     	}
     	jQuery(sources['live']['ph']+' img').remove();
     	var html = '';
@@ -202,6 +223,7 @@ var app = {
 				  '</li>';
     	}
     	jQuery(sources['live']['ph']).append(html);
+        this.initSlider(sources['live']['ph']);
     },
     __load: function(source){
     	if(navigator.onLine){
@@ -246,40 +268,58 @@ var app = {
         /*init panel*/
         app.initPanel();
         app.receivedEvent('initpanel');
+         /*грузим контент*/
+        app.initContent();
+        app.receivedEvent('init content');
+        app.receivedEvent('init swiper');
 
-            /* слайдер */
-            var GlobalScope = this;
+        var supportsOrientationChange = "onorientationchange" in window,
+            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+        window.addEventListener(orientationEvent, function() {
+            if (app.mySwipers) {
+                $.each(app.mySwipers, function(i, mySwiper) {
+                    if (!app.mySwipers[i]) return true;
+                    console.log(i)
+                    var $this = $(i).closest('.line');
+                    $this.find('.slider.swiper-wrapper').removeAttr('style');
+                    var activeIndex = app.mySwipers[i].activeIndex;
+                    app.mySwipers[i].destroy();
+                    app.mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
+                        pagination: '.pagination',
+                        loop: false,
+                        mode: app.is_landscape() ? 'horizontal' : 'vertical', 
+                        grabCursor: true,
+                        paginationClickable: true,
+                        slidesPerView: 'auto'
+                    });
+                    app.mySwipers[i].swipeTo(activeIndex);
+                    $this.find('.arrow-wrapper-prev').on('click', function(e){
+                        e.preventDefault();
+                        app.mySwipers[i].swipePrev();
+                    })
+                    $this.find('.arrow-wrapper-next').on('click', function(e){
+                        e.preventDefault();
+                        app.mySwipers[i].swipeNext();
+                    })
 
-            /* Клик по кнопкам в левой панели */
-            $('#sport_types').on('click.touch', '.sport-icon-element', function() {
-                this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
-            })
-
-
-            $('.icon.icon-menu').on('click', function() {
-                $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
-            })
+                })
+            }
+        }, false);
 
         app.receivedEvent('init sports buttons');
         
-        /*грузим контент*/
-        app.initContent();
-        app.receivedEvent('init content');
-		app.receivedEvent('init swiper');
     },
-    initSlider: function() {
-        var mySwipers = new Array();
-        $(".content .line").each(function(i) {
-            var $this = $(this),
-                mySwiper = null;
-            mySwiper = mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
-                pagination: '.pagination',
-                loop: false,
-                grabCursor: true,
-                mode: screen.width>screen.height ? 'horizontal' : 'vertical', 
-                paginationClickable: true,
-                slidesPerView: 'auto'
-            });
+    initSlider: function(element) {
+    	console.log(element);
+            var $this = $(element).closest('.line'),
+                mySwiper = new Swiper( $this.find('.swiper-container')[0] ,{
+                    pagination: '.pagination',
+                    loop: false,
+                    grabCursor: true,
+                    mode: app.is_landscape() ? 'horizontal' : 'vertical',
+                    paginationClickable: true,
+                    slidesPerView: 'auto'
+                });
 
             $this.find('.arrow-wrapper-prev').on('click', function(e){
                 e.preventDefault();
@@ -290,45 +330,33 @@ var app = {
                 e.preventDefault();
                 mySwiper.swipeNext();
             })
-
-        })
-
-        //event на изменение orientation change дисплея// 
-        var supportsOrientationChange = "onorientationchange" in window,
-            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-        window.addEventListener(orientationEvent, function() {
-            $(".content .line").each(function(i) {
-                if (!mySwipers[i]) return true;
-                var $this = $(this);
-                $this.find('.slider.swiper-wrapper').removeAttr('style');
-                var activeIndex = mySwipers[i].activeIndex,
-                    horizontal_orientation = screen.width>screen.height ? true : false;
-                mySwipers[i].destroy();
-                mySwipers[i] = new Swiper( $('.swiper-container')[2] ,{
-                    pagination: '.pagination',
-                    loop: false,
-                    mode: horizontal_orientation ? 'horizontal' : 'vertical', 
-                    grabCursor: true,
-                    paginationClickable: true,
-                    slidesPerView: 'auto'
-                });
-                mySwipers[i].swipeTo(activeIndex);
-                $this.find('.arrow-wrapper-prev').on('click', function(e){
-                    e.preventDefault();
-                    mySwiper[i].swipePrev();
-                })
-                $this.find('.arrow-wrapper-next').on('click', function(e){
-                    e.preventDefault();
-                    mySwiper[i].swipeNext();
-                })
-            })
-        }, false);
-
+        if (mySwiper) this.mySwipers ? this.mySwipers[element] = mySwiper : function(that) {
+            that.mySwipers = {}
+            that.mySwipers[element] = mySwiper;
+        }(this);
     },
     wrapText: function(text) {
         if (text.length>109) {
             text = text.split('').splice(0, 109).join('')+'&hellip;';
         }
         return text;
+    },
+    is_landscape: function is_landscape() {
+        var uagent = navigator.userAgent.toLowerCase();
+        if ( uagent.search('ipad') > -1 ) {
+            var r = ( window.orientation == 90 || window.orientation == -90 );
+        } else {
+            var r = ( window.innerWidth>=768 && screen.width > screen.height );
+        }
+        return r;
+    },
+    is_portrait: function is_portrait() {
+        var uagent = navigator.userAgent.toLowerCase();
+        if ( uagent.search('ipad') > -1 ) {
+            var r = ( window.orientation == 0 || window.orientation == 180 );
+        } else {
+            var r = ( screen.width < screen.height );
+        }
+        return r;
     }
 };

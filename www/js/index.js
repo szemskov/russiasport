@@ -138,68 +138,10 @@ var app = {
     	}
 
     },
-    initSlider: function() {
-        var mySwipers = new Array();
-        $(".content .line").each(function(i) {
-            var $this = $(this),
-                mySwiper = null;
-            mySwiper = mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
-                pagination: '.pagination',
-                loop: false,
-                grabCursor: true,
-                mode: screen.width>screen.height ? 'horizontal' : 'vertical', 
-                paginationClickable: true,
-                slidesPerView: 'auto'
-            });
-
-            $this.find('.arrow-wrapper-prev').on('click', function(e){
-                e.preventDefault();
-                mySwiper.swipePrev();
-            })
-
-            $this.find('.arrow-wrapper-next').on('click', function(e){
-                e.preventDefault();
-                mySwiper.swipeNext();
-            })
-
-        })
-
-        //event на изменение orientation change дисплея// 
-        var supportsOrientationChange = "onorientationchange" in window,
-            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-        window.addEventListener(orientationEvent, function() {
-            $(".content .line").each(function(i) {
-                if (!mySwipers[i]) return true;
-                var $this = $(this);
-                $this.find('.slider.swiper-wrapper').removeAttr('style');
-                var activeIndex = mySwipers[i].activeIndex,
-                    horizontal_orientation = screen.width>screen.height ? true : false;
-                mySwipers[i].destroy();
-                mySwipers[i] = new Swiper( $('.swiper-container')[2] ,{
-                    pagination: '.pagination',
-                    loop: false,
-                    mode: horizontal_orientation ? 'horizontal' : 'vertical', 
-                    grabCursor: true,
-                    paginationClickable: true,
-                    slidesPerView: 'auto'
-                });
-                mySwipers[i].swipeTo(activeIndex);
-                $this.find('.arrow-wrapper-prev').on('click', function(e){
-                    e.preventDefault();
-                    mySwiper[i].swipePrev();
-                })
-                $this.find('.arrow-wrapper-next').on('click', function(e){
-                    e.preventDefault();
-                    mySwiper[i].swipeNext();
-                })
-            })
-        }, false);
-
-    },
     onGetNews: function(json){
     	if(DEBUG){
 	    	console.log('News:');
-	    	console.dir(json);
+	    	//sconsole.dir(json);
     	}
     	jQuery(sources['news']['ph']+' img').remove();
     	var html = '';
@@ -225,7 +167,7 @@ var app = {
     onGetVideo: function(json){
     	if(DEBUG){
 	    	console.log('Video:');
-	    	console.dir(json);
+	    	//console.dir(json);
     	}
     	jQuery(sources['video']['ph']+' img').remove();
         var html = '';
@@ -255,7 +197,7 @@ var app = {
     onGetLive: function(json){
     	if(DEBUG){
 	    	console.log('Live:');
-	    	console.dir(json);
+	    	//console.dir(json);
     	}
     	jQuery(sources['live']['ph']+' img').remove();
     	var html = '';
@@ -331,15 +273,6 @@ var app = {
         app.receivedEvent('init content');
         app.receivedEvent('init swiper');
 
-        /* Клик по кнопкам в левой панели */
-        $('#sport_types').on('click.touch', '.sport-icon-element', function() {
-            this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
-        })
-
-        $('.icon.icon-menu').on('click', function() {
-            $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
-        })
-
         var supportsOrientationChange = "onorientationchange" in window,
             orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
         window.addEventListener(orientationEvent, function() {
@@ -349,9 +282,9 @@ var app = {
                     console.log(i)
                     var $this = $(i).closest('.line');
                     $this.find('.slider.swiper-wrapper').removeAttr('style');
-                    var activeIndex = mySwiper.activeIndex;
-                    mySwiper.destroy();
-                    mySwiper = new Swiper( $this.find('.swiper-container')[0] ,{
+                    var activeIndex = app.mySwipers[i].activeIndex;
+                    app.mySwipers[i].destroy();
+                    app.mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
                         pagination: '.pagination',
                         loop: false,
                         mode: app.is_landscape() ? 'horizontal' : 'vertical', 
@@ -359,14 +292,14 @@ var app = {
                         paginationClickable: true,
                         slidesPerView: 'auto'
                     });
-                    mySwiper.swipeTo(activeIndex);
+                    app.mySwipers[i].swipeTo(activeIndex);
                     $this.find('.arrow-wrapper-prev').on('click', function(e){
                         e.preventDefault();
-                        mySwiper.swipePrev();
+                        app.mySwipers[i].swipePrev();
                     })
                     $this.find('.arrow-wrapper-next').on('click', function(e){
                         e.preventDefault();
-                        mySwiper.swipeNext();
+                        app.mySwipers[i].swipeNext();
                     })
 
                 })
@@ -377,12 +310,13 @@ var app = {
         
     },
     initSlider: function(element) {
+    	console.log(element);
             var $this = $(element).closest('.line'),
                 mySwiper = new Swiper( $this.find('.swiper-container')[0] ,{
                     pagination: '.pagination',
                     loop: false,
                     grabCursor: true,
-                    mode: (screen.width>screen.height && screen.width>=768) ? 'horizontal' : 'vertical', 
+                    mode: app.is_landscape() ? 'horizontal' : 'vertical',
                     paginationClickable: true,
                     slidesPerView: 'auto'
                 });
@@ -412,7 +346,7 @@ var app = {
         if ( uagent.search('ipad') > -1 ) {
             var r = ( window.orientation == 90 || window.orientation == -90 );
         } else {
-            var r = ( screen.width > screen.height );
+            var r = ( window.innerWidth>=768 && screen.width > screen.height );
         }
         return r;
     },

@@ -44,6 +44,7 @@ body,
 }
 .slider {
 	list-style-type: none;
+	overflow: hidden;
 	width: 5000px;
 }
 .element {
@@ -54,7 +55,7 @@ body,
 	position: relative;
 	width: 30.000em;
 }
-.element img {
+.element>img {
 	width: 100%;
 }
 .transform-90 {
@@ -145,15 +146,12 @@ div.background {
 	font-size: 1.500em;
 	color: #d72658;
 	padding-right: 13.3%;
+	
 }
 .element-text-tiser {
 	font-size: 1.063em;
-	max-height: 3.6em;
-	line-height: 1.2em;
-	overflow: hidden;
 	margin-top: 1.125em;
 	padding-right: 2.25%;
-	position: relative;
 }
 .element-text-time {
 	color: #02a4ec;
@@ -230,13 +228,16 @@ div.background {
 	display: inline-block;
 	font-size: 1.125em;
 	height: 13.333em;
-	margin: 0 1.1363636363636365%;
+	x-margin: 0 1.1363636363636365%;
+    line-size: 0;
+font-size: 0;
 	overflow: hidden;
-	padding: 3.556em 0;
+	x-padding: 3.556em 0 0;
 	text-align: center;
 	width: 30.831643002028397%;
 }
 .sport-icon-element .icon {
+display: none;
 	height: 4.444em;
 	position: relative;
 	margin-bottom: 0.750em;
@@ -419,6 +420,7 @@ div.background {
 }
 
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+/*@media screen and (min-width:1024px) {*/
 	html {
 		font-size: 8px;
 		height: 768px;
@@ -429,7 +431,8 @@ div.background {
 	}
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 2048) and (orientation : portrait) {
+@media screen and (max-width:768px),
+only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
 	html {
 		font-size: 8px;
 		height: 1024px;
@@ -443,8 +446,12 @@ div.background {
 	}
 	.element {
 		height: 181px;
+        padding-bottom: 1em;
 		width: 240px;
 	}
+    .element-text {
+        margin-bottom: 1em;
+    }
 	.line {
 		background-image: -webkit-linear-gradient(90deg, #c1d7ea, #e8f1f7);
 		background-image: -moz-linear-gradient(90deg, #c1d7ea, #e8f1f7);
@@ -456,17 +463,15 @@ div.background {
 	}
 	.sport-icon-element {
 		height: 10.556em;
-		padding: 1.556em 0 0;
+		padding: 1.556em 0;
 		width: 9.895833333333332%;
 	}
 	.slider-wrapper {
 		height: 100%;
 	}
 	.slider {
+		height: 100%;
 		width: 100%;
-	}
-	.element {
-		margin: 0 0 0.875em;
 	}
 	.content {
 		height: 121.875em;
@@ -524,10 +529,3 @@ div.background {
 		width: 44.62890625%;
 	}
 }
-/*
-@media only screen and (min-device-width : 1280px) and (max-device-width : 1920px) and (orientation : landscape) {
-	html {
-		font-size: 15px;
-		width: 1920px
-	}
-}*/
