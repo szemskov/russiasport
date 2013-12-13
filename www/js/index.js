@@ -276,33 +276,38 @@ var app = {
         var supportsOrientationChange = "onorientationchange" in window,
             orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
         window.addEventListener(orientationEvent, function() {
-            if (app.mySwipers) {
-                $.each(app.mySwipers, function(i, mySwiper) {
-                    if (!app.mySwipers[i]) return true;
-                    console.log(i)
-                    var $this = $(i).closest('.line');
-                    $this.find('.slider.swiper-wrapper').removeAttr('style');
-                    var activeIndex = app.mySwipers[i].activeIndex;
-                    app.mySwipers[i].destroy();
-                    app.mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
-                        pagination: '.pagination',
-                        loop: false,
-                        mode: app.is_landscape() ? 'horizontal' : 'vertical', 
-                        grabCursor: true,
-                        paginationClickable: true,
-                        slidesPerView: 'auto'
-                    });
-                    app.mySwipers[i].swipeTo(activeIndex);
-                    $this.find('.arrow-wrapper-prev').on('click', function(e){
-                        e.preventDefault();
-                        app.mySwipers[i].swipePrev();
+            if ( 
+                (orientationEvent==='orientationchange') 
+                || 
+                (orientationEvent==='resize' && (app.innerWidth<786 && window.innerWidth>786) || (app.innerWidth>786 && window.innerWidth<786) )
+            ) {
+                app.innerWidth = window.innerWidth;
+                if (app.mySwipers) {
+                    $.each(app.mySwipers, function(i, mySwiper) {
+                        if (!app.mySwipers[i]) return true;
+                        var $this = $(i).closest('.line'),
+                            activeIndex = app.mySwipers[i].activeIndex;
+                        app.mySwipers[i].destroy();
+                        $this.find('.slider.swiper-wrapper').removeAttr('style');
+                        app.mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
+                            pagination: '.pagination',
+                            loop: false,
+                            mode: app.is_landscape() ? 'horizontal' : 'vertical', 
+                            grabCursor: true,
+                            paginationClickable: true,
+                            slidesPerView: 'auto'
+                        });
+                        app.mySwipers[i].swipeTo(activeIndex);
+                        $this.find('.arrow-wrapper-prev').on('click', function(e){
+                            e.preventDefault();
+                            app.mySwipers[i].swipePrev();
+                        });
+                        $this.find('.arrow-wrapper-next').on('click', function(e){
+                            e.preventDefault();
+                            app.mySwipers[i].swipeNext();
+                        });
                     })
-                    $this.find('.arrow-wrapper-next').on('click', function(e){
-                        e.preventDefault();
-                        app.mySwipers[i].swipeNext();
-                    })
-
-                })
+                }
             }
         }, false);
 
@@ -355,7 +360,8 @@ var app = {
         if ( uagent.search('ipad') > -1 ) {
             var r = ( window.orientation == 0 || window.orientation == 180 );
         } else {
-            var r = ( screen.width < screen.height );
+            // var r = ( screen.width < screen.height);
+            var r = ( window.innerWidth<768 );
         }
         return r;
     }
