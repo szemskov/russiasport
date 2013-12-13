@@ -18,24 +18,28 @@
  */
 
 var DEBUG = true;
-
-var tags = {
-	    "biatlon": {"name":"Биатлон", "tid":190991, "active":0},
-		"bobsplay": {"name":"Бобслей", "tid":190992, "active":0},
-		"skeleton": {"name":"Горные лыжи", "tid":191005, "active":0},
-		"kyorling": {"name":"Керлинг", "tid":190994, "active":0},
-		"skiing_dvoeborie": {"name":"Лыжное двоеборье", "tid":191007, "active":0},
-		"skiing_race": {"name":"Лыжные гонки", "tid":191006, "active":0},
-		"prizhki": {"name":"Прыжки на лыжах с трамплина", "tid":191008, "active":0},
-		"sanki": {"name":"Санный спорт", "tid":190996, "active":0},
-		"skeleton": {"name":"Скелетон", "tid":190993, "active":0},
-		"speed_konki": {"name":"Скоростной бег на коньках", "tid":190999, "active":0},
-		"snowboarding": {"name":"Сноуборд", "tid":191010, "active":0},
-		"figure": {"name":"Фигурное катание", "tid":190997, "active":0},
-		"freestyle": {"name":"Фристайл", "tid":191009, "active":0},
-		"hockey": {"name":"Хоккей", "tid":190995, "active":0},
-		"short_track": {"name":"Шорт-трек", "tid":190998, "active":0}
-};
+var tags = window.localStorage.getItem("tags");
+if(!tags){
+	tags = {
+		    "biatlon": {"name":"Биатлон", "tid":190991, "active":0},
+			"bobsplay": {"name":"Бобслей", "tid":190992, "active":0},
+			"skeleton": {"name":"Горные лыжи", "tid":191005, "active":0},
+			"kyorling": {"name":"Керлинг", "tid":190994, "active":0},
+			"skiing_dvoeborie": {"name":"Лыжное двоеборье", "tid":191007, "active":0},
+			"skiing_race": {"name":"Лыжные гонки", "tid":191006, "active":0},
+			"prizhki": {"name":"Прыжки на лыжах с трамплина", "tid":191008, "active":0},
+			"sanki": {"name":"Санный спорт", "tid":190996, "active":0},
+			"skeleton": {"name":"Скелетон", "tid":190993, "active":0},
+			"speed_konki": {"name":"Скоростной бег на коньках", "tid":190999, "active":0},
+			"snowboarding": {"name":"Сноуборд", "tid":191010, "active":0},
+			"figure": {"name":"Фигурное катание", "tid":190997, "active":0},
+			"freestyle": {"name":"Фристайл", "tid":191009, "active":0},
+			"hockey": {"name":"Хоккей", "tid":190995, "active":0},
+			"short_track": {"name":"Шорт-трек", "tid":190998, "active":0}
+	};
+} else {
+	tags = $.parseJSON(tags);
+}
 
 var sources = {
 		"news" : {"ph":"#news",
@@ -57,12 +61,6 @@ var sources = {
 			      "stop":false,
 			      "callback":"app.onGetLive"},
 };
-
-if(DEBUG){
-	for(var i in sources){
-		sources[i]['url'] = sources[i]['url'].replace('russiasport.ru','russiasport.webta.ru');
-	}
-}
 
 var app = {
     // Application Constructor
@@ -104,141 +102,41 @@ var app = {
     	}
     },
     initPanel: function() {
-    	var panel = jQuery('#sport_types');
-    	for(var data_type in tags){
-    		panel.append('<div class="sport-icon-element sport-icon-element-1 '+data_type+'"><div data-type="'+data_type+'" class="icon"></div>'+tags[data_type].name+'</div>');
+    	if(DEBUG){
+    		for(var i in sources){
+    			sources[i]['url'] = sources[i]['url'].replace('russiasport.ru','russiasport.webta.ru');
+    		}
     	}
+    	var panel = jQuery('#sport_types');
+    	i=0;
+    	for(var data_type in tags){
+    		panel.append('<div class="sport-icon-element sport-icon-element-'+(++i)+' '+data_type+(tags[data_type].active?' active':'')+'"><div data-type="'+data_type+'" class="icon"></div>'+tags[data_type].name+'</div>');
+    	}
+    	
+        /* Клик по кнопкам в левой панели */
+        $('#sport_types').on('click.touch', '.sport-icon-element', function() {
+        	/*вид спорта*/
+        	var type = this.classList[2];
+        	tags[type].active = this.classList.contains('active')?0:1;
+        	window.localStorage.setItem("tags", $.toJSON(tags));
+            this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
+        });
+
+
+        $('.icon.icon-menu').on('click', function() {
+            $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
+        });
+        
+
     },
     initContent: function() {
     	//remove old data and load from server
     	for(var i in sources){
     		$(sources[i]['ph']+' li').remove();
-    		app.__load(sources[i]);
+    		$(sources[i]['ph']).append('<img src="./style/images/loader.gif" alt="" title="" />');
+    		this.__load(sources[i]);
     	}
 
-    },
-    onGetNews: function(json){
-    	if(DEBUG){
-	    	console.log('News:');
-	    	console.dir(json);
-    	}
-    	for(var i in json){
-    		var news = json[i];
-    		html = jQuery('<li class="element swiper-slide">'+
-							((typeof(news.image)=='string')?'<img src="'+news.image.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
-							'<div class="element-text">'+
-								'<p class="element-text-title">'+news.node_title+'</p>'+
-								'<span class="element-text-time">15:00</span>'+
-								'<span class="element-text-date">сегодня</span>'+
-								'<p class="element-text-tiser">'+this.wrapText( jQuery(news.teaser).text() )+'</p>'+
-								'<p class="element-comments">'+
-									'<span class="icon icon-comments"></span>'+
-									news.comment_count+
-								'</p>'+
-							'</div>'+
-						 '</li>'
-    			   );
-    		jQuery(sources['news']['ph']).append(html);
-    	}
-    },
-    onGetVideo: function(json){
-    	if(DEBUG){
-	    	console.log('Video:');
-	    	console.dir(json);
-    	}
-        var html = '';
-    	for(var i in json){
-    		var video = json[i];
-    		html+='<li class="element swiper-slide">'+
-							'<div class="play">'+
-							  '<div class="triangle"></div>'+
-							  '<span class="text">cмотреть</span>'+
-							  '<div class="background"></div>'+
-							 '</div>'+
-							'<img src="'+video.uri.replace('webta.','')+'" alt="" title=""/>'+
-							'<div class="element-text">'+
-								'<p class="element-text-title">'+video.title+'</p>'+
-								'<span class="element-text-time">15:00</span>'+
-								'<span class="element-text-date">сегодня</span>'+
-								'<p class="element-comments">'+
-									'<span class="icon icon-comments"></span>'+
-									'0'+
-								'</p>'+
-							'</div>'+
-						  '</li>';
-        }
-    	jQuery(sources['video']['ph']).append(html);
-        this.initSlider();
-    },
-    onGetLive: function(json){
-    	if(DEBUG){
-	    	console.log('Live:');
-	    	console.dir(json);
-    	}
-    },
-    __load: function(source){
-    	if(navigator.onLine){
-    		url = app.prepareUrl(source);
-    		$.ajax({
-    			   type: 'GET',
-    			    url: url,
-    			    contentType: "application/json",
-    			    jsonpCallback: source.callback,
-    			    dataType: 'jsonp',
-    			    error: function(e) {
-    			       console.log(e.message);
-    			    }
-    			});
-    	} else {
-    		alert('Нет интернет соединения');
-    	}
-    },
-    checkConnection: function() {
-        var networkState = navigator.connection.type;
-
-        var states = {};
-        states[Connection.UNKNOWN]  = 'Unknown connection';
-        states[Connection.ETHERNET] = 'Ethernet connection';
-        states[Connection.WIFI]     = 'WiFi connection';
-        states[Connection.CELL_2G]  = 'Cell 2G connection';
-        states[Connection.CELL_3G]  = 'Cell 3G connection';
-        states[Connection.CELL_4G]  = 'Cell 4G connection';
-        states[Connection.CELL]     = 'Cell generic connection';
-        states[Connection.NONE]     = 'No network connection';
-
-        console.log('Connection type: ' + states[networkState]);
-        return navigator.online;
-    },
-    prepareUrl: function(source) {
-    	url = source.url.replace(':limit',source.limit).replace(':offset',source.offset).replace(':callback',source.callback);
-    	return url;
-    },
-    onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-        
-        /*init panel*/
-        app.initPanel();
-        app.receivedEvent('initpanel');
-
-            /* слайдер */
-            var GlobalScope = this;
-
-            /* Клик по кнопкам в левой панели */
-            $('#sport_types').on('click.touch', '.sport-icon-element', function() {
-                this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
-            })
-
-
-            $('.icon.icon-menu').on('click', function() {
-                $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
-            })
-
-        app.receivedEvent('init sports buttons');
-        
-        /*грузим контент*/
-        app.initContent();
-        app.receivedEvent('init content');
-		app.receivedEvent('init swiper');
     },
     initSlider: function() {
         var mySwipers = new Array();
@@ -297,6 +195,140 @@ var app = {
             })
         }, false);
 
+    },
+    onGetNews: function(json){
+    	if(DEBUG){
+	    	console.log('News:');
+	    	console.dir(json);
+    	}
+    	jQuery(sources['news']['ph']+' img').remove();
+    	var html = '';
+    	for(var i in json){
+    		var news = json[i];
+    		html += '<li class="element swiper-slide">'+
+						((typeof(news.image)=='string')?'<img src="'+news.image.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
+						'<div class="element-text">'+
+							'<p class="element-text-title">'+news.node_title+'</p>'+
+							'<span class="element-text-time">15:00</span>'+
+							'<span class="element-text-date">сегодня</span>'+
+							'<p class="element-text-tiser">'+this.wrapText( jQuery(news.teaser).text() )+'</p>'+
+							'<p class="element-comments">'+
+								'<span class="icon icon-comments"></span>'+
+								news.comment_count+
+							'</p>'+
+						'</div>'+
+					 '</li>';
+    	}
+    	jQuery(sources['news']['ph']).append(html);
+    },
+    onGetVideo: function(json){
+    	if(DEBUG){
+	    	console.log('Video:');
+	    	console.dir(json);
+    	}
+    	jQuery(sources['video']['ph']+' img').remove();
+        var html = '';
+    	for(var i in json){
+    		var video = json[i];
+    		html+='<li class="element swiper-slide">'+
+					'<div class="play">'+
+					  '<div class="triangle"></div>'+
+					  '<span class="text">cмотреть</span>'+
+					  '<div class="background"></div>'+
+					 '</div>'+
+					'<img src="'+video.uri.replace('webta.','')+'" alt="" title=""/>'+
+					'<div class="element-text">'+
+						'<p class="element-text-title">'+video.title+'</p>'+
+						'<span class="element-text-time">15:00</span>'+
+						'<span class="element-text-date">сегодня</span>'+
+						'<p class="element-comments">'+
+							'<span class="icon icon-comments"></span>'+
+							'0'+
+						'</p>'+
+					'</div>'+
+				  '</li>';
+        }
+    	jQuery(sources['video']['ph']).append(html);
+        this.initSlider();
+    },
+    onGetLive: function(json){
+    	if(DEBUG){
+	    	console.log('Live:');
+	    	console.dir(json);
+    	}
+    	jQuery(sources['live']['ph']+' img').remove();
+    	var html = '';
+    	for(var i in json){
+    		var video = json[i];
+			
+    		html+='<li class="element swiper-slide">'+
+					'<div class="play">'+
+					  '<div class="triangle"></div>'+
+					  '<span class="text">cмотреть</span>'+
+					  '<div class="background"></div>'+
+					 '</div>'+
+					'<img src="'+video.uri.replace('webta.','')+'" alt="" title=""/>'+
+					'<div class="element-text">'+
+						'<p class="element-text-title">'+video.title+'</p>'+
+						'<span class="element-text-time">15:00</span>'+
+						'<span class="element-text-date">сегодня</span>'+
+						'<p class="element-comments">'+
+							'<span class="icon icon-comments"></span>'+
+							'0'+
+						'</p>'+
+					'</div>'+
+				  '</li>';
+    	}
+    	jQuery(sources['live']['ph']).append(html);
+    },
+    __load: function(source){
+    	if(navigator.onLine){
+    		url = app.prepareUrl(source);
+    		$.ajax({
+    			   type: 'GET',
+    			    url: url,
+    			    contentType: "application/json",
+    			    jsonpCallback: source.callback,
+    			    dataType: 'jsonp',
+    			    error: function(e) {
+    			       console.log(e.message);
+    			    }
+    			});
+    	} else {
+    		alert('Нет интернет соединения');
+    	}
+    },
+    checkConnection: function() {
+        var networkState = navigator.connection.type;
+
+        var states = {};
+        states[Connection.UNKNOWN]  = 'Unknown connection';
+        states[Connection.ETHERNET] = 'Ethernet connection';
+        states[Connection.WIFI]     = 'WiFi connection';
+        states[Connection.CELL_2G]  = 'Cell 2G connection';
+        states[Connection.CELL_3G]  = 'Cell 3G connection';
+        states[Connection.CELL_4G]  = 'Cell 4G connection';
+        states[Connection.CELL]     = 'Cell generic connection';
+        states[Connection.NONE]     = 'No network connection';
+
+        console.log('Connection type: ' + states[networkState]);
+        return navigator.online;
+    },
+    prepareUrl: function(source) {
+    	url = source.url.replace(':limit',source.limit).replace(':offset',source.offset).replace(':callback',source.callback);
+    	return url;
+    },
+    onDeviceReady: function() {
+        app.receivedEvent('deviceready');
+        
+        /*init panel*/
+        app.initPanel();
+        app.receivedEvent('initpanel');
+        
+        /*грузим контент*/
+        app.initContent();
+        app.receivedEvent('init content');
+		app.receivedEvent('init swiper');
     },
     wrapText: function(text) {
         if (text.length>109) {
