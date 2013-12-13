@@ -333,19 +333,6 @@ var app = {
          /*грузим контент*/
         app.initContent();
         app.receivedEvent('init content');
-        app.receivedEvent('init swiper');
-<<<<<<< HEAD
-=======
-        app.innerWidth = window.innerWidth;
-        /* Клик по кнопкам в левой панели */
-        $('#sport_types').on('click.touch', '.sport-icon-element', function() {
-            this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
-        })
-
-        $('.icon.icon-menu').on('click', function() {
-            $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
-        })
-
         var supportsOrientationChange = "onorientationchange" in window,
             orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
         window.addEventListener(orientationEvent, function() {
@@ -384,9 +371,6 @@ var app = {
                 }
             }
         }, false);
-
->>>>>>> 21fc00088671b5d85d69ffac1c989f4b475c14bd
-        app.receivedEvent('init sports buttons');
         
     },
     initSlider: function(element) {
