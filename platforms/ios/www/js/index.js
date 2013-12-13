@@ -40,17 +40,21 @@ var tags = {
 var sources = {
 		"news" : {"ph":"#news",
 			      "url":"http://russiasport.ru/api.php?wall&format=json&uid=35&offset=:offset&count=:limit",
-			      "limit":12,"offset":0,
+			      "limit":12,
+			      "offset":0,
+			      "stop":false,
 			      "callback":"app.onGetNews"},
 		"video" : {"ph":"#video",
 			       "url":"http://russiasport.ru/api.php?video&format=json&proccess&offset=:offset&count=:limit",
 			       "limit":12,
 			       "offset":0,
+			       "stop":false,
 			       "callback":"app.onGetVideo"},
 		"live" : {"ph":"#live",
 			      "url":"http://russiasport.ru/api.php?video&format=json&proccess&live&offset=:offset&count=:limit",
 			      "limit":12,
 			      "offset":0,
+			      "stop":false,
 			      "callback":"app.onGetLive"},
 };
 
@@ -109,18 +113,95 @@ var app = {
     	//remove old data and load from server
     	for(var i in sources){
     		$(sources[i]['ph']+' li').remove();
-    		app.__load(sources[i]);
+    		$(sources[i]['ph']).append('<img src="./style/images/loader.gif" alt="" title="" />');
+    		this.__load(sources[i]);
     	}
 
     },
     onGetNews: function(json){
-    	console.dir(json);
+    	if(DEBUG){
+	    	console.log('News:');
+	    	console.dir(json);
+    	}
+    	jQuery(sources['news']['ph']+' img').remove();
+    	var html = '';
+    	for(var i in json){
+    		var news = json[i];
+    		html += '<li class="element swiper-slide">'+
+						((typeof(news.image)=='string')?'<img src="'+news.image.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
+						'<div class="element-text">'+
+							'<p class="element-text-title">'+news.node_title+'</p>'+
+							'<span class="element-text-time">15:00</span>'+
+							'<span class="element-text-date">сегодня</span>'+
+							'<p class="element-text-tiser">'+this.wrapText( jQuery(news.teaser).text() )+'</p>'+
+							'<p class="element-comments">'+
+								'<span class="icon icon-comments"></span>'+
+								news.comment_count+
+							'</p>'+
+						'</div>'+
+					 '</li>';
+    	}
+    	jQuery(sources['news']['ph']).append(html);
     },
     onGetVideo: function(json){
-    	console.dir(json);
+    	if(DEBUG){
+	    	console.log('Video:');
+	    	console.dir(json);
+    	}
+    	jQuery(sources['video']['ph']+' img').remove();
+        var html = '';
+    	for(var i in json){
+    		var video = json[i];
+    		html+='<li class="element swiper-slide">'+
+					'<div class="play">'+
+					  '<div class="triangle"></div>'+
+					  '<span class="text">cмотреть</span>'+
+					  '<div class="background"></div>'+
+					 '</div>'+
+					'<img src="'+video.uri.replace('webta.','')+'" alt="" title=""/>'+
+					'<div class="element-text">'+
+						'<p class="element-text-title">'+video.title+'</p>'+
+						'<span class="element-text-time">15:00</span>'+
+						'<span class="element-text-date">сегодня</span>'+
+						'<p class="element-comments">'+
+							'<span class="icon icon-comments"></span>'+
+							'0'+
+						'</p>'+
+					'</div>'+
+				  '</li>';
+        }
+    	jQuery(sources['video']['ph']).append(html);
+        this.initSlider();
     },
     onGetLive: function(json){
-    	console.dir(json);
+    	if(DEBUG){
+	    	console.log('Live:');
+	    	console.dir(json);
+    	}
+    	jQuery(sources['live']['ph']+' img').remove();
+    	var html = '';
+    	for(var i in json){
+    		var video = json[i];
+			
+    		html+='<li class="element swiper-slide">'+
+					'<div class="play">'+
+					  '<div class="triangle"></div>'+
+					  '<span class="text">cмотреть</span>'+
+					  '<div class="background"></div>'+
+					 '</div>'+
+					'<img src="'+video.uri.replace('webta.','')+'" alt="" title=""/>'+
+					'<div class="element-text">'+
+						'<p class="element-text-title">'+video.title+'</p>'+
+						'<span class="element-text-time">15:00</span>'+
+						'<span class="element-text-date">сегодня</span>'+
+						'<p class="element-comments">'+
+							'<span class="icon icon-comments"></span>'+
+							'0'+
+						'</p>'+
+					'</div>'+
+				  '</li>';
+    	}
+    	jQuery(sources['live']['ph']).append(html);
     },
     __load: function(source){
     	if(navigator.onLine){
@@ -165,31 +246,89 @@ var app = {
         /*init panel*/
         app.initPanel();
         app.receivedEvent('initpanel');
-        
-        /* Клик по кнопкам в левой панели */
-        $('#sport_types').on('click.touch', '.sport-icon-element', function() {
-            this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
-        });
+
+            /* слайдер */
+            var GlobalScope = this;
+
+            /* Клик по кнопкам в левой панели */
+            $('#sport_types').on('click.touch', '.sport-icon-element', function() {
+                this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
+            })
+
+
+            $('.icon.icon-menu').on('click', function() {
+                $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
+            })
+
         app.receivedEvent('init sports buttons');
         
         /*грузим контент*/
         app.initContent();
         app.receivedEvent('init content');
-        
-		/* слайдер */
-		var mySwiper = new Swiper('.swiper-container',{ pagination: '.pagination',
-														loop:true,
-														grabCursor: true,
-														paginationClickable: true,
-														slidesPerView: 'auto'});
-		$('.arrow-left').on('click', function(e){
-		    e.preventDefault()
-		    mySwiper.swipePrev()
-		});
-		$('.arrow-right').on('click', function(e){
-		    e.preventDefault()
-		    mySwiper.swipeNext()
-		});
 		app.receivedEvent('init swiper');
+    },
+    initSlider: function() {
+        var mySwipers = new Array();
+        $(".content .line").each(function(i) {
+            var $this = $(this),
+                mySwiper = null;
+            mySwiper = mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
+                pagination: '.pagination',
+                loop: false,
+                grabCursor: true,
+                mode: screen.width>screen.height ? 'horizontal' : 'vertical', 
+                paginationClickable: true,
+                slidesPerView: 'auto'
+            });
+
+            $this.find('.arrow-wrapper-prev').on('click', function(e){
+                e.preventDefault();
+                mySwiper.swipePrev();
+            })
+
+            $this.find('.arrow-wrapper-next').on('click', function(e){
+                e.preventDefault();
+                mySwiper.swipeNext();
+            })
+
+        })
+
+        //event на изменение orientation change дисплея// 
+        var supportsOrientationChange = "onorientationchange" in window,
+            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+        window.addEventListener(orientationEvent, function() {
+            $(".content .line").each(function(i) {
+                if (!mySwipers[i]) return true;
+                var $this = $(this);
+                $this.find('.slider.swiper-wrapper').removeAttr('style');
+                var activeIndex = mySwipers[i].activeIndex,
+                    horizontal_orientation = screen.width>screen.height ? true : false;
+                mySwipers[i].destroy();
+                mySwipers[i] = new Swiper( $('.swiper-container')[2] ,{
+                    pagination: '.pagination',
+                    loop: false,
+                    mode: horizontal_orientation ? 'horizontal' : 'vertical', 
+                    grabCursor: true,
+                    paginationClickable: true,
+                    slidesPerView: 'auto'
+                });
+                mySwipers[i].swipeTo(activeIndex);
+                $this.find('.arrow-wrapper-prev').on('click', function(e){
+                    e.preventDefault();
+                    mySwiper[i].swipePrev();
+                })
+                $this.find('.arrow-wrapper-next').on('click', function(e){
+                    e.preventDefault();
+                    mySwiper[i].swipeNext();
+                })
+            })
+        }, false);
+
+    },
+    wrapText: function(text) {
+        if (text.length>109) {
+            text = text.split('').splice(0, 109).join('')+'&hellip;';
+        }
+        return text;
     }
 };
