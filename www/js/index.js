@@ -127,6 +127,9 @@ var app = {
             $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
         });
         
+		$('.icon-reload').on('click', function() {
+            app.initContent();
+        });
 
     },
     initContent: function() {
@@ -206,12 +209,12 @@ var app = {
     	for(var i in json){
     		var news = json[i];
     		html += '<li class="element swiper-slide">'+
-						((typeof(news.image)=='string')?'<img src="'+news.image.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
+						((typeof(news.image)=='string')?'<img src="'+news.image480x360.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
 						'<div class="element-text">'+
 							'<p class="element-text-title">'+news.node_title+'</p>'+
-							'<span class="element-text-time">15:00</span>'+
-							'<span class="element-text-date">сегодня</span>'+
-							'<p class="element-text-tiser">'+this.wrapText( jQuery(news.teaser).text() )+'</p>'+
+							'<span class="element-text-time">'+news.time+'</span>'+
+							'<span class="element-text-date">'+news.dt+'</span>'+
+							'<p class="element-text-tiser">'+this.wrapText(news.teaser)+'</p>'+
 							'<p class="element-comments">'+
 								'<span class="icon icon-comments"></span>'+
 								news.comment_count+
@@ -237,14 +240,14 @@ var app = {
 					  '<span class="text">cмотреть</span>'+
 					  '<div class="background"></div>'+
 					 '</div>'+
-					'<img src="'+video.uri.replace('webta.','')+'" alt="" title=""/>'+
+					'<img src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
 					'<div class="element-text">'+
 						'<p class="element-text-title">'+video.title+'</p>'+
-						'<span class="element-text-time">15:00</span>'+
-						'<span class="element-text-date">сегодня</span>'+
+						'<span class="element-text-time">'+video.time+'</span>'+
+						'<span class="element-text-date">'+video.dt+'</span>'+
 						'<p class="element-comments">'+
 							'<span class="icon icon-comments"></span>'+
-							'0'+
+							video.comment_count+
 						'</p>'+
 					'</div>'+
 				  '</li>';
@@ -268,14 +271,14 @@ var app = {
 					  '<span class="text">cмотреть</span>'+
 					  '<div class="background"></div>'+
 					 '</div>'+
-					'<img src="'+video.uri.replace('webta.','')+'" alt="" title=""/>'+
+					'<img src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
 					'<div class="element-text">'+
 						'<p class="element-text-title">'+video.title+'</p>'+
-						'<span class="element-text-time">15:00</span>'+
-						'<span class="element-text-date">сегодня</span>'+
+						'<span class="element-text-time">'+video.time+'</span>'+
+						'<span class="element-text-date">'+video.dt+'</span>'+
 						'<p class="element-comments">'+
 							'<span class="icon icon-comments"></span>'+
-							'0'+
+							video.comment_count+
 						'</p>'+
 					'</div>'+
 				  '</li>';
@@ -330,49 +333,6 @@ var app = {
         app.initContent();
         app.receivedEvent('init content');
         app.receivedEvent('init swiper');
-
-        /* Клик по кнопкам в левой панели */
-        $('#sport_types').on('click.touch', '.sport-icon-element', function() {
-            this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
-        })
-
-        $('.icon.icon-menu').on('click', function() {
-            $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
-        })
-
-        var supportsOrientationChange = "onorientationchange" in window,
-            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-        window.addEventListener(orientationEvent, function() {
-            if (app.mySwipers) {
-                $.each(app.mySwipers, function(i, mySwiper) {
-                    if (!app.mySwipers[i]) return true;
-                    console.log(i)
-                    var $this = $(i).closest('.line');
-                    $this.find('.slider.swiper-wrapper').removeAttr('style');
-                    var activeIndex = mySwiper.activeIndex;
-                    mySwiper.destroy();
-                    mySwiper = new Swiper( $this.find('.swiper-container')[0] ,{
-                        pagination: '.pagination',
-                        loop: false,
-                        mode: app.is_landscape() ? 'horizontal' : 'vertical', 
-                        grabCursor: true,
-                        paginationClickable: true,
-                        slidesPerView: 'auto'
-                    });
-                    mySwiper.swipeTo(activeIndex);
-                    $this.find('.arrow-wrapper-prev').on('click', function(e){
-                        e.preventDefault();
-                        mySwiper.swipePrev();
-                    })
-                    $this.find('.arrow-wrapper-next').on('click', function(e){
-                        e.preventDefault();
-                        mySwiper.swipeNext();
-                    })
-
-                })
-            }
-        }, false);
-
         app.receivedEvent('init sports buttons');
         
     },
