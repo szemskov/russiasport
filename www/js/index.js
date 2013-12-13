@@ -143,6 +143,7 @@ var app = {
     },
     initSlider: function() {
         var mySwipers = new Array();
+        console.log('init_slider')
         $(".content .line").each(function(i) {
             var $this = $(this),
                 mySwiper = null;
@@ -173,15 +174,15 @@ var app = {
         window.addEventListener(orientationEvent, function() {
             $(".content .line").each(function(i) {
                 if (!mySwipers[i]) return true;
-                var $this = $(this);
+                var $this = $(this),
+                    activeIndex = mySwipers[i].activeIndex;
                 $this.find('.slider.swiper-wrapper').removeAttr('style');
-                var activeIndex = mySwipers[i].activeIndex,
-                    horizontal_orientation = screen.width>screen.height ? true : false;
                 mySwipers[i].destroy();
+                debugger;
                 mySwipers[i] = new Swiper( $('.swiper-container')[2] ,{
                     pagination: '.pagination',
                     loop: false,
-                    mode: horizontal_orientation ? 'horizontal' : 'vertical', 
+                    mode: app.is_landscape() ? 'horizontal' : 'vertical', 
                     grabCursor: true,
                     paginationClickable: true,
                     slidesPerView: 'auto'
@@ -333,6 +334,58 @@ var app = {
         app.initContent();
         app.receivedEvent('init content');
         app.receivedEvent('init swiper');
+<<<<<<< HEAD
+=======
+        app.innerWidth = window.innerWidth;
+        /* Клик по кнопкам в левой панели */
+        $('#sport_types').on('click.touch', '.sport-icon-element', function() {
+            this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
+        })
+
+        $('.icon.icon-menu').on('click', function() {
+            $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
+        })
+
+        var supportsOrientationChange = "onorientationchange" in window,
+            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+        window.addEventListener(orientationEvent, function() {
+            if ( 
+                (orientationEvent==='orientationchange') 
+                || 
+                (orientationEvent==='resize' && (app.innerWidth<786 && window.innerWidth>786) || (app.innerWidth>786 && window.innerWidth<786) )
+            ) {
+                app.innerWidth = window.innerWidth;
+                if (app.mySwipers) {
+                    $.each(app.mySwipers, function(i, mySwiper) {
+                        if (!app.mySwipers[i]) return true;
+                        var $this = $(i).closest('.line'),
+                            activeIndex = app.mySwipers[i].activeIndex;
+                        app.mySwipers[i].destroy();
+                        $this.find('.slider.swiper-wrapper').removeAttr('style');
+                        app.mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
+                            pagination: '.pagination',
+                            loop: false,
+                            mode: app.is_landscape() ? 'horizontal' : 'vertical', 
+                            grabCursor: true,
+                            paginationClickable: true,
+                            slidesPerView: 'auto'
+                        });
+                        app.mySwipers[i].swipeTo(activeIndex);
+                        $this.find('.arrow-wrapper-prev').on('click', function(e){
+                            e.preventDefault();
+                            app.mySwipers[i].swipePrev();
+                        })
+                        $this.find('.arrow-wrapper-next').on('click', function(e){
+                            e.preventDefault();
+                            app.mySwipers[i].swipeNext();
+                        })
+
+                    })
+                }
+            }
+        }, false);
+
+>>>>>>> 21fc00088671b5d85d69ffac1c989f4b475c14bd
         app.receivedEvent('init sports buttons');
         
     },
@@ -342,7 +395,7 @@ var app = {
                     pagination: '.pagination',
                     loop: false,
                     grabCursor: true,
-                    mode: (screen.width>screen.height && screen.width>=768) ? 'horizontal' : 'vertical', 
+                    mode: app.is_landscape() ? 'horizontal' : 'vertical', 
                     paginationClickable: true,
                     slidesPerView: 'auto'
                 });
@@ -372,7 +425,8 @@ var app = {
         if ( uagent.search('ipad') > -1 ) {
             var r = ( window.orientation == 90 || window.orientation == -90 );
         } else {
-            var r = ( screen.width > screen.height );
+            // var r = ( screen.width > screen.height && screen.width>=768);
+            var r = ( window.innerWidth>=768 && screen.width > screen.height);
         }
         return r;
     },
@@ -381,7 +435,8 @@ var app = {
         if ( uagent.search('ipad') > -1 ) {
             var r = ( window.orientation == 0 || window.orientation == 180 );
         } else {
-            var r = ( screen.width < screen.height );
+            // var r = ( screen.width < screen.height);
+            var r = ( window.innerWidth<768 );
         }
         return r;
     }
