@@ -122,9 +122,10 @@ var app = {
 	    	console.log('News:');
 	    	console.dir(json);
     	}
+        var html = '';
     	for(var i in json){
     		var news = json[i];
-    		html = jQuery('<li class="element swiper-slide">'+
+    		html+='<li class="element swiper-slide">'+
 							((typeof(news.image)=='string')?'<img src="'+news.image.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
 							'<div class="element-text">'+
 								'<p class="element-text-title">'+news.node_title+'</p>'+
@@ -136,10 +137,10 @@ var app = {
 									news.comment_count+
 								'</p>'+
 							'</div>'+
-						 '</li>'
-    			   );
-    		jQuery(sources['news']['ph']).append(html);
-    	}
+						 '</li>';
+        }
+    	jQuery(sources['news']['ph']).append(html);
+        this.initSlider(sources['news']['ph']);
     },
     onGetVideo: function(json){
     	if(DEBUG){
@@ -168,7 +169,7 @@ var app = {
 						  '</li>';
         }
     	jQuery(sources['video']['ph']).append(html);
-        this.initSlider();
+        this.initSlider(sources['video']['ph']);
     },
     onGetLive: function(json){
     	if(DEBUG){
@@ -220,18 +221,47 @@ var app = {
         app.initPanel();
         app.receivedEvent('initpanel');
 
-            /* слайдер */
-            var GlobalScope = this;
+        /* Клик по кнопкам в левой панели */
+        $('#sport_types').on('click.touch', '.sport-icon-element', function() {
+            this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
+        })
 
-            /* Клик по кнопкам в левой панели */
-            $('#sport_types').on('click.touch', '.sport-icon-element', function() {
-                this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
-            })
+        $('.icon.icon-menu').on('click', function() {
+            $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
+        })
 
+        var supportsOrientationChange = "onorientationchange" in window,
+            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+        window.addEventListener(orientationEvent, function() {
+            if (app.mySwipers) {
+                $.each(app.mySwipers, function(i, mySwiper) {
+                    if (!app.mySwipers[i]) return true;
+                    console.log(i)
+                    var $this = $(i).closest('.line');
+                    $this.find('.slider.swiper-wrapper').removeAttr('style');
+                    var activeIndex = mySwiper.activeIndex;
+                    mySwiper.destroy();
+                    mySwiper = new Swiper( $this.find('.swiper-container')[0] ,{
+                        pagination: '.pagination',
+                        loop: false,
+                        mode: app.is_landscape() ? 'horizontal' : 'vertical', 
+                        grabCursor: true,
+                        paginationClickable: true,
+                        slidesPerView: 'auto'
+                    });
+                    mySwiper.swipeTo(activeIndex);
+                    $this.find('.arrow-wrapper-prev').on('click', function(e){
+                        e.preventDefault();
+                        mySwiper.swipePrev();
+                    })
+                    $this.find('.arrow-wrapper-next').on('click', function(e){
+                        e.preventDefault();
+                        mySwiper.swipeNext();
+                    })
 
-            $('.icon.icon-menu').on('click', function() {
-                $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
-            })
+                })
+            }
+        }, false);
 
         app.receivedEvent('init sports buttons');
         
@@ -240,19 +270,16 @@ var app = {
         app.receivedEvent('init content');
 		app.receivedEvent('init swiper');
     },
-    initSlider: function() {
-        var mySwipers = new Array();
-        $(".content .line").each(function(i) {
-            var $this = $(this),
-                mySwiper = null;
-            mySwiper = mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
-                pagination: '.pagination',
-                loop: false,
-                grabCursor: true,
-                mode: screen.width>screen.height ? 'horizontal' : 'vertical', 
-                paginationClickable: true,
-                slidesPerView: 'auto'
-            });
+    initSlider: function(element) {
+            var $this = $(element).closest('.line'),
+                mySwiper = new Swiper( $this.find('.swiper-container')[0] ,{
+                    pagination: '.pagination',
+                    loop: false,
+                    grabCursor: true,
+                    mode: (screen.width>screen.height && screen.width>=768) ? 'horizontal' : 'vertical', 
+                    paginationClickable: true,
+                    slidesPerView: 'auto'
+                });
 
             $this.find('.arrow-wrapper-prev').on('click', function(e){
                 e.preventDefault();
@@ -263,39 +290,40 @@ var app = {
                 e.preventDefault();
                 mySwiper.swipeNext();
             })
-
-        })
-
+        if (mySwiper) this.mySwipers ? this.mySwipers[element] = mySwiper : function(that) {
+            that.mySwipers = {}
+            that.mySwipers[element] = mySwiper;
+        }(this);
         //event на изменение orientation change дисплея// 
-        var supportsOrientationChange = "onorientationchange" in window,
-            orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-        window.addEventListener(orientationEvent, function() {
-            $(".content .line").each(function(i) {
-                if (!mySwipers[i]) return true;
-                var $this = $(this);
-                $this.find('.slider.swiper-wrapper').removeAttr('style');
-                var activeIndex = mySwipers[i].activeIndex,
-                    horizontal_orientation = screen.width>screen.height ? true : false;
-                mySwipers[i].destroy();
-                mySwipers[i] = new Swiper( $('.swiper-container')[2] ,{
-                    pagination: '.pagination',
-                    loop: false,
-                    mode: horizontal_orientation ? 'horizontal' : 'vertical', 
-                    grabCursor: true,
-                    paginationClickable: true,
-                    slidesPerView: 'auto'
-                });
-                mySwipers[i].swipeTo(activeIndex);
-                $this.find('.arrow-wrapper-prev').on('click', function(e){
-                    e.preventDefault();
-                    mySwiper[i].swipePrev();
-                })
-                $this.find('.arrow-wrapper-next').on('click', function(e){
-                    e.preventDefault();
-                    mySwiper[i].swipeNext();
-                })
-            })
-        }, false);
+        // var supportsOrientationChange = "onorientationchange" in window,
+        //     orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+        // window.addEventListener(orientationEvent, function() {
+        //     $(".content .line").each(function(i) {
+        //         if (!mySwipers[i]) return true;
+        //         var $this = $(this);
+        //         $this.find('.slider.swiper-wrapper').removeAttr('style');
+        //         var activeIndex = mySwipers[i].activeIndex,
+        //             horizontal_orientation = screen.width>screen.height ? true : false;
+        //         mySwipers[i].destroy();
+        //         mySwipers[i] = new Swiper( $('.swiper-container')[2] ,{
+        //             pagination: '.pagination',
+        //             loop: false,
+        //             mode: horizontal_orientation ? 'horizontal' : 'vertical', 
+        //             grabCursor: true,
+        //             paginationClickable: true,
+        //             slidesPerView: 'auto'
+        //         });
+        //         mySwipers[i].swipeTo(activeIndex);
+        //         $this.find('.arrow-wrapper-prev').on('click', function(e){
+        //             e.preventDefault();
+        //             mySwiper[i].swipePrev();
+        //         })
+        //         $this.find('.arrow-wrapper-next').on('click', function(e){
+        //             e.preventDefault();
+        //             mySwiper[i].swipeNext();
+        //         })
+        //     })
+        // }, false);
 
     },
     wrapText: function(text) {
@@ -303,5 +331,23 @@ var app = {
             text = text.split('').splice(0, 109).join('')+'&hellip;';
         }
         return text;
+    },
+    is_landscape: function is_landscape() {
+        var uagent = navigator.userAgent.toLowerCase();
+        if ( uagent.search('ipad') > -1 ) {
+            var r = ( window.orientation == 90 || window.orientation == -90 );
+        } else {
+            var r = ( screen.width > screen.height );
+        }
+        return r;
+    },
+    is_portrait: function is_portrait() {
+        var uagent = navigator.userAgent.toLowerCase();
+        if ( uagent.search('ipad') > -1 ) {
+            var r = ( window.orientation == 0 || window.orientation == 180 );
+        } else {
+            var r = ( screen.width < screen.height );
+        }
+        return r;
     }
 };

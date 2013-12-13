@@ -54,7 +54,7 @@ body,
 	position: relative;
 	width: 30.000em;
 }
-.element img {
+.element>img {
 	width: 100%;
 }
 .transform-90 {
@@ -145,15 +145,12 @@ div.background {
 	font-size: 1.500em;
 	color: #d72658;
 	padding-right: 13.3%;
+	
 }
 .element-text-tiser {
 	font-size: 1.063em;
-	max-height: 3.6em;
-	line-height: 1.2em;
-	overflow: hidden;
 	margin-top: 1.125em;
 	padding-right: 2.25%;
-	position: relative;
 }
 .element-text-time {
 	color: #02a4ec;
@@ -419,6 +416,7 @@ div.background {
 }
 
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+/*@media screen and (min-width:1024px) {*/
 	html {
 		font-size: 8px;
 		height: 768px;
@@ -429,7 +427,8 @@ div.background {
 	}
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 2048) and (orientation : portrait) {
+@media screen and (max-width:768px),
+only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
 	html {
 		font-size: 8px;
 		height: 1024px;
@@ -456,13 +455,14 @@ div.background {
 	}
 	.sport-icon-element {
 		height: 10.556em;
-		padding: 1.556em 0 0;
+		padding: 1.556em 0;
 		width: 9.895833333333332%;
 	}
 	.slider-wrapper {
 		height: 100%;
 	}
 	.slider {
+		height: 100%;
 		width: 100%;
 	}
 	.element {
@@ -524,10 +524,3 @@ div.background {
 		width: 44.62890625%;
 	}
 }
-/*
-@media only screen and (min-device-width : 1280px) and (max-device-width : 1920px) and (orientation : landscape) {
-	html {
-		font-size: 15px;
-		width: 1920px
-	}
-}*/
