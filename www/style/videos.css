@@ -226,12 +226,14 @@ div.background {
 	color: white;
 	cursor: pointer;
 	display: inline-block;
+	float: left;
 	font-size: 1.125em;
 	height: 13.333em;
 	margin: 0 1.1363636363636365%;
 	overflow: hidden;
-	x-padding: 3.556em 0 0;
+	padding: 3.556em 0 0;
 	text-align: center;
+	vertical-align: top;
 	width: 30.831643002028397%;
 }
 .sport-icon-element .icon {
@@ -442,7 +444,7 @@ only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (
 		z-index: 1;
 	}
 	.element {
-		height: 181px;s
+		height: 181px;
         padding-bottom: 1em;
 		width: 240px;
 	}
