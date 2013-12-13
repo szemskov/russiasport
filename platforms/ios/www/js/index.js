@@ -127,6 +127,9 @@ var app = {
             $('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
         });
         
+		$('.icon-reload').on('click', function() {
+            app.initContent();
+        });
 
     },
     initContent: function() {
@@ -148,12 +151,12 @@ var app = {
     	for(var i in json){
     		var news = json[i];
     		html += '<li class="element swiper-slide">'+
-						((typeof(news.image)=='string')?'<img src="'+news.image.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
+						((typeof(news.image)=='string')?'<img src="'+news.image480x360.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
 						'<div class="element-text">'+
 							'<p class="element-text-title">'+news.node_title+'</p>'+
-							'<span class="element-text-time">15:00</span>'+
-							'<span class="element-text-date">сегодня</span>'+
-							'<p class="element-text-tiser">'+this.wrapText( jQuery(news.teaser).text() )+'</p>'+
+							'<span class="element-text-time">'+news.time+'</span>'+
+							'<span class="element-text-date">'+news.dt+'</span>'+
+							'<p class="element-text-tiser">'+this.wrapText(news.teaser)+'</p>'+
 							'<p class="element-comments">'+
 								'<span class="icon icon-comments"></span>'+
 								news.comment_count+
@@ -179,14 +182,14 @@ var app = {
 					  '<span class="text">cмотреть</span>'+
 					  '<div class="background"></div>'+
 					 '</div>'+
-					'<img src="'+video.uri.replace('webta.','')+'" alt="" title=""/>'+
+					'<img src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
 					'<div class="element-text">'+
 						'<p class="element-text-title">'+video.title+'</p>'+
-						'<span class="element-text-time">15:00</span>'+
-						'<span class="element-text-date">сегодня</span>'+
+						'<span class="element-text-time">'+video.time+'</span>'+
+						'<span class="element-text-date">'+video.dt+'</span>'+
 						'<p class="element-comments">'+
 							'<span class="icon icon-comments"></span>'+
-							'0'+
+							video.comment_count+
 						'</p>'+
 					'</div>'+
 				  '</li>';
@@ -210,14 +213,14 @@ var app = {
 					  '<span class="text">cмотреть</span>'+
 					  '<div class="background"></div>'+
 					 '</div>'+
-					'<img src="'+video.uri.replace('webta.','')+'" alt="" title=""/>'+
+					'<img src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
 					'<div class="element-text">'+
 						'<p class="element-text-title">'+video.title+'</p>'+
-						'<span class="element-text-time">15:00</span>'+
-						'<span class="element-text-date">сегодня</span>'+
+						'<span class="element-text-time">'+video.time+'</span>'+
+						'<span class="element-text-date">'+video.dt+'</span>'+
 						'<p class="element-comments">'+
 							'<span class="icon icon-comments"></span>'+
-							'0'+
+							video.comment_count+
 						'</p>'+
 					'</div>'+
 				  '</li>';
@@ -271,42 +274,46 @@ var app = {
          /*грузим контент*/
         app.initContent();
         app.receivedEvent('init content');
-        app.receivedEvent('init swiper');
-
+        app.innerWidth = window.innerWidth;
         var supportsOrientationChange = "onorientationchange" in window,
             orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
         window.addEventListener(orientationEvent, function() {
-            if (app.mySwipers) {
-                $.each(app.mySwipers, function(i, mySwiper) {
-                    if (!app.mySwipers[i]) return true;
-                    console.log(i)
-                    var $this = $(i).closest('.line');
-                    $this.find('.slider.swiper-wrapper').removeAttr('style');
-                    var activeIndex = app.mySwipers[i].activeIndex;
-                    app.mySwipers[i].destroy();
-                    app.mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
-                        pagination: '.pagination',
-                        loop: false,
-                        mode: app.is_landscape() ? 'horizontal' : 'vertical', 
-                        grabCursor: true,
-                        paginationClickable: true,
-                        slidesPerView: 'auto'
-                    });
-                    app.mySwipers[i].swipeTo(activeIndex);
-                    $this.find('.arrow-wrapper-prev').on('click', function(e){
-                        e.preventDefault();
-                        app.mySwipers[i].swipePrev();
+            if ( 
+                (orientationEvent==='orientationchange') 
+                || 
+                (orientationEvent==='resize' && (app.innerWidth<768 && window.innerWidth>768) || (app.innerWidth>768 && window.innerWidth<768) )
+            ) {
+                app.innerWidth = window.innerWidth;
+                if (app.mySwipers) {
+                    $.each(app.mySwipers, function(i, mySwiper) {
+                        if (!app.mySwipers[i]) return true;
+                        var $this = $(i).closest('.line'),
+                            activeIndex = app.mySwipers[i].activeIndex;
+                        app.mySwipers[i].destroy();
+                        $this.find('.slider.swiper-wrapper').removeAttr('style');
+                        app.mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
+                            pagination: '.pagination',
+                            loop: false,
+                            mode: app.is_landscape() ? 'horizontal' : 'vertical', 
+                            grabCursor: true,
+                            paginationClickable: true,
+                            slidesPerView: 'auto'
+                        });
+                        app.mySwipers[i].swipeTo(activeIndex);
+                        console.log(12121)
+                        $this.find('.arrow-wrapper-prev').off('click.swipePrev').on('click.swipePrev', function(e){
+			                e.preventDefault();
+			                app.mySwipers[i].swipePrev();
+			            })
+			
+			            $this.find('.arrow-wrapper-next').off('click.swipeNext').on('click.swipeNext', function(e){
+			                e.preventDefault();
+			                app.mySwipers[i].swipeNext();
+			            })
                     })
-                    $this.find('.arrow-wrapper-next').on('click', function(e){
-                        e.preventDefault();
-                        app.mySwipers[i].swipeNext();
-                    })
-
-                })
+                }
             }
         }, false);
-
-        app.receivedEvent('init sports buttons');
         
     },
     initSlider: function(element) {
@@ -321,12 +328,12 @@ var app = {
                     slidesPerView: 'auto'
                 });
 
-            $this.find('.arrow-wrapper-prev').on('click', function(e){
+            $this.find('.arrow-wrapper-prev').on('click.swipePrev', function(e){
                 e.preventDefault();
                 mySwiper.swipePrev();
             })
 
-            $this.find('.arrow-wrapper-next').on('click', function(e){
+            $this.find('.arrow-wrapper-next').on('click.swipeNext', function(e){
                 e.preventDefault();
                 mySwiper.swipeNext();
             })
@@ -355,7 +362,8 @@ var app = {
         if ( uagent.search('ipad') > -1 ) {
             var r = ( window.orientation == 0 || window.orientation == 180 );
         } else {
-            var r = ( screen.width < screen.height );
+            // var r = ( screen.width < screen.height);
+            var r = ( window.innerWidth<768 );
         }
         return r;
     }

@@ -281,7 +281,7 @@ var app = {
             if ( 
                 (orientationEvent==='orientationchange') 
                 || 
-                (orientationEvent==='resize' && (app.innerWidth<786 && window.innerWidth>786) || (app.innerWidth>786 && window.innerWidth<786) )
+                (orientationEvent==='resize' && (app.innerWidth<768 && window.innerWidth>768) || (app.innerWidth>768 && window.innerWidth<768) )
             ) {
                 app.innerWidth = window.innerWidth;
                 if (app.mySwipers) {
@@ -300,14 +300,16 @@ var app = {
                             slidesPerView: 'auto'
                         });
                         app.mySwipers[i].swipeTo(activeIndex);
-                        $this.find('.arrow-wrapper-prev').on('click', function(e){
-                            e.preventDefault();
-                            app.mySwipers[i].swipePrev();
-                        });
-                        $this.find('.arrow-wrapper-next').on('click', function(e){
-                            e.preventDefault();
-                            app.mySwipers[i].swipeNext();
-                        });
+                        console.log(12121)
+                        $this.find('.arrow-wrapper-prev').off('click.swipePrev').on('click.swipePrev', function(e){
+			                e.preventDefault();
+			                app.mySwipers[i].swipePrev();
+			            })
+			
+			            $this.find('.arrow-wrapper-next').off('click.swipeNext').on('click.swipeNext', function(e){
+			                e.preventDefault();
+			                app.mySwipers[i].swipeNext();
+			            })
                     })
                 }
             }
@@ -326,12 +328,12 @@ var app = {
                     slidesPerView: 'auto'
                 });
 
-            $this.find('.arrow-wrapper-prev').on('click', function(e){
+            $this.find('.arrow-wrapper-prev').on('click.swipePrev', function(e){
                 e.preventDefault();
                 mySwiper.swipePrev();
             })
 
-            $this.find('.arrow-wrapper-next').on('click', function(e){
+            $this.find('.arrow-wrapper-next').on('click.swipeNext', function(e){
                 e.preventDefault();
                 mySwiper.swipeNext();
             })
