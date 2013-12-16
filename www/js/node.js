@@ -119,7 +119,7 @@ var node = {
 		},
 		onDeviceReady: function() {
 			//clear content
-			$('body').empty();
+			// $('body').empty();
 			$('body').append('<img id="loader" src="./style/images/loader.gif" alt="" title="" />');
 		    
 			var params = $.parseParams(document.location.search);

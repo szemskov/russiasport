@@ -8,12 +8,14 @@
 		<title></title>
 		<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 	</head>
-	<body class="is_loading">
-		<img src="style/images/loader.gif" alt="" id="is_loading">
+	<body>
+		<!-- <img src="style/images/loader.gif" alt="" id="is_loading"> -->
 		<div id="article"> 
 		    <div class="header"><div class="three icon icon-menu-inactive"></div
 		    		><div class="three icon icon-logo"></div
-		    		><div class="three icon icon-reload"></div>
+		    		><div class="three">
+		    			<a href="javascript:document.location.reload();"><div class="icon icon-reload"></div></a>
+		    		</div>
 		    </div>
 		    <div class="popup popup-line clearfix">
 		    	<a href="index.html"><p class="navigate">Назад к новостям</p></a>
@@ -46,10 +48,12 @@
 			</div>
 		</div>
 		<div class="under-line under-line-comments clearfix">
-			<div class="two text">Комментарии</div><div class="two icon icon-reload"></div>
+			<div class="two text">Комментарии</div><div class="two">
+				<a href="javascript:window.scrollTo(0, document.getElementById('first').offsetTop);"><div class="icon icon-reload"></div></a>
+			</div>
 		</div>
 		<ul class="comments">
-			<li class="clearfix">
+			<li class="clearfix" id="first">
 				<div class="avatar">
 					<img src="http://krasview.ru/content/thread-image/597780/bcb5aca6628c26bf8c3d20bcb13f8435.jpg" alt="">
 				</div>
