@@ -67,7 +67,7 @@ body,
 .icon-menu-inactive {
 	background-image: url("images/icon-menu-inactive.png");
 	background-position: left center;
-	cursor: normal;
+	cursor: auto;
 	height: 3.875em;
 }
 .popup {
@@ -120,6 +120,7 @@ body,
 	font-size: 1.739em;
 	line-height: 2.075em;
 	padding: 0 0.650em 0 0.500em;
+	text-transform: uppercase;
 }
 .parallelogram.title:before {
 	border-bottom: 2.075em solid rgba(179, 33, 85, 0.9); 
@@ -137,6 +138,7 @@ body,
 	font-size: 1.391em;
 	line-height: 1.375em;
 	padding: 0 0.650em 0 0.500em;
+	text-transform: lowercase;
 }
 .parallelogram.live:before {
     margin-left: -0.438em;
@@ -152,6 +154,9 @@ body,
 	position: absolute;
 	opacity: 1;
 	z-index: 2;
+}
+.popup-line>a {
+	color: white;
 }
 .popup-line .navigate,
 .under-line-comments p:first-of-type {
