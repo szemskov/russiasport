@@ -1,17 +1,22 @@
 @font-face {
     font-family: "RussoOne";
-    src: url("font/russo_one-webfont.eot");
-	src: url("font/russo_one-webfont.eot?#iefix") format("embedded-opentype"),
-		 url("font/russo_one-webfont.woff") format("woff"),
-		 url("font/russo_one-webfont.ttf") format("truetype"),
-		 url("font/russo_one-webfont.svg#OpenSansSemibold") format("svg");
+    src: url("font/RussoOne/russo_one-webfont.eot");
+	src: url("font/RussoOne/russo_one-webfont.eot?#iefix") format("embedded-opentype"),
+		 url("font/RussoOne/russo_one-webfont.woff") format("woff"),
+		 url("font/RussoOne/russo_one-webfont.ttf") format("truetype"),
+		 url("font/RussoOne/russo_one-webfont.svg#RussoOne") format("svg");
 	font-weight: normal;
 	font-style: normal;
 }
-html {
-	font-size: 16px;
-	position: relative;
-	/*min-width: 2048px;*/
+@font-face {
+    font-family: "OpenSans";
+    src: url("font/OpenSans/OpenSans-Semibold-webfont.eot");
+	src: url("font/OpenSans/OpenSans-Semibold-webfont.eot?#iefix") format("embedded-opentype"),
+		 url("font/OpenSans/OpenSans-Semibold-webfont.woff") format("woff"),
+		 url("font/OpenSans/OpenSans-Semibold-webfont.ttf") format("truetype"),
+		 url("font/OpenSans/OpenSans-Semibold-webfont.svg#OpenSansSemibold") format("svg");
+	font-weight: normal;
+	font-style: normal;
 }
 html * {
 	box-sizing: border-box;
@@ -62,7 +67,7 @@ body,
 .icon-menu-inactive {
 	background-image: url("images/icon-menu-inactive.png");
 	background-position: left center;
-	cursor: normal;
+	cursor: auto;
 	height: 3.875em;
 }
 .popup {
@@ -80,10 +85,14 @@ body,
 }
 .wrapper {
 	color: white;
+	left: 50%;
 	position: absolute;
-	top: 14.688em;
+	top: 50%;
 	width: 100%;
 	text-align: center;
+	-webkit-transform: translate(-50%,-50%);
+	-ms-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
 }
 .wrapper .parallelogram {
 	display: inline-block;
@@ -111,6 +120,7 @@ body,
 	font-size: 1.739em;
 	line-height: 2.075em;
 	padding: 0 0.650em 0 0.500em;
+	text-transform: uppercase;
 }
 .parallelogram.title:before {
 	border-bottom: 2.075em solid rgba(179, 33, 85, 0.9); 
@@ -128,6 +138,7 @@ body,
 	font-size: 1.391em;
 	line-height: 1.375em;
 	padding: 0 0.650em 0 0.500em;
+	text-transform: lowercase;
 }
 .parallelogram.live:before {
     margin-left: -0.438em;
@@ -144,6 +155,9 @@ body,
 	opacity: 1;
 	z-index: 2;
 }
+.popup-line>a {
+	color: white;
+}
 .popup-line .navigate,
 .under-line-comments p:first-of-type {
 	display: block;
@@ -153,6 +167,20 @@ body,
 .under-line-comments p:nth-child(2) {
 	display: block;
 	float: right;
+}
+.popup-line .navigate:before {
+	content: "";
+	background-image: url("images/icon-text-arrow.png");
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	cursor: pointer;
+	display: inline-block;
+	float: left;
+	height: 1.167em;
+	margin-right: 0.633em;
+	width: 1.467em;
+	
 }
 .inforamtion {
 	font-size: 1.438em;
@@ -171,6 +199,7 @@ body,
 	width: 58.59375%;
 }
 .inforamtion .text p {
+	font-family: OpenSans;
 	margin: 1.391em 0;
 }
 .under-line {
@@ -225,7 +254,7 @@ body,
 .comments .text {
 	background-color: #0081c5;
 	color: white;
-	font-size: 1.125em;
+	font: normal 1.125em OpenSans;
 	padding: 1.111em;
 	position: relative;
 	width: 71.82539682539682%;
@@ -236,20 +265,26 @@ body,
     border-right: 0.563em solid #0081c5;
     border-bottom: 0.719em solid transparent;
     height: 0;
-    left: -1.111em;
+    left: 0;
     margin-top: -0.719em;
+    margin-left: -0.563em;
     position: absolute;
     top: 50%;
 	width: 0;
 }
-.name {
+.author {
+	text-align: center;
 	width: 18.73015873015873%;
 }
-.name>dt {
+.author .name {
 	color: #0082c7;
+	display: inline-block;
+	font: normal 1.500em OpenSans;
 }
-.name>dd {
+.author .prof {
 	color: #b32155;
+	font: normal 0.833em OpenSans;
+	text-align: left;
 }
 
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
@@ -266,5 +301,8 @@ only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (
 		font-size: 8px;
 		height: 1024px;
 		width: 768px;
+	}
+	.under-line-comments {
+		padding: 1.033em 5.729166666666666%;
 	}
 }

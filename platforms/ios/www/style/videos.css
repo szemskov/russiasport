@@ -1,10 +1,10 @@
 @font-face {
     font-family: "RussoOne";
-    src: url("font/russo_one-webfont.eot");
-	src: url("font/russo_one-webfont.eot?#iefix") format("embedded-opentype"),
-		 url("font/russo_one-webfont.woff") format("woff"),
-		 url("font/russo_one-webfont.ttf") format("truetype"),
-		 url("font/russo_one-webfont.svg#OpenSansSemibold") format("svg");
+    src: url("font/RussoOne/russo_one-webfont.eot");
+	src: url("font/RussoOne/russo_one-webfont.eot?#iefix") format("embedded-opentype"),
+		 url("font/RussoOne/russo_one-webfont.woff") format("woff"),
+		 url("font/RussoOne/russo_one-webfont.ttf") format("truetype"),
+		 url("font/RussoOne/russo_one-webfont.svg#RussoOne") format("svg");
 	font-weight: normal;
 	font-style: normal;
 }
@@ -15,6 +15,10 @@ html {
 html * {
 	box-sizing: border-box;
 	font-family: RussoOne;
+}
+a {
+	text-decoration: none;
+	color: transparent;
 }
 html,
 body,
@@ -149,6 +153,7 @@ div.background {
 	
 }
 .element-text-tiser {
+	color: #3f3f3f;
 	font-size: 1.063em;
 	margin-top: 1.125em;
 	padding-right: 2.25%;
@@ -219,6 +224,7 @@ div.background {
 	background-image: url("images/icon-comments-purple.png");
 	display: inline-block;
 	height: 1.313em;
+	margin-right: 0.400em;
 	vertical-align: middle;
 	width: 1.313em;
 }
@@ -226,7 +232,7 @@ div.background {
 	color: white;
 	cursor: pointer;
 	display: inline-block;
-	float: left;
+	/*float: left;*/
 	font-size: 1.125em;
 	height: 13.333em;
 	margin: 0 1.1363636363636365%;
