@@ -316,7 +316,7 @@ onDeviceReady: function() {
                                                                  app.mySwipers._positions[i] = swiper.activeIndex;
                                                                  },
                                                                  onSwiperCreated: function(swiper) {
-                                                                 swiper.swipeTo( app.mySwipers._positions[i] );
+                                                                    swiper.swipeTo( app.mySwipers._positions[i] );
                                                                  }
                                                                  
                                                                  });

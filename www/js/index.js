@@ -55,7 +55,7 @@ var sources = {
         "stop":false,
         "callback":"app.onGetVideo"},
     "live" : {"ph":"#live",
-        "url":"http://russiasport.ru/api.php?video&format=json&proccess&live&offset=:offset&count=:limit&tids=:tids",
+        "url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&tids=:tids",
         "limit":12,
         "offset":0,
         "stop":false,
