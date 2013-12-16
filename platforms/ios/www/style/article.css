@@ -11,10 +11,16 @@
 html {
 	font-size: 16px;
 	position: relative;
+	/*min-width: 2048px;*/
 }
 html * {
 	box-sizing: border-box;
 	font-family: RussoOne;
+}
+html,
+body,
+.header {
+	width: 100%;
 }
 .header {
 	background: url('images/background-header.png');
@@ -26,7 +32,14 @@ html * {
 	height: 100%;
 	line-height: 0;
 	vertical-align: middle;
-	width: 33.3333%;
+	width: 33.3333% !important;
+}
+.two {
+	display: inline-block;
+	height: 100%;
+	line-height: 0;
+	vertical-align: middle;
+	width: 50% !important;
 }
 .icon {
 	background-position: center center;
@@ -39,41 +52,219 @@ html * {
 .icon-reload {
 	background-image: url("images/icon-reload.png");
 	background-position: center right;
-	float: right;
-	width: 8%;
+	height: 2.750em;
 }
 .icon-logo {
 	background-image: url("images/icon-logo.png");
 	cursor: auto;
+	height: 2.750em;
 }
-.icon-menu {
-	background-image: url("images/icon-menu.png");
+.icon-menu-inactive {
+	background-image: url("images/icon-menu-inactive.png");
 	background-position: left center;
-	float: left;
-	height: 100%;
-	width: 9%;
+	cursor: normal;
+	height: 3.875em;
+}
+.popup {
+	z-index: 1;
 }
 .popup-line {
 	background-color: #b32155;
+	background-color: rgba(179, 33, 85, 0.9);
 	color: white;
 	font-size: 1.875em;
-	opacity: 0.9;
 	padding: 0.500em 1.171875%; 
+	position: absolute;
 	text-align: right;
+	width: 100%;
 }
-.popup-line .date {
-	display: block;
-	float: right;
+.wrapper {
+	color: white;
+	position: absolute;
+	top: 14.688em;
+	width: 100%;
+	text-align: center;
 }
-.popup-line .navigate {
+.wrapper .parallelogram {
+	display: inline-block;
+	position: relative;
+}
+.wrapper .parallelogram:before {
+	content: "";
+    height: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+	width: 0;
+}
+.wrapper .parallelogram:after {
+	content: "";
+    height: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+	width: 0;
+}
+.parallelogram.title {
+	background-color: #b32155;
+	background-color: rgba(179, 33, 85, 0.9);
+	font-size: 1.739em;
+	line-height: 2.075em;
+	padding: 0 0.650em 0 0.500em;
+}
+.parallelogram.title:before {
+	border-bottom: 2.075em solid rgba(179, 33, 85, 0.9); 
+    border-left: 0.550em solid transparent;
+    margin-left: -0.550em;
+}
+.parallelogram.title:after {
+	border-top: 2.075em solid rgba(179, 33, 85, 0.9); 
+    border-right: 0.550em solid transparent;
+    margin-right: -0.550em;
+}
+.parallelogram.live {
+	background-color: #b32155;
+	background-color: rgba(0, 130, 199, 0.85);
+	font-size: 1.391em;
+	line-height: 1.375em;
+	padding: 0 0.650em 0 0.500em;
+}
+.parallelogram.live:before {
+    margin-left: -0.438em;
+	border-bottom: 1.375em solid rgba(0, 130, 199, 0.85);
+    border-left: 0.438em solid transparent;
+}
+.parallelogram.live:after {
+	border-top: 1.375em solid rgba(0, 130, 199, 0.85);
+    border-right: 0.438em solid transparent;
+    margin-right: -0.438em;
+}
+.wrapper .popup {
+	position: absolute;
+	opacity: 1;
+	z-index: 2;
+}
+.popup-line .navigate,
+.under-line-comments p:first-of-type {
 	display: block;
 	float: left;
 }
-.captured-image {
-	width: 100%;
+.popup-line .date,
+.under-line-comments p:nth-child(2) {
+	display: block;
+	float: right;
+}
+.inforamtion {
+	font-size: 1.438em;
+}
+.inforamtion .foreground-image {
+	position: relative;
+}
+.inforamtion .foreground-image img {
+	display: block;
+	max-width: 100%;
+}
+.inforamtion .text {
+	color: #3f3f3f;
+	margin: 0 auto;
+	padding: 1.391em 0;
+	width: 58.59375%;
+}
+.inforamtion .text p {
+	margin: 1.391em 0;
+}
+.under-line {
+	color: white;
+	height: auto;
+}
+.under-line.only {
+	background-color: #007fd0;
+	height: 0.391em;
+	margin-top: -0.391em;
+	opacity: 0.9;
+}
+.under-line-comments {
+	background-color: #198cd5;
+	padding: 1.033em 16.89453125%;
+}
+.two.text {
+	font-size: 1.875em;
 }
 .clearfix:after {
 	content: "";
 	clear: both;
 	display: table;
+}
+
+
+
+.comments {
+	margin: 0 auto;
+	min-width: 78.750em;
+	width: 61.5234375%;
+}
+.avatar {
+	border: 4px solid #5e5b5b;
+	border-radius: 50%;
+	height: 6.250em;
+	width: 6.250em;
+}
+.avatar img {
+	border-radius: 50%;
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+.comments li {
+	margin: 1.813em 0;
+}
+.comments li>* {
+	display: inline-block;
+	vertical-align: middle;
+}
+.comments .text {
+	background-color: #0081c5;
+	color: white;
+	font-size: 1.125em;
+	padding: 1.111em;
+	position: relative;
+	width: 71.82539682539682%;
+}
+.comments .text:before {
+	content: "";
+    border-top: 0.719em solid transparent;
+    border-right: 0.563em solid #0081c5;
+    border-bottom: 0.719em solid transparent;
+    height: 0;
+    left: -1.111em;
+    margin-top: -0.719em;
+    position: absolute;
+    top: 50%;
+	width: 0;
+}
+.name {
+	width: 18.73015873015873%;
+}
+.name>dt {
+	color: #0082c7;
+}
+.name>dd {
+	color: #b32155;
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+	html {
+		font-size: 8px;
+		height: 768px;
+		width: 1024px;
+	}
+}
+
+@media screen and (max-width:768px),
+only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+	html {
+		font-size: 8px;
+		height: 1024px;
+		width: 768px;
+	}
 }
