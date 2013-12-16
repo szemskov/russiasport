@@ -1,10 +1,10 @@
 @font-face {
     font-family: "RussoOne";
-    src: url("font/russo_one-webfont.eot");
-	src: url("font/russo_one-webfont.eot?#iefix") format("embedded-opentype"),
-		 url("font/russo_one-webfont.woff") format("woff"),
-		 url("font/russo_one-webfont.ttf") format("truetype"),
-		 url("font/russo_one-webfont.svg#OpenSansSemibold") format("svg");
+    src: url("font/RussoOne/russo_one-webfont.eot");
+	src: url("font/RussoOne/russo_one-webfont.eot?#iefix") format("embedded-opentype"),
+		 url("font/RussoOne/russo_one-webfont.woff") format("woff"),
+		 url("font/RussoOne/russo_one-webfont.ttf") format("truetype"),
+		 url("font/RussoOne/russo_one-webfont.svg#RussoOne") format("svg");
 	font-weight: normal;
 	font-style: normal;
 }

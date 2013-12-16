@@ -151,7 +151,7 @@ onGetNews: function(json){
     for(var i in json){
         var news = json[i];
         html += '<li class="element swiper-slide">'+
-        '<a href="#">'+
+        '<a href="#" onclick="node.onClickContentNode($(this).attr(\'data-nid\'))" data-nid="'+news.nid+'">'+
         ((typeof(news.image)=='string')?'<img src="'+news.image480x360.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
         '<div class="element-text">'+
         '<p class="element-text-title">'+news.node_title+'</p>'+
@@ -179,7 +179,7 @@ onGetVideo: function(json){
     for(var i in json){
         var video = json[i];
         html+='<li class="element swiper-slide">'+
-        '<a href="#">'+
+        '<a href="#" onclick="node.onClickVideoNode()" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+
@@ -212,7 +212,7 @@ onGetLive: function(json){
         var video = json[i];
         
         html+='<li class="element swiper-slide">'+
-        '<a href="#">'+
+        '<a href="#" onclick="node.onClickVideoNode()" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+
@@ -394,4 +394,25 @@ is_portrait: function is_portrait() {
     }
     return r;
 }
+};
+
+
+
+var node = {
+	onClickVideoNode: function (nid) {
+		console.log('video load');
+		if(!$('#loader').length){
+			$('#video').append('<img id="loader" src="./style/images/loader.gif" alt="" title="" />');
+		}
+		return false;
+	},
+	onClickContentNode: function (nid) {
+		console.log('node load');
+		
+		if(!$('#loader').length){
+			$('#node').append('<img id="loader" src="./style/images/loader.gif" alt="" title="" />');
+		}
+		window.location.href = "article.html?nid="+nid;
+		return false;
+	},	
 };

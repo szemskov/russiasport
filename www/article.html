@@ -6,6 +6,7 @@
 		<link rel="stylesheet" href="style/article.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<title></title>
+		<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 	</head>
 	<body>
 		<div id="article"> 
@@ -14,8 +15,8 @@
 		    		><div class="three icon icon-reload"></div>
 		    </div>
 		    <div class="popup popup-line clearfix">
-		    	<p class="navigate">Назад к новостям</p>
-		    	<p class="date">22 ноября 2013</p>
+		    	<p class="navigate" onclick="window.location.href = 'index.html'">Назад к новостям</p>
+		    	<p id="date" class="date"></p>
 		    </div>
 		</div>
 		<div class="inforamtion">
@@ -92,5 +93,11 @@
 				<!-- <div class="triangle-left"></div> --><p class="text">Потому что при движении автомобиля задним ходом пробег на одометре фиксируется точно так же, как и при движении передним ходом. Датчик скорости считывает количество импульсов и посылает их на приборную панель, которая, в свою очередь, обрабатывает этот сигнал и дает визуальное отображение.</p>
 			</li>
 		</ul>
+		<script type="text/javascript" charset="utf-8" src="js/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/node.js"></script>
+	    <script type="text/javascript" charset="utf-8">
+	        node.initialize();
+	        node.onDeviceReady();
+	    </script>
 	</body>
 </html>
