@@ -55,7 +55,7 @@ body,
 	position: relative;
 	width: 30.000em;
 }
-.element>img {
+.element a>img {
 	width: 100%;
 }
 .transform-90 {
@@ -139,7 +139,7 @@ div.background {
 	bottom: 0;
 	padding: 0 6.25% 2.92% 0.625em;
 	position: absolute;
-	width: auto;
+	width: 98.76543209876543%;
 }
 .element-text-title {
 	margin-top: 0.292em;

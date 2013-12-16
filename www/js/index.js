@@ -151,6 +151,7 @@ onGetNews: function(json){
     for(var i in json){
         var news = json[i];
         html += '<li class="element swiper-slide">'+
+        '<a href="#">'+
         ((typeof(news.image)=='string')?'<img src="'+news.image480x360.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
         '<div class="element-text">'+
         '<p class="element-text-title">'+news.node_title+'</p>'+
@@ -162,6 +163,7 @@ onGetNews: function(json){
         news.comment_count+
         '</p>'+
         '</div>'+
+        '</a>'+
         '</li>';
     }
     jQuery(sources['news']['ph']).append(html);
@@ -177,6 +179,7 @@ onGetVideo: function(json){
     for(var i in json){
         var video = json[i];
         html+='<li class="element swiper-slide">'+
+        '<a href="#">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+
@@ -192,6 +195,7 @@ onGetVideo: function(json){
         video.comment_count+
         '</p>'+
         '</div>'+
+        '</a>'+
         '</li>';
     }
     jQuery(sources['video']['ph']).append(html);
@@ -208,6 +212,7 @@ onGetLive: function(json){
         var video = json[i];
         
         html+='<li class="element swiper-slide">'+
+        '<a href="#">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+
@@ -223,6 +228,7 @@ onGetLive: function(json){
         video.comment_count+
         '</p>'+
         '</div>'+
+        '</a>'+
         '</li>';
     }
     jQuery(sources['live']['ph']).append(html);
