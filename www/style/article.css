@@ -27,6 +27,19 @@ body,
 .header {
 	width: 100%;
 }
+#is_loading {
+	display: none;
+}
+body.is_loading #is_loading {
+	display: block;
+	left: 50%;
+	position: fixed;
+	top: 50%;
+	z-index: 5;
+	-webkit-transform: translate(-50%,-50%);
+		-ms-transform: translate(-50%,-50%);
+			transform: translate(-50%,-50%);
+}
 .header {
 	background: url('images/background-header.png');
 	height: 5.375em;
@@ -190,6 +203,7 @@ body,
 }
 .inforamtion .foreground-image img {
 	display: block;
+	margin: 0 auto;
 	max-width: 100%;
 }
 .inforamtion .text {
@@ -229,6 +243,7 @@ body,
 
 .comments {
 	margin: 0 auto;
+	margin-bottom: 1.813em;
 	min-width: 78.750em;
 	width: 61.5234375%;
 }

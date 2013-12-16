@@ -135,10 +135,21 @@ initPanel: function() {
 initContent: function() {
     //remove old data and load from server
     for(var i in sources){
-        $(sources[i]['ph']+' li').remove();
-        $(sources[i]['ph']).append('<img src="./style/images/loader.gif" alt="" title="" />');
+        $(sources[i]['ph']).html('');
+        // $(sources[i]['ph']).append('<img src="./style/images/loader.gif" alt="" title="" />');
         this.__load(sources[i]);
     }
+    (function(app) {
+        if ( !$('body').hasClass('is_loading') ) return;
+        var timer = setInterval(function() {
+            var counter = 3,
+                k = 0;
+            for (var i in sources) {
+                if ( sources.hasOwnProperty(i) && app.mySwipers &&  app.mySwipers['#'+i] && (app.mySwipers['#'+i] instanceof Swiper) ) k+=1;
+                if (k===counter) $('body').removeClass('is_loading') && clearInterval(timer);
+            }
+        }, 1000);
+    })(this);
     
 },
 onGetNews: function(json){
