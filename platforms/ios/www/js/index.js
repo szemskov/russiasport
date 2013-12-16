@@ -55,7 +55,7 @@ var sources = {
         "stop":false,
         "callback":"app.onGetVideo"},
     "live" : {"ph":"#live",
-        "url":"http://russiasport.ru/api.php?video&format=json&proccess&live&offset=:offset&count=:limit&tids=:tids",
+        "url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&tids=:tids",
         "limit":12,
         "offset":0,
         "stop":false,
@@ -151,6 +151,7 @@ onGetNews: function(json){
     for(var i in json){
         var news = json[i];
         html += '<li class="element swiper-slide">'+
+        '<a href="#">'+
         ((typeof(news.image)=='string')?'<img src="'+news.image480x360.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
         '<div class="element-text">'+
         '<p class="element-text-title">'+news.node_title+'</p>'+
@@ -162,6 +163,7 @@ onGetNews: function(json){
         news.comment_count+
         '</p>'+
         '</div>'+
+        '</a>'+
         '</li>';
     }
     jQuery(sources['news']['ph']).append(html);
@@ -177,6 +179,7 @@ onGetVideo: function(json){
     for(var i in json){
         var video = json[i];
         html+='<li class="element swiper-slide">'+
+        '<a href="#">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+
@@ -192,6 +195,7 @@ onGetVideo: function(json){
         video.comment_count+
         '</p>'+
         '</div>'+
+        '</a>'+
         '</li>';
     }
     jQuery(sources['video']['ph']).append(html);
@@ -208,6 +212,7 @@ onGetLive: function(json){
         var video = json[i];
         
         html+='<li class="element swiper-slide">'+
+        '<a href="#">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+
@@ -215,7 +220,7 @@ onGetLive: function(json){
         '</div>'+
         '<img src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
         '<div class="element-text">'+
-        '<p class="element-text-title">'+video.title+'</p>'+
+        '<p class="element-text-title">'+video.node_title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
         '<span class="element-text-date">'+video.dt+'</span>'+
         '<p class="element-comments">'+
@@ -223,6 +228,7 @@ onGetLive: function(json){
         video.comment_count+
         '</p>'+
         '</div>'+
+        '</a>'+
         '</li>';
     }
     jQuery(sources['live']['ph']).append(html);
