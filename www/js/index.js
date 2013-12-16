@@ -215,7 +215,7 @@ onGetLive: function(json){
         '</div>'+
         '<img src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
         '<div class="element-text">'+
-        '<p class="element-text-title">'+video.title+'</p>'+
+        '<p class="element-text-title">'+video.node_title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
         '<span class="element-text-date">'+video.dt+'</span>'+
         '<p class="element-comments">'+
