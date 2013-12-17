@@ -179,6 +179,7 @@ onGetNews: function(json){
         '</div>'+
         '</a>'+
         '</li>';
+        sources['news'].data.push( $(html) );
     }
     jQuery(sources['news']['ph']).append(html);
     this.initSlider(sources['news']['ph']);
@@ -211,6 +212,7 @@ onGetVideo: function(json){
         '</div>'+
         '</a>'+
         '</li>';
+         sources['video'].data.push( $(html) );
     }
     jQuery(sources['video']['ph']).append(html);
     this.initSlider(sources['video']['ph']);
@@ -244,6 +246,7 @@ onGetLive: function(json){
         '</div>'+
         '</a>'+
         '</li>';
+         sources['live'].data.push( $(html) );
     }
     jQuery(sources['live']['ph']).append(html);
     this.initSlider(sources['live']['ph']);
@@ -312,7 +315,6 @@ onDeviceReady: function() {
     var supportsOrientationChange = "onorientationchange" in window,
     orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
     window.addEventListener(orientationEvent, function() {
-                            console.log(app.mySwipers._positions)
                             if (
                                 (orientationEvent==='orientationchange')
                                 ||
