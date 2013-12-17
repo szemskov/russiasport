@@ -40,6 +40,16 @@ var node = {
 		bindEvents: function() {
 		    document.addEventListener('deviceready', this.onDeviceReady, false);
 		},
+		onGetVideo: function(node) {
+			if(DEBUG){
+				console.dir(node);
+			}
+		},
+		onGetLive: function(node) {
+			if(DEBUG){
+				console.dir(node);
+			}
+		},
 		onGetNode: function(node) {
 			if(DEBUG){
 				console.dir(node);
@@ -97,7 +107,16 @@ var node = {
 				$('body').append('<ul class="comments">'+html+'</ul>');
 			}
 		},
-		__load: function(){
+		onClickNode: function(nid, callback){
+			if(typeof(nid)!='undefined'){
+				this.nid = parseInt(nid);
+				this.__load(callback);
+			}
+		},
+		__load: function(callback){
+			if(typeof(callback)=='undefined'){
+				callback = 'node.onGetNode';
+			}
 		    if(navigator.onLine){
 		        url = 'http://russiasport.ru/api.php?post&format=json&proccess&nid='+node.nid;
 			    if(DEBUG){
@@ -107,7 +126,7 @@ var node = {
 		               type: 'GET',
 		               url: url,
 		               contentType: "application/json",
-		               jsonpCallback: 'node.onGetNode',
+		               jsonpCallback: callback,
 		               dataType: 'jsonp',
 		               error: function(e) {
 		            	   console.log(e.message);
