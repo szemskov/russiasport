@@ -44,6 +44,10 @@ var node = {
 			if(DEBUG){
 				console.dir(node);
 			}
+			if(typeof(node.links.sd_video.hls)!='undefined'){
+				window.open(node.links.sd_video.hls,"_self");
+			}
+			return false;
 		},
 		onGetLive: function(node) {
 			if(DEBUG){
@@ -51,7 +55,7 @@ var node = {
 				console.dir(node);
 			}
 			if(typeof(node.links.live.hls)!='undefined'){
-				window.open("node.links.live.hls","_self");
+				window.open(node.links.live.hls,"_self");
 			}
 			return false;
 		},
@@ -125,7 +129,7 @@ var node = {
 		    if(navigator.onLine){
 		        url = 'http://russiasport.ru/api.php?post&format=json&proccess&nid='+node.nid;
 			    if(DEBUG){
-			    	//url = url.replace('russiasport.ru','russiasport.webta.ru');
+			    	url = url.replace('russiasport.ru','russiasport.webta.ru');
 			    }
 		        $.ajax({
 		               type: 'GET',
@@ -143,7 +147,8 @@ var node = {
 		},
 		onDeviceReady: function() {
 			//clear content
-			// $('body').empty();
+			/*fix height ios 7*/
+			$('body').empty();
 			$('body').append('<img id="loader" src="./style/images/loader.gif" alt="" title="" />');
 		    
 			var params = $.parseParams(document.location.search);

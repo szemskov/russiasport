@@ -27,6 +27,19 @@ body,
 .line {
 	width: 100%;
 }
+#is_loading {
+	display: none;
+}
+body.is_loading #is_loading {
+	display: block;
+	left: 50%;
+	position: fixed;
+	top: 50%;
+	z-index: 5;
+	-webkit-transform: translate(-50%,-50%);
+		-ms-transform: translate(-50%,-50%);
+			transform: translate(-50%,-50%);
+}
 .three {
 	display: inline-block;
 	height: 100%;
@@ -42,6 +55,9 @@ body,
 	height: 30.250em;
 	padding: 3.625em 0 4.000em 5.34979%;
 	position: relative;
+}
+body.ios7{
+	height: 29.000em
 }
 .slider-wrapper {
 	overflow: hidden;

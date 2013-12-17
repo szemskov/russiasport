@@ -47,18 +47,21 @@ var sources = {
         "limit":12,
         "offset":0,
         "stop":false,
+        "data": [],
         "callback":"app.onGetNews"},
     "video" : {"ph":"#video",
         "url":"http://russiasport.ru/api.php?video&format=json&proccess&offset=:offset&count=:limit&tag_tids[]=:tids",
         "limit":12,
         "offset":0,
         "stop":false,
+        "data": [],
         "callback":"app.onGetVideo"},
     "live" : {"ph":"#live",
         "url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&tag_tids[]=:tids",
         "limit":12,
         "offset":0,
         "stop":false,
+        "data": [],
         "callback":"app.onGetLive"},
 };
 
@@ -136,10 +139,21 @@ initPanel: function() {
 initContent: function() {
     //remove old data and load from server
     for(var i in sources){
-        $(sources[i]['ph']+' li').remove();
-        $(sources[i]['ph']).append('<img src="./style/images/loader.gif" alt="" title="" />');
+        $(sources[i]['ph']).html('');
+        // $(sources[i]['ph']).append('<img src="./style/images/loader.gif" alt="" title="" />');
         this.__load(sources[i]);
     }
+    (function(app) {
+        if ( !$('body').hasClass('is_loading') ) return;
+        var timer = setInterval(function() {
+            var counter = 3,
+                k = 0;
+            for (var i in sources) {
+                if ( sources.hasOwnProperty(i) && app.mySwipers &&  app.mySwipers['#'+i] && (app.mySwipers['#'+i] instanceof Swiper) ) k+=1;
+                if (k===counter) $('body').removeClass('is_loading') && clearInterval(timer);
+            }
+        }, 1000);
+    })(this);
     
 },
 onGetNews: function(json){
@@ -166,6 +180,7 @@ onGetNews: function(json){
         '</div>'+
         '</a>'+
         '</li>';
+        sources['news'].data.push( $(html) );
     }
     jQuery(sources['news']['ph']).append(html);
     this.initSlider(sources['news']['ph']);
@@ -198,6 +213,7 @@ onGetVideo: function(json){
         '</div>'+
         '</a>'+
         '</li>';
+         sources['video'].data.push( $(html) );
     }
     jQuery(sources['video']['ph']).append(html);
     this.initSlider(sources['video']['ph']);
@@ -231,7 +247,9 @@ onGetLive: function(json){
         '</div>'+
         '</a>'+
         '</li>';
+         sources['live'].data.push( $(html) );
     }
+    //z = sources.news.data.splice(0,2);
     jQuery(sources['live']['ph']).append(html);
     this.initSlider(sources['live']['ph']);
 },
@@ -245,7 +263,7 @@ __load: function(source){
                jsonpCallback: source.callback,
                dataType: 'jsonp',
                error: function(e) {
-               console.log(e.message);
+               //console.log(e.message);
                }
                });
     } else {
@@ -287,6 +305,10 @@ _getActiveTags: function(){
     return tids.join('&tag_tids[]=');
 },
 onDeviceReady: function() {
+	/*fix height ios 7*/
+	if (parseFloat(window.device.version) >= 7.0) {
+		 $('body').addClass('ios7');
+	}
     app.receivedEvent('deviceready');
     
     /*init panel*/
@@ -299,7 +321,6 @@ onDeviceReady: function() {
     var supportsOrientationChange = "onorientationchange" in window,
     orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
     window.addEventListener(orientationEvent, function() {
-                            console.log(app.mySwipers._positions)
                             if (
                                 (orientationEvent==='orientationchange')
                                 ||

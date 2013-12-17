@@ -10,7 +10,8 @@
         <title>Russiasport</title>
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     </head>
-    <body>
+    <body class="is_loading">
+    	<img src="style/images/loader.gif" alt="" id="is_loading">
 			<div id="videos"> 
 				<div class="header">
 		    		<label for="left-panel-visibility" id="menu_icon" class="three">
@@ -383,6 +384,6 @@
 	<script type="text/javascript" charset="utf-8" src="js/index.js"></script>
     <script type="text/javascript" charset="utf-8">
         app.initialize();
-        app.onDeviceReady();
+        //app.onDeviceReady();
     </script>
 </html>

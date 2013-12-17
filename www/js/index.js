@@ -305,6 +305,10 @@ _getActiveTags: function(){
     return tids.join('&tag_tids[]=');
 },
 onDeviceReady: function() {
+	/*fix height ios 7*/
+	if (typeof(window.device) != 'undefined' && parseFloat(window.device.version) >= 7.0) {
+		 $('body').addClass('ios7');
+	}
     app.receivedEvent('deviceready');
     
     /*init panel*/

@@ -56,6 +56,9 @@ body.is_loading #is_loading {
 	padding: 3.625em 0 4.000em 5.34979%;
 	position: relative;
 }
+body.ios7{
+	height: 29.000em
+}
 .slider-wrapper {
 	overflow: hidden;
 }

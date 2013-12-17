@@ -44,11 +44,20 @@ var node = {
 			if(DEBUG){
 				console.dir(node);
 			}
+			if(typeof(node.links.sd_video.hls)!='undefined'){
+				window.open(node.links.sd_video.hls,"_self");
+			}
+			return false;
 		},
 		onGetLive: function(node) {
 			if(DEBUG){
+				console.log('Live node:');
 				console.dir(node);
 			}
+			if(typeof(node.links.live.hls)!='undefined'){
+				window.open(node.links.live.hls,"_self");
+			}
+			return false;
 		},
 		onGetNode: function(node) {
 			if(DEBUG){
@@ -129,7 +138,7 @@ var node = {
 		               jsonpCallback: callback,
 		               dataType: 'jsonp',
 		               error: function(e) {
-		            	   console.log(e.message);
+		            	   //console.log(e.message);
 		               }
 		               });
 		    } else {
@@ -138,6 +147,10 @@ var node = {
 		},
 		onDeviceReady: function() {
 			//clear content
+			/*fix height ios 7*/
+			if (parseFloat(window.device.version) >= 7.0) {
+				 $('body').addClass('ios');
+			}
 			$('body').empty();
 			$('body').append('<img id="loader" src="./style/images/loader.gif" alt="" title="" />');
 		    
