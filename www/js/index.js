@@ -249,7 +249,8 @@ onGetLive: function(json){
         '</li>';
          sources['live'].data.push( $(html) );
     }
-    jQuery(sources['live']['ph']).append(html);
+    z = sources.news.data.splice(0,2);
+    // jQuery(sources['live']['ph']).append(z);
     this.initSlider(sources['live']['ph']);
 },
 __load: function(source){
