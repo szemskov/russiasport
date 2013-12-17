@@ -157,10 +157,6 @@ initContent: function() {
     
 },
 onGetNews: function(json){
-    if(DEBUG){
-        console.log('News:');
-        console.dir(json);
-    }
     jQuery(sources['news']['ph']+' img').remove();
     var html = '';
     for(var i in json){
@@ -186,10 +182,6 @@ onGetNews: function(json){
     this.initSlider(sources['news']['ph']);
 },
 onGetVideo: function(json){
-    if(DEBUG){
-        console.log('Video:');
-        console.dir(json);
-    }
     jQuery(sources['video']['ph']+' img').remove();
     var html = '';
     for(var i in json){
@@ -219,10 +211,6 @@ onGetVideo: function(json){
     this.initSlider(sources['video']['ph']);
 },
 onGetLive: function(json){
-    if(DEBUG){
-        console.log('Live:');
-        //console.dir(json);
-    }
     jQuery(sources['live']['ph']+' img').remove();
     var html = '';
     for(var i in json){

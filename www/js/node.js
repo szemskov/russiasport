@@ -51,7 +51,6 @@ var node = {
 		},
 		onGetLive: function(node) {
 			if(DEBUG){
-				console.log('Live node:');
 				console.dir(node);
 			}
 			if(typeof(node.links.live.hls)!='undefined'){
