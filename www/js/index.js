@@ -249,8 +249,8 @@ onGetLive: function(json){
         '</li>';
          sources['live'].data.push( $(html) );
     }
-    z = sources.news.data.splice(0,2);
-    // jQuery(sources['live']['ph']).append(z);
+    //z = sources.news.data.splice(0,2);
+    jQuery(sources['live']['ph']).append(html);
     this.initSlider(sources['live']['ph']);
 },
 __load: function(source){
@@ -263,7 +263,7 @@ __load: function(source){
                jsonpCallback: source.callback,
                dataType: 'jsonp',
                error: function(e) {
-               console.log(e.message);
+               //console.log(e.message);
                }
                });
     } else {

@@ -43,19 +43,19 @@ if(!tags){
 
 var sources = {
     "news" : {"ph":"#news",
-        "url":"http://russiasport.ru/api.php?wall&format=json&uid=35&offset=:offset&count=:limit&tids=:tids",
+        "url":"http://russiasport.ru/api.php?wall&format=json&uid=35&offset=:offset&count=:limit&tag_tids[]=:tids",
         "limit":12,
         "offset":0,
         "stop":false,
         "callback":"app.onGetNews"},
     "video" : {"ph":"#video",
-        "url":"http://russiasport.ru/api.php?video&format=json&proccess&offset=:offset&count=:limit&tids=:tids",
+        "url":"http://russiasport.ru/api.php?video&format=json&proccess&offset=:offset&count=:limit&tag_tids[]=:tids",
         "limit":12,
         "offset":0,
         "stop":false,
         "callback":"app.onGetVideo"},
     "live" : {"ph":"#live",
-        "url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&tids=:tids",
+        "url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&tag_tids[]=:tids",
         "limit":12,
         "offset":0,
         "stop":false,
@@ -120,6 +120,7 @@ initPanel: function() {
                          tags[type].active = this.classList.contains('active')?0:1;
                          window.localStorage.setItem("tags", $.toJSON(tags));
                          this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
+                         app.initContent();
                          });
     
     
@@ -151,7 +152,7 @@ onGetNews: function(json){
     for(var i in json){
         var news = json[i];
         html += '<li class="element swiper-slide">'+
-        '<a href="#" onclick="node.onClickContentNode($(this).attr(\'data-nid\'))" data-nid="'+news.nid+'">'+
+        '<a href="article.html?nid='+news.nid+'">'+
         ((typeof(news.image)=='string')?'<img src="'+news.image480x360.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
         '<div class="element-text">'+
         '<p class="element-text-title">'+news.node_title+'</p>'+
@@ -179,7 +180,7 @@ onGetVideo: function(json){
     for(var i in json){
         var video = json[i];
         html+='<li class="element swiper-slide">'+
-        '<a href="#" onclick="node.onClickVideoNode()" data-nid="'+video.nid+'">'+
+        '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetVideo\')" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+
@@ -212,7 +213,7 @@ onGetLive: function(json){
         var video = json[i];
         
         html+='<li class="element swiper-slide">'+
-        '<a href="#" onclick="node.onClickVideoNode()" data-nid="'+video.nid+'">'+
+        '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetLive\')" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+
@@ -283,7 +284,7 @@ _getActiveTags: function(){
             tids.push(tags[i].tid);
         }
     }
-    return tids.join();
+    return tids.join('&tag_tids[]=');
 },
 onDeviceReady: function() {
     app.receivedEvent('deviceready');
@@ -394,25 +395,4 @@ is_portrait: function is_portrait() {
     }
     return r;
 }
-};
-
-
-
-var node = {
-	onClickVideoNode: function (nid) {
-		console.log('video load');
-		if(!$('#loader').length){
-			$('#video').append('<img id="loader" src="./style/images/loader.gif" alt="" title="" />');
-		}
-		return false;
-	},
-	onClickContentNode: function (nid) {
-		console.log('node load');
-		
-		if(!$('#loader').length){
-			$('#node').append('<img id="loader" src="./style/images/loader.gif" alt="" title="" />');
-		}
-		window.location.href = "article.html?nid="+nid;
-		return false;
-	},	
 };

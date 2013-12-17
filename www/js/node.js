@@ -47,8 +47,13 @@ var node = {
 		},
 		onGetLive: function(node) {
 			if(DEBUG){
+				console.log('Live node:');
 				console.dir(node);
 			}
+			if(typeof(node.links.live.hls)!='undefined'){
+				window.open("node.links.live.hls","_self");
+			}
+			return false;
 		},
 		onGetNode: function(node) {
 			if(DEBUG){
@@ -129,7 +134,7 @@ var node = {
 		               jsonpCallback: callback,
 		               dataType: 'jsonp',
 		               error: function(e) {
-		            	   console.log(e.message);
+		            	   //console.log(e.message);
 		               }
 		               });
 		    } else {
