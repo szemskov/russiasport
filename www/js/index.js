@@ -179,6 +179,7 @@ updateSources: function(source, json_data) {
 },
 onGetNews: function(json){
     var html = '';
+    this.updateSources(sources['news'], json);
     for(var i in json){
         var news = json[i];
         html = '<li class="element swiper-slide">'+
@@ -205,6 +206,7 @@ onGetNews: function(json){
 },
 onGetVideo: function(json){
     var html = '';
+    this.updateSources(sources['video'], json);
     for(var i in json){
         var video = json[i];
         html+='<li class="element swiper-slide">'+
@@ -235,6 +237,7 @@ onGetVideo: function(json){
 },
 onGetLive: function(json){
     var html = '';
+    this.updateSources(sources['live'], json);
     for(var i in json){
         var video = json[i];
         
