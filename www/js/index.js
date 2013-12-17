@@ -123,6 +123,7 @@ initPanel: function() {
                          tags[type].active = this.classList.contains('active')?0:1;
                          window.localStorage.setItem("tags", $.toJSON(tags));
                          this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
+                         app.initContent();
                          });
     
     
