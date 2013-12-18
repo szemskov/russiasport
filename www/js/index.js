@@ -224,7 +224,7 @@ onGetVideo: function(json){
     for(var i in json){
         var video = json[i];
         html='<li class="element swiper-slide">'+
-        '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetVideo\')" data-nid="'+video.nid+'">'+
+        '<a href="#" target="_blank" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetVideo\')" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+
@@ -256,7 +256,7 @@ onGetLive: function(json){
         var video = json[i];
         
         html='<li class="element swiper-slide">'+
-        '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetLive\')" data-nid="'+video.nid+'">'+
+        '<a href="#" target="_blank" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetLive\')" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+

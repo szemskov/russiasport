@@ -21,8 +21,8 @@
 //  MainViewController.h
 //  RussiaSport
 //
-//  Created by ___FULLUSERNAME___ on ___DATE___.
-//  Copyright ___ORGANIZATIONNAME___ ___YEAR___. All rights reserved.
+//  Created by SERGEY V ZEMSKOV on 18 DECEMBER 2013.
+//  Copyright ANO "Sportveschanie" <http://panoramahd.ru/> 2013. All rights reserved.
 //
 
 #import "MainViewController.h"
@@ -139,6 +139,8 @@
     return [super webView:theWebView shouldStartLoadWithRequest:request navigationType:navigationType];
 }
 */
+
+
 
 @end
 
