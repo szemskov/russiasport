@@ -127,9 +127,9 @@ var node = {
 			}
 		    if(navigator.onLine){
 		        url = 'http://russiasport.ru/api.php?post&format=json&proccess&nid='+node.nid;
-			    if(DEBUG){
+			    /*if(DEBUG){
 			    	url = url.replace('russiasport.ru','russiasport.webta.ru');
-			    }
+			    }*/
 		        $.ajax({
 		               type: 'GET',
 		               url: url,
