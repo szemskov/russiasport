@@ -117,6 +117,17 @@ receivedEvent: function(id) {
 		console.log('Received Event: ' + id);
 	}
 },
+resetAppInits: function() { //сброс конфига по дефолту и удаление различных inner стилей и параметров, которые записываются при работе и могу помешать при повторной инициализации контента.
+	for(var i in sources){
+		if (sources[i].offset) sources[i].offset = 0;
+		if (sources[i].stop) sources[i].stop = false;
+		if (sources[i].data.length) sources[i].data = [];
+		if (sources[i].ph && $(sources[i].ph)) $(sources[i].ph).removeAttr('style');
+	}
+	if (this.mySwipers) delete this.mySwipers;
+	$('.arrow-wrapper').removeAttr('style');
+	return true;
+},
 initPanel: function() {
 	if(DEBUG){
 		for(var i in sources){
@@ -128,7 +139,9 @@ initPanel: function() {
 	for(var data_type in tags){
 		panel.append('<div class="sport-icon-element sport-icon-element-'+(++i)+' '+data_type+(tags[data_type].active?' active':'')+'"><div data-type="'+data_type+'" class="icon"></div>'+tags[data_type].name+'</div>');
 	}
-	
+	$('.icon-menu, #close').on('click', function() {
+		$('body').toggleClass('panel-active');
+	})
 	/* Клик по кнопкам в левой панели */
 	$('#sport_types').on('click.touch', '.sport-icon-element', function() {
 						 /*вид спорта*/
@@ -136,7 +149,8 @@ initPanel: function() {
 						 tags[type].active = this.classList.contains('active')?0:1;
 						 window.localStorage.setItem("tags", $.toJSON(tags));
 						 this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
-						 app.initContent();
+						 $('body').addClass('is_loading');
+						 app.resetAppInits() && app.initContent();
 						 });
 	
 	
@@ -145,14 +159,14 @@ initPanel: function() {
 							});
 	
 	$('.icon-reload').on('click', function() {
-						 app.initContent();
+						 app.resetAppInits() && app.initContent();
 						 });
 	
 },
 initContent: function() {
 	//remove old data and load from server
 	for(var i in sources){
-		$(sources[i]['ph']).html('');
+		$(sources[i]['ph']).empty();
 		// $(sources[i]['ph']).append('<img src="./style/images/loader.gif" alt="" title="" />');
 		this.__load(sources[i]);
 	}
@@ -209,7 +223,7 @@ onGetVideo: function(json){
     this.updateSources(sources['video'], json);
     for(var i in json){
         var video = json[i];
-        html+='<li class="element swiper-slide">'+
+        html='<li class="element swiper-slide">'+
         '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetVideo\')" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
@@ -388,19 +402,51 @@ initSlider: function(element) {
 		mode: app.is_landscape() ? 'horizontal' : 'vertical',
 		paginationClickable: true,
 		slidesPerView: 'auto',
+		onInit: function(swiper) {
+			if ( swiper.slides.length>$(swiper.slides).filter('.swiper-slide-visible').length ) {
+				$this.find('.arrow-wrapper-next').show();
+			}
+		},
 		onSlideChangeStart: function(swiper) {
 			var currentIndex = swiper.activeIndex,
-				slidesLength = swiper.slides.length;
-			if ( slidesLength-currentIndex<8 ) {
+				slidesLength = swiper.slides.length,
+				slidesOffset = slidesLength-currentIndex,
+				tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
+			if ( slidesOffset<8 ) {
 				if ( sources[sourcesKey].data[currentIndex+8] ) {
-					swiper.appendSlide( $(sources[sourcesKey].data[currentIndex+8]).html(), 'element swiper-slide', 'li' );
-				} else {
+					$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
+					temp = swiper.createSlide();
+					swiper.appendSlide(tempSlide); swiper.removeLastSlide();
+				} else if (sources[sourcesKey].stop!==true){
 					that.__load(sources[sourcesKey]);
-					swiper.appendSlide( $(sources[sourcesKey].data[currentIndex+8]).html(), 'element swiper-slide', 'li' );
+					$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
+					temp = swiper.createSlide();
+					swiper.appendSlide(tempSlide); swiper.removeLastSlide();
 				}
 			}
 		},
 		onSlideChangeEnd: function(swiper) {
+			var firstSlide_is_shown = swiper.getFirstSlide().classList.contains('swiper-slide-visible'),
+				lastSlide_is_shown = swiper.getLastSlide().classList.contains('swiper-slide-visible');
+			console.log(firstSlide_is_shown)
+			switch (firstSlide_is_shown) {
+				case true:
+					// $this.find('.arrow-wrapper-prev').hide();
+					break;
+				case false:
+					$this.find('.arrow-wrapper-prev').show();
+				default:
+					break;
+			}
+			switch (lastSlide_is_shown) {
+				case true:
+					// $this.find('.arrow-wrapper-next').hide();
+					break;
+				case false:
+					$this.find('.arrow-wrapper-next').show();
+				default:
+					break;
+			}
 			that.mySwipers._positions[element] = swiper.activeIndex;
 		}
 	});

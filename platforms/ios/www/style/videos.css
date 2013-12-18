@@ -94,8 +94,9 @@ body.ios7{
 	-o-transform: rotate(-90deg);
 }
 .arrow-wrapper {
-	position: absolute;
+	display: none;
 	height: 5.563em;
+	position: absolute;
 	top: 3.625em;
 	width: 3.4668%;
 	z-index: 1;
@@ -216,6 +217,11 @@ div.background {
 	height: 2.750em;
 }
 .icon-menu {
+	background-image: url("images/icon-menu-inactive.png");
+	background-position: left center;
+	height: 3.875em;
+}
+body.panel-active .icon-menu {
 	background-image: url("images/icon-menu.png");
 	background-position: left center;
 	height: 3.875em;
@@ -403,9 +409,6 @@ div.background {
 }
 
 /* Левая панель */
-#left-panel-visibility {
-	display: none;
-}
 .panel.left {
 	background: url("images/background-sport-type-horizontal.png") 0 0 no-repeat;
 	background-size: contain;
@@ -417,12 +420,12 @@ div.background {
 	position: relative;
 	width: 26.708984375%;
 }
-#left-panel-visibility:checked~.panel {
+body.panel-active .panel {
 	-webkit-transform: translateX(100%);
 	-moz-transform: translateX(100%);
 	transform: translateX(100%);
 }
-#left-panel-visibility:checked~.content {
+body.panel-active .content {
 	margin-right: 26.708984375%;
 	-webkit-transform: translateX(36.44237175216523%);
 	-moz-transform: translateX(36.44237175216523%);
@@ -507,12 +510,12 @@ only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (
 		margin: -29.813000000000002em 0 0;
 		padding: 1.313em 1.2369791666666665%;
 		width: 100%;
-	}
-	#left-panel-visibility:checked~.panel {
+	},
+	body.panel-active .panel {
 		-webkit-transform: none;
 		margin-top: 5.375em;
-	}
-	#left-panel-visibility:checked~.content {
+	},
+	body.panel-active .content {
 		-webkit-transform: none;
 		margin-right: 0;
 		margin-bottom: 28.125em;
