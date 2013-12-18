@@ -78,7 +78,7 @@ body.is_loading #is_loading {
 	height: 2.750em;
 }
 .icon-menu-inactive {
-	background-image: url("images/icon-menu-inactive.png");
+	background-image: none;
 	background-position: left center;
 	cursor: auto;
 	height: 3.875em;

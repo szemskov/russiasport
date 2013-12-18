@@ -127,15 +127,14 @@ var node = {
 		},
 		onClickNode: function(nid, callback){
 			if(typeof(nid)!='undefined'){
-				console.log(callback)
 				this.nid = parseInt(nid);
+				this.__load(callback);
 			}
 		},
 		__load: function(callback){
 			if(typeof(callback)=='undefined'){
 				callback = 'node.onGetNode';
 			}
-			console.log(callback)
 		    if(navigator.onLine){
 		        url = 'http://russiasport.ru/api.php?post&format=json&proccess&nid='+node.nid;
 			    /*if(DEBUG){

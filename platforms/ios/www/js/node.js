@@ -1,6 +1,8 @@
 /**
  * $.parseParams - parse query string paramaters into an object.
  */
+
+
 (function($) {
     var re = /([^&=]+)=?([^&]*)/g;
     var decode = function(str) {
@@ -70,10 +72,10 @@ var node = {
 			
 			$('body').html(
 			    '<div id="article"> '+
-				    '<div class="header"><div class="three icon icon-menu-inactive"></div><div class="three icon icon-logo"></div><div class="three icon icon-reload"></div></div>'+
+				    '<div class="header"><div class="three"></div><div class="three icon icon-logo"></div><div class="three"><a href="javascript:document.location.hash=\'\'; document.location.reload();"><div class="icon icon-reload"></div></a></div></div>'+
 				     '<div class="popup popup-line clearfix">'+
 				    	'<a href="index.html"><p class="navigate">Назад к новостям</p></a>'+
-				    	'<p id="date"  class="date">'+node.dt+'</p>'+
+				    	'<p id="date" class="date">'+node.dt+'</p>'+
 				    '</div>'+
 				'</div>');
 				
@@ -88,8 +90,18 @@ var node = {
 				'<div class="under-line only"></div>'+
 				'<div class="text">'+ content  +'</div>'+
 			'</div>'+
-			'<div class="under-line under-line-comments clearfix">'+
-				'<div class="two text">Комментарии</div><div class="two icon icon-reload"></div>'+
+			'<div class="under-line under-line-comments clearfix" id="comments-block">'+
+				'<div class="two text">Комментарии</div><div class="two">'+
+					'<a href="javascript:('+
+						(function() {
+							var href = document.location.pathname;
+							href+=document.location.search ? document.location.search.split('&').splice(0,1).join('')+'&r=' : '?r';
+							href+=new Date().getTime();
+							href+='#comments-block';
+							document.location.href = href;
+						}).toString()+'()'+
+					')"><div class="icon icon-reload"></div></a>'+
+				'</div>'+
 			'</div>'
 			);
 			
@@ -109,17 +121,21 @@ var node = {
 				}
 				$('body').append('<ul class="comments">'+html+'</ul>');
 			}
+			var script = document.createElement('script');
+			script.innerHTML = 'if (document.location.hash.length) document.location.href=document.location.hash';
+			document.body.appendChild(script);
 		},
 		onClickNode: function(nid, callback){
 			if(typeof(nid)!='undefined'){
 				this.nid = parseInt(nid);
-				this.__load(callback);
+                this.__load(callback);
 			}
 		},
 		__load: function(callback){
 			if(typeof(callback)=='undefined'){
 				callback = 'node.onGetNode';
 			}
+
 		    if(navigator.onLine){
 		        url = 'http://russiasport.ru/api.php?post&format=json&proccess&nid='+node.nid;
 			    /*if(DEBUG){
