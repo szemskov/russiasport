@@ -129,11 +129,11 @@ resetAppInits: function() { //сброс конфига по дефолту и �
 	return true;
 },
 initPanel: function() {
-	if(DEBUG){
+	/*if(DEBUG){
 		for(var i in sources){
 			sources[i]['url'] = sources[i]['url'].replace('russiasport.ru','russiasport.webta.ru');
 		}
-	}
+	}*/
 	var panel = jQuery('#sport_types');
 	i=0;
 	for(var data_type in tags){
@@ -224,7 +224,7 @@ onGetVideo: function(json){
     for(var i in json){
         var video = json[i];
         html='<li class="element swiper-slide">'+
-        '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetVideo\')" data-nid="'+video.nid+'">'+
+        '<a href="#" target="_blank" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetVideo\')" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+
@@ -256,7 +256,7 @@ onGetLive: function(json){
         var video = json[i];
         
         html='<li class="element swiper-slide">'+
-        '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetLive\')" data-nid="'+video.nid+'">'+
+        '<a href="#" target="_blank" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetLive\')" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+

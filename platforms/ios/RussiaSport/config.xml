@@ -31,6 +31,20 @@
     <description>
         RussiaSport content, LIVE videos etc.
     </description>
+    <feature name="InAppBrowser">
+        <param name="ios-package" value="CDVInAppBrowser" />
+    </feature>
+    <feature name="NetworkStatus">
+        <param name="ios-package" value="CDVConnection" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="ios-package" value="CDVSplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <name>RussiaSport</name>
+    <description>
+        RussiaSport content, LIVE videos etc.
+    </description>
     <author email="zemskov.s.v@gmail.com" href="http://russiasport.ru">
         Sergey V Zemskov
     </author>
