@@ -51,7 +51,6 @@ var node = {
 		},
 		onGetLive: function(node) {
 			if(DEBUG){
-				console.log('Live node:');
 				console.dir(node);
 			}
 			if(typeof(node.links.live.hls)!='undefined'){
@@ -129,7 +128,7 @@ var node = {
 		    if(navigator.onLine){
 		        url = 'http://russiasport.ru/api.php?post&format=json&proccess&nid='+node.nid;
 			    if(DEBUG){
-			    	//url = url.replace('russiasport.ru','russiasport.webta.ru');
+			    	url = url.replace('russiasport.ru','russiasport.webta.ru');
 			    }
 		        $.ajax({
 		               type: 'GET',
@@ -148,9 +147,6 @@ var node = {
 		onDeviceReady: function() {
 			//clear content
 			/*fix height ios 7*/
-			if (parseFloat(window.device.version) >= 7.0) {
-				 $('body').addClass('ios');
-			}
 			$('body').empty();
 			$('body').append('<img id="loader" src="./style/images/loader.gif" alt="" title="" />');
 		    
