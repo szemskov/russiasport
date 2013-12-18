@@ -353,7 +353,8 @@ onDeviceReady: function() {
 	app.innerWidth = window.innerWidth;
 	var supportsOrientationChange = "onorientationchange" in window,
 	orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-	window.addEventListener(orientationEvent, function() {
+	$(window).on(orientationEvent, function() {
+		alert(2)
 		var that = app;
 		if (
 			(orientationEvent==='orientationchange')
@@ -385,7 +386,7 @@ onDeviceReady: function() {
 							var currentIndex = swiper.activeIndex,
 								slidesLength = swiper.slides.length,
 								slidesOffset = slidesLength-currentIndex,
-								tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
+								tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны	;
 							if ( slidesOffset<8 ) {
 								if ( sources[sourcesKey].data[currentIndex+8] ) {
 									$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
@@ -439,7 +440,7 @@ onDeviceReady: function() {
 				})
 			}
 		}
-		}, false);
+		});
 },
 initSlider: function(element) {
 	if (!this.mySwipers) this.mySwipers = {_positions: {}};
