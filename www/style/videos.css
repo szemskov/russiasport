@@ -510,11 +510,11 @@ only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (
 		margin: -29.813000000000002em 0 0;
 		padding: 1.313em 1.2369791666666665%;
 		width: 100%;
-	},
+	}
 	body.panel-active .panel {
 		-webkit-transform: none;
 		margin-top: 5.375em;
-	},
+	}
 	body.panel-active .content {
 		-webkit-transform: none;
 		margin-right: 0;

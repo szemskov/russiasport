@@ -124,7 +124,11 @@ resetAppInits: function() { //сброс конфига по дефолту и �
 		if (sources[i].data.length) sources[i].data = [];
 		if (sources[i].ph && $(sources[i].ph)) $(sources[i].ph).removeAttr('style');
 	}
-	if (this.mySwipers) delete this.mySwipers;
+	if (this.mySwipers) {
+		for (i in this.mySwipers)
+			if (this.mySwipers[i] instanceof Swiper) this.mySwipers[i].destroy();
+	}
+	delete this.mySwipers;
 	$('.arrow-wrapper').removeAttr('style');
 	return true;
 },
@@ -159,6 +163,7 @@ initPanel: function() {
 							});
 	
 	$('.icon-reload').on('click', function() {
+						$('body').addClass('is_loading');
 						 app.resetAppInits() && app.initContent();
 						 });
 	
@@ -349,6 +354,7 @@ onDeviceReady: function() {
 	var supportsOrientationChange = "onorientationchange" in window,
 	orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
 	window.addEventListener(orientationEvent, function() {
+		var that = app;
 		if (
 			(orientationEvent==='orientationchange')
 		||
@@ -357,6 +363,7 @@ onDeviceReady: function() {
 			app.innerWidth = window.innerWidth;
 			if (app.mySwipers) {
 				$.each(app.mySwipers, function(i, mySwiper) {
+					var sourcesKey = i.substr(1, i.length-1);
 					if (!app.mySwipers[i] || !(app.mySwipers[i] instanceof Swiper)) return true;
 					var $this = $(i).closest('.line');
 					app.mySwipers[i].destroy();
@@ -368,13 +375,58 @@ onDeviceReady: function() {
 						grabCursor: true,
 						paginationClickable: true,
 						slidesPerView: 'auto',
+						onInit: function(swiper) {
+							if ( swiper.slides.length>$(swiper.slides).filter('.swiper-slide-visible').length ) {
+								$this.find('.arrow-wrapper-next').show();
+							}
+							if (app.mySwipers._positions[i]) swiper.swipeTo(app.mySwipers._positions[i]);
+						},
+						onSlideChangeStart: function(swiper) {
+							var currentIndex = swiper.activeIndex,
+								slidesLength = swiper.slides.length,
+								slidesOffset = slidesLength-currentIndex,
+								tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
+							if ( slidesOffset<8 ) {
+								if ( sources[sourcesKey].data[currentIndex+8] ) {
+									$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
+									temp = swiper.createSlide();
+									swiper.appendSlide(tempSlide); swiper.removeLastSlide();
+								} else if (sources[sourcesKey].stop!==true){
+									that.__load(sources[sourcesKey]);
+									setTimeout(function() {
+										$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
+										temp = swiper.createSlide();
+										swiper.appendSlide(tempSlide); swiper.removeLastSlide();
+									}, 500);
+								}
+							}
+						},
 						onSlideChangeEnd: function(swiper) {
 							app.mySwipers._positions[i] = swiper.activeIndex;
-						},
-						onSwiperCreated: function(swiper) {
-							swiper.swipeTo( app.mySwipers._positions[i] );
 						}
 					});
+					app.mySwipers[i].wrapperTransitionEnd(function(swiper) {
+							var transition = swiper.getWrapperTranslate();
+							if (transition===0) {
+								$this.find('.arrow-wrapper-prev').hide();
+							} else {
+								$this.find('.arrow-wrapper-prev').show();
+							}
+							var grid = swiper.slidesGrid;
+							var visible_count = parseInt(swiper[app.is_landscape()?'width':'height']/grid[1], 10);
+							var pos = 0;
+							for (var i=swiper.slidesGrid.length-1; i>=-1; i-=1) {
+								if ( swiper.slidesGrid[i]<-transition ) {
+									pos = i+1;
+									if (grid.length-pos===visible_count) {
+										$this.find('.arrow-wrapper-next').hide();
+										break;
+									} else {
+										$this.find('.arrow-wrapper-next').show();
+									}
+								}
+							}
+						}, true)
 					$this.find('.arrow-wrapper-prev').off('click.swipePrev').on('click.swipePrev', function(e){
 						e.preventDefault();
 						app.mySwipers[i].swipePrev();
@@ -419,37 +471,40 @@ initSlider: function(element) {
 					swiper.appendSlide(tempSlide); swiper.removeLastSlide();
 				} else if (sources[sourcesKey].stop!==true){
 					that.__load(sources[sourcesKey]);
-					$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
-					temp = swiper.createSlide();
-					swiper.appendSlide(tempSlide); swiper.removeLastSlide();
+					setTimeout(function() {
+						$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
+						temp = swiper.createSlide();
+						swiper.appendSlide(tempSlide); swiper.removeLastSlide();
+					}, 500);
 				}
 			}
 		},
 		onSlideChangeEnd: function(swiper) {
-			var firstSlide_is_shown = swiper.getFirstSlide().classList.contains('swiper-slide-visible'),
-				lastSlide_is_shown = swiper.getLastSlide().classList.contains('swiper-slide-visible');
-			console.log(firstSlide_is_shown)
-			switch (firstSlide_is_shown) {
-				case true:
-					// $this.find('.arrow-wrapper-prev').hide();
-					break;
-				case false:
-					$this.find('.arrow-wrapper-prev').show();
-				default:
-					break;
-			}
-			switch (lastSlide_is_shown) {
-				case true:
-					// $this.find('.arrow-wrapper-next').hide();
-					break;
-				case false:
-					$this.find('.arrow-wrapper-next').show();
-				default:
-					break;
-			}
 			that.mySwipers._positions[element] = swiper.activeIndex;
 		}
 	});
+	mySwiper.wrapperTransitionEnd(function(swiper) {
+		var transition = swiper.getWrapperTranslate();
+		if (transition===0) {
+			$this.find('.arrow-wrapper-prev').hide();
+		} else {
+			$this.find('.arrow-wrapper-prev').show();
+		}
+		var grid = swiper.slidesGrid;
+		var visible_count = parseInt(swiper[app.is_landscape()?'width':'height']/grid[1], 10);
+		var pos = 0;
+		for (var i=swiper.slidesGrid.length-1; i>=-1; i-=1) {
+			if ( swiper.slidesGrid[i]<-transition ) {
+				pos = i+1;
+				if (grid.length-pos===visible_count) {
+					$this.find('.arrow-wrapper-next').hide();
+					break;
+				} else {
+					$this.find('.arrow-wrapper-next').show();
+				}
+			}
+		}
+	}, true)
 	if (mySwiper) {
 		this.mySwipers[element] = mySwiper
 	}
