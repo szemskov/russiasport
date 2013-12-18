@@ -36,6 +36,7 @@ var DEBUG = true;
 
 var node = {
 		nid: '',
+		uri: '',
 		initialize: function() {
 		    this.bindEvents();
 		},
@@ -44,17 +45,13 @@ var node = {
 		},
 		onGetVideo: function(node) {
 			if(typeof(node.links.sd_video.hls)!='undefined'){
-				var ref = window.open(node.links.sd_video.hls, '_blank','location=no,closebuttoncaption=Закрыть,enableViewportScale=yes');
-				//console.log(node.links.sd_video.hls);
-                //ref.document.write('<video><source src="'+node.links.sd_video.hls+'" /></video>');
+				var ref = window.open(node.links.sd_video.hls, '_self','location=no');
 			}
 			return false;
 		},
 		onGetLive: function(node) {
 			if(typeof(node.links.live.hls)!='undefined'){
-                var ref = window.open(node.links.live.hls, '_blank','location=no,closebuttoncaption=Закрыть,enableViewportScale=yes');
-                //console.log(node.links.live.hls);
-                //ref.document.write('<video><source src="'+node.links.live.hls+'" /></video>');
+                var ref = window.open(node.links.live.hls, '_self','location=no');
 			}
 			return false;
 		},
@@ -128,14 +125,13 @@ var node = {
 		onClickNode: function(nid, callback){
 			if(typeof(nid)!='undefined'){
 				this.nid = parseInt(nid);
-                this.__load(callback);
+				this.__load(callback);
 			}
 		},
 		__load: function(callback){
 			if(typeof(callback)=='undefined'){
 				callback = 'node.onGetNode';
 			}
-
 		    if(navigator.onLine){
 		        url = 'http://russiasport.ru/api.php?post&format=json&proccess&nid='+node.nid;
 			    /*if(DEBUG){
