@@ -1,8 +1,6 @@
 /**
  * $.parseParams - parse query string paramaters into an object.
  */
-
-
 (function($) {
     var re = /([^&=]+)=?([^&]*)/g;
     var decode = function(str) {
@@ -41,7 +39,7 @@ var node = {
 		    this.bindEvents();
 		},
 		bindEvents: function() {
-		    document.addEventListener('deviceready', this.onDeviceReady, false);
+		    document.addEventListener('deviceready', this.onDeviceReady, true);
 		},
 		onGetVideo: function(node) {
 			if(typeof(node.links.sd_video.hls)!='undefined'){
@@ -154,13 +152,16 @@ var node = {
 		onDeviceReady: function() {
 			//clear content
 			/*fix height ios 7*/
-			$('body').empty();
-			$('body').append('<img id="loader" src="./style/images/loader.gif" alt="" title="" />');
+			if (typeof(window.device) != 'undefined' && parseFloat(window.device.version) >= 7.0) {
+		        $('body').addClass('ios7');
+		        document.body.style.marginTop = "20px";
+		    }
 		    
+			$('body').empty();
 			var params = $.parseParams(document.location.search);
 			if(typeof(params.nid)!='undefined'){
-				this.nid = params.nid;
-				this.__load();
+				node.nid = params.nid;
+				node.__load();
 			}
 			
 		},
