@@ -340,7 +340,7 @@ onDeviceReady: function() {
 	/*fix height ios 7*/
 	if (typeof(window.device) != 'undefined' && parseFloat(window.device.version) >= 7.0) {
         $('body').addClass('ios7');
-        document.body.style.marginTop = "20px";
+        $('html').addClass('ios7');
     }
 	app.receivedEvent('deviceready');
 	
@@ -349,12 +349,12 @@ onDeviceReady: function() {
 	app.receivedEvent('initpanel');
 	/*грузим контент*/
 	app.initContent();
+
 	app.receivedEvent('init content');
 	app.innerWidth = window.innerWidth;
 	var supportsOrientationChange = "onorientationchange" in window,
-	orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
-	$(window).on(orientationEvent, function() {
-		alert(2)
+		orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+	window.addEventListener(orientationEvent, function() {
 		var that = app;
 		if (
 			(orientationEvent==='orientationchange')
