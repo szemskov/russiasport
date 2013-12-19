@@ -146,7 +146,7 @@ var node = {
 		               }
 		               });
 		    } else {
-		        alert('Нет интернет соединения');
+		        //alert('Нет интернет соединения');
 		    }
 		},
 		onDeviceReady: function() {
