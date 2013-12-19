@@ -152,11 +152,11 @@ var node = {
 		onDeviceReady: function() {
 			//clear content
 			/*fix height ios 7*/
-			if (typeof(window.device) != 'undefined' && parseFloat(window.device.version) >= 7.0) {
+			if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
 		        $('body').addClass('ios7');
-		        document.body.style.marginTop = "20px";
+		        $('html').addClass('ios7');
 		    }
-		    
+			
 			$('body').empty();
 			var params = $.parseParams(document.location.search);
 			if(typeof(params.nid)!='undefined'){
