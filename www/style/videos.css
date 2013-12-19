@@ -14,14 +14,17 @@ html {
 }
 html, body {
 	height: 100%;
-	overflow: hidden;
+    overflow: hidden;
 }
 html.ios7 {
+    height: 100%;
 	box-sizing: border-box;
 	padding-top: 20px;
 }
 html.ios7 body {
+    height: 100%;
 	position: relative;
+    overflow: hidden;
 }
 html * {
 	box-sizing: border-box;

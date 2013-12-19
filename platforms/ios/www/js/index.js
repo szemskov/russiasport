@@ -340,7 +340,7 @@ onDeviceReady: function() {
 	/*fix height ios 7*/
 	if (typeof(window.device) != 'undefined' && parseFloat(window.device.version) >= 7.0) {
         $('body').addClass('ios7');
-        document.body.style.marginTop = "20px";
+        $('html').addClass('ios7');
     }
 	app.receivedEvent('deviceready');
 	
@@ -349,10 +349,11 @@ onDeviceReady: function() {
 	app.receivedEvent('initpanel');
 	/*грузим контент*/
 	app.initContent();
+
 	app.receivedEvent('init content');
 	app.innerWidth = window.innerWidth;
 	var supportsOrientationChange = "onorientationchange" in window,
-	orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+		orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
 	window.addEventListener(orientationEvent, function() {
 		var that = app;
 		if (
@@ -385,7 +386,7 @@ onDeviceReady: function() {
 							var currentIndex = swiper.activeIndex,
 								slidesLength = swiper.slides.length,
 								slidesOffset = slidesLength-currentIndex,
-								tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
+								tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны	;
 							if ( slidesOffset<8 ) {
 								if ( sources[sourcesKey].data[currentIndex+8] ) {
 									$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
@@ -439,7 +440,7 @@ onDeviceReady: function() {
 				})
 			}
 		}
-		}, false);
+		});
 },
 initSlider: function(element) {
 	if (!this.mySwipers) this.mySwipers = {_positions: {}};
