@@ -29,20 +29,6 @@
 
 @implementation MainViewController
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        // On init, size has not yet been changed
-        self.viewSizeChanged = NO;
-        // Uncomment to override the CDVCommandDelegateImpl used
-        // _commandDelegate = [[MainCommandDelegate alloc] initWithViewController:self];
-        // Uncomment to override the CDVCommandQueue used
-        // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];
-    }
-    return self;
-}
-
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -51,6 +37,18 @@
         // _commandDelegate = [[MainCommandDelegate alloc] initWithViewController:self];
         // Uncomment to override the CDVCommandQueue used
         // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];
+    }
+    return self;
+}
+    
+- (id)init
+{
+    self = [super init];
+    if (self) {
+            // Uncomment to override the CDVCommandDelegateImpl used
+            // _commandDelegate = [[MainCommandDelegate alloc] initWithViewController:self];
+            // Uncomment to override the CDVCommandQueue used
+            // _commandQueue = [[MainCommandQueue alloc] initWithViewController:self];
     }
     return self;
 }
@@ -69,7 +67,7 @@
 {
     // Set the main view to utilize the entire application frame space of the device.
     // Change this to suit your view's UI footprint needs in your application.
-    self.view.frame = [[UIScreen mainScreen] applicationFrame];
+    /*self.view.frame = [[UIScreen mainScreen] applicationFrame];
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7 && !self.viewSizeChanged) {
         CGRect viewBounds = [self.webView bounds];
@@ -77,7 +75,7 @@
         viewBounds.size.height = viewBounds.size.height - 20;
         self.webView.frame = viewBounds;
         self.viewSizeChanged = YES;
-    }
+    }*/
     
     [super viewWillAppear:animated];
 }

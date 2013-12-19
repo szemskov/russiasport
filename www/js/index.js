@@ -93,7 +93,6 @@ bindEvents: function() {
 	document.addEventListener('resume', this.onResume, false);
 	document.addEventListener('online', this.onOnline, false);
 	document.addEventListener('offline', this.onOffline, false);
-	
 },
 	// deviceready Event Handler
 	//
@@ -340,8 +339,9 @@ _getActiveTags: function(){
 onDeviceReady: function() {
 	/*fix height ios 7*/
 	if (typeof(window.device) != 'undefined' && parseFloat(window.device.version) >= 7.0) {
-		 $('body').addClass('ios7');
-	}
+        $('body').addClass('ios7');
+        document.body.style.marginTop = "20px";
+    }
 	app.receivedEvent('deviceready');
 	
 	/*init panel*/

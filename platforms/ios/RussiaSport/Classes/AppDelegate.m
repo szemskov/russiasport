@@ -43,8 +43,8 @@
 
     [cookieStorage setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
 
-    int cacheSizeMemory = 8 * 1024 * 1024; // 8MB
-    int cacheSizeDisk = 32 * 1024 * 1024; // 32MB
+    int cacheSizeMemory = 32 * 1024 * 1024; // 8MB
+    int cacheSizeDisk = 64 * 1024 * 1024; // 32MB
 #if __has_feature(objc_arc)
         NSURLCache* sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:cacheSizeMemory diskCapacity:cacheSizeDisk diskPath:@"nsurlcache"];
 #else
@@ -81,6 +81,7 @@
     // Set your app's start page by setting the <content src='foo.html' /> tag in config.xml.
     // If necessary, uncomment the line below to override it.
     //self.viewController.startPage = @"article.html";
+    //self.viewController.startPage = @"empty.html";
 
     // NOTE: To customize the view's frame size (which defaults to full screen), override
     // [self.viewController viewWillAppear:] in your view controller.
