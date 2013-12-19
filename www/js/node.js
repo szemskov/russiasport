@@ -30,7 +30,7 @@
     };
 })(jQuery);
 
-var DEBUG = true;
+var DEBUG = false;
 
 var node = {
 		nid: '',
