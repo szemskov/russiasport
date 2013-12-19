@@ -146,13 +146,12 @@ var node = {
 		               }
 		               });
 		    } else {
-		        alert('Нет интернет соединения');
+		        //alert('Нет интернет соединения');
 		    }
 		},
 		onDeviceReady: function() {
 			//clear content
 			/*fix height ios 7*/
-            alert(navigator.userAgent);
 			if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
 		        $('body').addClass('ios7');
 		        $('html').addClass('ios7');

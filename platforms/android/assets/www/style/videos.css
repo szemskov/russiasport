@@ -1,10 +1,10 @@
 @font-face {
     font-family: "RussoOne";
-    src: url("font/russo_one-webfont.eot");
-	src: url("font/russo_one-webfont.eot?#iefix") format("embedded-opentype"),
-		 url("font/russo_one-webfont.woff") format("woff"),
-		 url("font/russo_one-webfont.ttf") format("truetype"),
-		 url("font/russo_one-webfont.svg#OpenSansSemibold") format("svg");
+    src: url("font/RussoOne/russo_one-webfont.eot");
+	src: url("font/RussoOne/russo_one-webfont.eot?#iefix") format("embedded-opentype"),
+		 url("font/RussoOne/russo_one-webfont.woff") format("woff"),
+		 url("font/RussoOne/russo_one-webfont.ttf") format("truetype"),
+		 url("font/RussoOne/russo_one-webfont.svg#RussoOne") format("svg");
 	font-weight: normal;
 	font-style: normal;
 }
@@ -12,9 +12,34 @@ html {
 	font-size: 16px;
 	position: relative;
 }
+html, body {
+	height: 100%;
+    overflow: hidden;
+}
+
+/* Высота страницы - 100% высоты дисплея, для iOS сжимаем и сдвигаем вниз на высоту верхней "шапки" */
+html.ios7 {
+    height: 100%;
+	box-sizing: border-box;
+	padding-top: 20px;
+}
+html.ios7 body {
+    height: 100%;
+	position: relative;
+    overflow: hidden;
+}
+html.ios7 #videos,
+html.ios7 .content {
+	height: 100%;
+}
+
 html * {
 	box-sizing: border-box;
 	font-family: RussoOne;
+}
+a {
+	text-decoration: none;
+	color: transparent;
 }
 html,
 body,
@@ -22,6 +47,19 @@ body,
 #videos,
 .line {
 	width: 100%;
+}
+#is_loading {
+	display: none;
+}
+body.is_loading #is_loading {
+	display: block;
+	left: 50%;
+	position: fixed;
+	top: 50%;
+	z-index: 5;
+	-webkit-transform: translate(-50%,-50%);
+		-ms-transform: translate(-50%,-50%);
+			transform: translate(-50%,-50%);
 }
 .three {
 	display: inline-block;
@@ -39,23 +77,27 @@ body,
 	padding: 3.625em 0 4.000em 5.34979%;
 	position: relative;
 }
+body.ios7{
+	height: 29.000em
+}
 .slider-wrapper {
 	overflow: hidden;
 }
 .slider {
 	list-style-type: none;
+	overflow: hidden;
 	width: 5000px;
 }
 .element {
+	box-sizing: content-box;
 	float: left;
 	height: 22.625em;
 	padding-left: 0.375em;
 	position: relative;
-	width: 30.375em;
-	/*margin-left: 0.375em;*/
+	width: 30.000em;
 }
-.element img {
-	max-width: 100%;
+.element a>img {
+	width: 100%;
 }
 .transform-90 {
 	bottom: 2.909em;
@@ -73,16 +115,18 @@ body,
 	-o-transform: rotate(-90deg);
 }
 .arrow-wrapper {
-	position: absolute;
+	cursor: pointer;
+	display: none;
 	height: 5.563em;
+	position: absolute;
 	top: 3.625em;
 	width: 3.4668%;
 	z-index: 1;
 }
-.arrow-wrapper.arrow-wrapper-prev {
+.arrow-wrapper-prev {
 	left: 0;
 }
-.arrow-wrapper.arrow-wrapper-next {
+.arrow-wrapper-next {
 	background-color: white;
 	right: 0;
 }
@@ -138,18 +182,20 @@ div.background {
 	bottom: 0;
 	padding: 0 6.25% 2.92% 0.625em;
 	position: absolute;
-	width: auto;
+	width: 98.76543209876543%;
 }
 .element-text-title {
-	margin-top: 0.292em;
-	font-size: 1.500em;
 	color: #d72658;
+	font-size: 1.500em;
+	margin: 0.292em 0 0.167em;
 	padding-right: 13.3%;
-	
+	line-height: 1em;	
 }
 .element-text-tiser {
+	color: #3f3f3f;
 	font-size: 1.063em;
-	margin-top: 1.125em;
+	line-height: 1em;
+	margin-top: 1.025em;
 	padding-right: 2.25%;
 }
 .element-text-time {
@@ -194,6 +240,11 @@ div.background {
 	height: 2.750em;
 }
 .icon-menu {
+	background-image: url("images/icon-menu-inactive.png");
+	background-position: left center;
+	height: 3.875em;
+}
+body.panel-active .icon-menu {
 	background-image: url("images/icon-menu.png");
 	background-position: left center;
 	height: 3.875em;
@@ -203,7 +254,7 @@ div.background {
 	background-image: url("images/icon-arrow.png");
 	height: 2.875em;
 	margin: 1.375em auto 1.313em;
-	width: 38.0282%;
+	width: 1.4375em;
 }
 .icon-arrow-prev {
 	left: 1.7578%;
@@ -218,6 +269,7 @@ div.background {
 	background-image: url("images/icon-comments-purple.png");
 	display: inline-block;
 	height: 1.313em;
+	margin-right: 0.400em;
 	vertical-align: middle;
 	width: 1.313em;
 }
@@ -229,8 +281,9 @@ div.background {
 	height: 13.333em;
 	margin: 0 1.1363636363636365%;
 	overflow: hidden;
-	padding: 3.556em 0;
+	padding: 3.556em 0 0;
 	text-align: center;
+	vertical-align: top;
 	width: 30.831643002028397%;
 }
 .sport-icon-element .icon {
@@ -378,9 +431,6 @@ div.background {
 }
 
 /* Левая панель */
-#left-panel-visibility {
-	display: none;
-}
 .panel.left {
 	background: url("images/background-sport-type-horizontal.png") 0 0 no-repeat;
 	background-size: contain;
@@ -392,12 +442,12 @@ div.background {
 	position: relative;
 	width: 26.708984375%;
 }
-#left-panel-visibility:checked~.panel {
+body.panel-active .panel {
 	-webkit-transform: translateX(100%);
 	-moz-transform: translateX(100%);
 	transform: translateX(100%);
 }
-#left-panel-visibility:checked~.content {
+body.panel-active .content {
 	margin-right: 26.708984375%;
 	-webkit-transform: translateX(36.44237175216523%);
 	-moz-transform: translateX(36.44237175216523%);
@@ -426,7 +476,8 @@ div.background {
 	}
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+@media screen and (max-width:768px),
+	only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
 	html {
 		font-size: 8px;
 		height: 1024px;
@@ -438,10 +489,18 @@ div.background {
 		top: 0;
 		z-index: 1;
 	}
+	.content {
+		padding-bottom: 5.375em;
+	}
 	.element {
 		height: 181px;
+        padding-bottom: 1em;
 		width: 240px;
 	}
+    .element-text {
+        margin-bottom: 1em;
+    }
+
 	.line {
 		background-image: -webkit-linear-gradient(90deg, #c1d7ea, #e8f1f7);
 		background-image: -moz-linear-gradient(90deg, #c1d7ea, #e8f1f7);
@@ -460,10 +519,8 @@ div.background {
 		height: 100%;
 	}
 	.slider {
+		height: 100%;
 		width: 100%;
-	}
-	.element {
-		margin: 0 0 0.875em;
 	}
 	.content {
 		height: 121.875em;
@@ -474,19 +531,24 @@ div.background {
 		background-image: url("images/background-sport-type-vertical.png");
 		float: none;
 		height: 35.188em;
-		margin: -22.75em 0 0;
+		margin: -29.813000000000002em 0 0;
 		padding: 1.313em 1.2369791666666665%;
 		width: 100%;
 	}
-	#left-panel-visibility:checked~.panel {
+	body.panel-active .panel {
 		-webkit-transform: none;
+		-moz-transform: none;
+		-ms-transform: none;
+		-o-transform: none;
 		margin-top: 5.375em;
 	}
-	#left-panel-visibility:checked~.content {
+	body.panel-active .content {
 		-webkit-transform: none;
+		-moz-transform: none;
+		-ms-transform: none;
+		-o-transform: none;
 		margin-right: 0;
 		margin-bottom: 28.125em;
-		/*height: 87.312em;*/
 	}
 	.transform-90 {
 		bottom: auto;
@@ -502,29 +564,31 @@ div.background {
 		bottom: auto;
 		height: 4.091em;
 		left: auto;
-		right: 1.0416666666666665%;
+		right: 3.3333333333333335% !important;
 		top: auto;
 		width: 17.3828125%;
 	}
 	.arrow-wrapper.arrow-wrapper-prev {
-		-webkit-transform: rotate(90deg);
-		left: auto;
 		top: 0;
 	}
 	.arrow-wrapper.arrow-wrapper-next {
-		-webkit-transform: rotate(90deg);
 		background-color: white;
 		bottom: 0;
+	}
+	.icon-arrow-prev {
+		-webkit-transform: rotate(90deg);
+		-moz-transform: rotate(90deg);
+		-ms-transform: rotate(90deg);
+		-o-transform: rotate(90deg);
+	}
+	.icon-arrow-next {
+		-webkit-transform: rotate(270deg);
+		-moz-transform: rotate(270deg);
+		-ms-transform: rotate(270deg);
+		-o-transform: rotate(270deg);
 	}
 	.button {
 		margin: 1.036em auto;
 		width: 44.62890625%;
 	}
 }
-/*
-@media only screen and (min-device-width : 1280px) and (max-device-width : 1920px) and (orientation : landscape) {
-	html {
-		font-size: 15px;
-		width: 1920px
-	}
-}*/

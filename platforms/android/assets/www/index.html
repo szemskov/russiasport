@@ -4,13 +4,14 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <link rel="stylesheet" href="style/cssreset-min.css"/>
+        <link rel="stylesheet" href="style/idangerous.swiper.css">
 		<link rel="stylesheet" href="style/videos.css"/>
-		<link rel="stylesheet" href="style/idangerous.swiper.css">
         
         <title>Russiasport</title>
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     </head>
-    <body>
+    <body class="is_loading">
+    	<img src="style/images/loader.gif" alt="" id="is_loading">
 			<div id="videos"> 
 				<div class="header">
 		    		<label for="left-panel-visibility" id="menu_icon" class="three">
@@ -19,88 +20,18 @@
 		    		><div class="three icon icon-logo"></div
 		    		><div class="three icon icon-reload"></div>
 		    </div>
-		    <input type="checkbox" id="left-panel-visibility">
 		    <div class="panel left animated">
 				<div id="sport_types"></div>
-				<label for="left-panel-visibility" class="button" id="close">Закрыть</label>
+				<span class="button" id="close">Закрыть</label>
 			</div>
 			<div class="content animated">
-				<div class="line">
+				<div class="line" data-type="translations">
 					<div class="arrow-wrapper arrow-wrapper-prev">
 	    				<div class="icon icon-arrow-prev"></div>
 	    			</div>
 	    			<h2 class="transform-90">Трансляции</h2>
-	    			<div class="slider-wrapper">
-						<ul class="slider">
-			    			<li class="element">
-			    				<div class="play">
-			    						<div class="triangle"></div>
-			    						<span class="text">cмотреть</span>
-			    						<div class="background"></div>
-			    				</div>
-			    				<img src="style/images/example.jpg" alt="">
-			    				<div class="element-text">
-			    					<p class="element-text-title">Спартакиада боевых искусств "Непобедима Держава"</p>
-			    					<span class="element-text-time">15:00</span>
-			    					<span class="element-text-date">сегодня</span>
-				    				<p class="element-comments">
-				    					<span class="icon icon-comments"></span>
-				    					31
-				    				</p>
-			    				</div>
-			    			</li>
-			    			<li class="element">
-			    				<div class="play">
-			    						<div class="triangle"></div>
-			    						<span class="text">cмотреть</span>
-			    						<div class="background"></div>
-			    				</div>
-			    				<img src="style/images/example.jpg" alt="">
-			    				<div class="element-text">
-			    					<p class="element-text-title">Спартакиада боевых искусств "Непобедима Держава"</p>
-			    					<span class="element-text-time">15:00</span>
-			    					<span class="element-text-date">сегодня</span>
-				    				<p class="element-comments">
-				    					<span class="icon icon-comments"></span>
-				    					31
-				    				</p>
-			    				</div>
-			    			</li>
-			    			<li class="element">
-			    				<div class="play">
-			    						<div class="triangle"></div>
-			    						<span class="text">cмотреть</span>
-			    						<div class="background"></div>
-			    				</div>
-			    				<img src="style/images/example.jpg" alt="">
-			    				<div class="element-text">
-			    					<p class="element-text-title">Спартакиада боевых искусств "Непобедима Держава"</p>
-			    					<span class="element-text-time">15:00</span>
-			    					<span class="element-text-date">сегодня</span>
-				    				<p class="element-comments">
-				    					<span class="icon icon-comments"></span>
-				    					31
-				    				</p>
-			    				</div>
-			    			</li>
-			    			<li class="element">
-			    				<div class="play">
-			    						<div class="triangle"></div>
-			    						<span class="text">cмотреть</span>
-			    						<div class="background"></div>
-			    				</div>
-			    				<img src="style/images/example.jpg" alt="">
-			    				<div class="element-text">
-			    					<p class="element-text-title">Спартакиада боевых искусств "Непобедима Держава"</p>
-			    					<span class="element-text-time">15:00</span>
-			    					<span class="element-text-date">сегодня</span>
-				    				<p class="element-comments">
-				    					<span class="icon icon-comments"></span>
-				    					31
-				    				</p>
-			    				</div>
-			    			</li>
-			    			<li style="clear:both;"></li>
+	    			<div class="slider-wrapper swiper-container">
+						<ul id="live" class="slider swiper-wrapper">
 			    		</ul>
 			    		<div style="clear:both;"></div>
 		    		</div>
@@ -108,146 +39,26 @@
 	    				<div class="icon icon-arrow-next"></div>
 	    			</div>
 		    	</div>
-		    	<div class="line">
+		    	<div class="line" data-type="videos">
 		    		<div class="arrow-wrapper arrow-wrapper-prev">
 	    				<div class="icon icon-arrow-prev"></div>
 	    			</div>
 	    			<h2 class="transform-90">Видео</h2>
-	    			<div class="slider-wrapper">
-			    		<ul class="slider">
-			    			<li class="element">
-			    				<div class="play">
-			    						<div class="triangle"></div>
-			    						<span class="text">cмотреть</span>
-			    						<div class="background"></div>
-			    				</div>
-			    				<img src="style/images/example.jpg" alt="">
-			    				<div class="element-text">
-			    					<p class="element-text-title">Спартакиада боевых искусств "Непобедима Держава"</p>
-			    					<span class="element-text-time">15:00</span>
-			    					<span class="element-text-date">сегодня</span>
-				    				<p class="element-comments">
-				    					<span class="icon icon-comments"></span>
-				    					31
-				    				</p>
-			    				</div>
-			    			</li>
-			    			<li class="element">
-			    				<div class="play">
-			    						<div class="triangle"></div>
-			    						<span class="text">cмотреть</span>
-			    						<div class="background"></div>
-			    				</div>
-			    				<img src="style/images/example.jpg" alt="">
-			    				<div class="element-text">
-			    					<p class="element-text-title">Спартакиада боевых искусств "Непобедима Держава"</p>
-			    					<span class="element-text-time">15:00</span>
-			    					<span class="element-text-date">сегодня</span>
-				    				<p class="element-comments">
-				    					<span class="icon icon-comments"></span>
-				    					31
-				    				</p>
-			    				</div>
-			    			</li>
-			    			<li class="element">
-			    				<div class="play">
-			    						<div class="triangle"></div>
-			    						<span class="text">cмотреть</span>
-			    						<div class="background"></div>
-			    				</div>
-			    				<img src="style/images/example.jpg" alt="">
-			    				<div class="element-text">
-			    					<p class="element-text-title">Спартакиада боевых искусств "Непобедима Держава"</p>
-			    					<span class="element-text-time">15:00</span>
-			    					<span class="element-text-date">сегодня</span>
-				    				<p class="element-comments">
-				    					<span class="icon icon-comments"></span>
-				    					31
-				    				</p>
-			    				</div>
-			    			</li>
-			    			<li class="element">
-			    				<div class="play">
-			    						<div class="triangle"></div>
-			    						<span class="text">cмотреть</span>
-			    						<div class="background"></div>
-			    				</div>
-			    				<img src="style/images/example.jpg" alt="">
-			    				<div class="element-text">
-			    					<p class="element-text-title">Спартакиада боевых искусств "Непобедима Держава"</p>
-			    					<span class="element-text-time">15:00</span>
-			    					<span class="element-text-date">сегодня</span>
-				    				<p class="element-comments">
-				    					<span class="icon icon-comments"></span>
-				    					31
-				    				</p>
-			    				</div>
-			    			</li>
+	    			<div class="slider-wrapper swiper-container">
+			    		<ul id="video"  class="slider swiper-wrapper">
 			    		</ul>
 		    		</div>
 	    			<div class="arrow-wrapper arrow-wrapper-next">
 	    				<div class="icon icon-arrow-next"></div>
 	    			</div>
 		    	</div>
-		    	<div class="line news">
+		    	<div class="line news" data-type="news">
 		    		<div class="arrow-wrapper arrow-wrapper-prev">
 	    				<div class="icon icon-arrow-prev"></div>
 	    			</div>
 	    			<h2 class="transform-90">Новости</h2>
 	    			<div class="slider-wrapper swiper-container">
-			    		<ul class="slider swiper-wrapper">
-			    			<li class="element swiper-slide">
-			    				<img src="style/images/example.jpg" style="max-width:100%;">
-			    				<div class="element-text">
-			    					<p class="element-text-title">Спартакиада боевых искусств "Непобедима Держава"</p>
-			    					<span class="element-text-time">15:00</span>
-			    					<span class="element-text-date">сегодня</span>
-			    					<p class="element-text-tiser">В субботу, 24 ноября сайт RussiaSport проведет прямые трансляции полуфиналов и финалов 49-го Кубка мира QubicaAMF – крупнейшего международного турнира по боулингу, который в.. том году проходит в Красноярске.</p>
-				    				<p class="element-comments">
-				    					<span class="icon icon-comments"></span>
-				    					31
-				    				</p>
-			    				</div>
-			    			</li>
-			    			<li class="element swiper-slide">
-			    				<img src="style/images/example.jpg" style="max-width:100%;">
-			    				<div class="element-text">
-			    					<p class="element-text-title">Спартакиада боевых искусств "Непобедима Держава"</p>
-			    					<span class="element-text-time">15:00</span>
-			    					<span class="element-text-date">сегодня</span>
-			    					<p class="element-text-tiser">В субботу, 24 ноября сайт RussiaSport проведет прямые трансляции полуфиналов и финалов 49-го Кубка мира QubicaAMF – крупнейшего международного турнира по боулингу, который в.. том году проходит в Красноярске.</p>
-				    				<p class="element-comments">
-				    					<span class="icon icon-comments"></span>
-				    					31
-				    				</p>
-			    				</div>
-			    			</li>
-			    			<li class="element swiper-slide">
-			    				<img src="style/images/example.jpg" style="max-width:100%;">
-			    				<div class="element-text">
-			    					<p class="element-text-title">Спартакиада боевых искусств "Непобедима Держава"</p>
-			    					<span class="element-text-time">15:00</span>
-			    					<span class="element-text-date">сегодня</span>
-			    					<p class="element-text-tiser">В субботу, 24 ноября сайт RussiaSport проведет прямые трансляции полуфиналов и финалов 49-го Кубка мира QubicaAMF – крупнейшего международного турнира по боулингу, который в.. том году проходит в Красноярске.</p>
-				    				<p class="element-comments">
-				    					<span class="icon icon-comments"></span>
-				    					31
-				    				</p>
-			    				</div>
-			    			</li>
-			    			<li class="element swiper-slide">
-			    				<img src="style/images/example.jpg" style="max-width:100%;">
-			    				<div class="element-text">
-			    					<p class="element-text-title">Спартакиада боевых искусств "Непобедима Держава"</p>
-			    					<span class="element-text-time">15:00</span>
-			    					<span class="element-text-date">сегодня</span>
-			    					<p class="element-text-tiser">В субботу, 24 ноября сайт RussiaSport проведет прямые трансляции полуфиналов и финалов 49-го Кубка мира QubicaAMF – крупнейшего международного турнира по боулингу, который в.. том году проходит в Красноярске.</p>
-				    				<p class="element-comments">
-				    					<span class="icon icon-comments"></span>
-				    					31
-				    				</p>
-			    				</div>
-			    			</li>
+			    		<ul id="news" class="slider swiper-wrapper">
 			    		</ul>
 			    		<div class="pagination"></div>
 			    	</div>
@@ -259,7 +70,9 @@
 		</div>
     </body>
     <script type="text/javascript" charset="utf-8" src="js/jquery-2.0.3.min.js"></script>
-	<script type="text/javascript" charset="utf-8" src="js/idangerous.swiper-2.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery.json-2.4.min.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/idangerous.swiper.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/node.js"></script>
 	<script type="text/javascript" charset="utf-8" src="js/index.js"></script>
     <script type="text/javascript" charset="utf-8">
         app.initialize();

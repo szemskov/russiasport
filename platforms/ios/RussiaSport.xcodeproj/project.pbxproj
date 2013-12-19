@@ -32,7 +32,6 @@
 		7E7966E61810823500FA85AD /* icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DC1810823500FA85AD /* icon-small.png */; };
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
 		8F091D86FBD942E39DCB638F /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3090F545AE724F2BA555092D /* CDVReachability.m */; };
-		8F8495AD55264AFA8E55C94F /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B6C9467CB94B20A73C78B7 /* CDVSplashScreen.m */; };
 		F3C7B2301857276C00AFEE23 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C7B2251857276C00AFEE23 /* Default-568h@2x.png */; };
 		F3C7B2311857276C00AFEE23 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C7B2261857276C00AFEE23 /* Default-Landscape.png */; };
 		F3C7B2321857276C00AFEE23 /* Default-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C7B2271857276C00AFEE23 /* Default-Landscape@2x.png */; };
@@ -419,7 +418,6 @@
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				48A53083F1B64982B1511CA5 /* CDVConnection.m in Sources */,
 				8F091D86FBD942E39DCB638F /* CDVReachability.m in Sources */,
-				8F8495AD55264AFA8E55C94F /* CDVSplashScreen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

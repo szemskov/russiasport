@@ -16,6 +16,8 @@ html, body {
 	height: 100%;
     overflow: hidden;
 }
+
+/* Высота страницы - 100% высоты дисплея, для iOS сжимаем и сдвигаем вниз на высоту верхней "шапки" */
 html.ios7 {
     height: 100%;
 	box-sizing: border-box;
@@ -26,6 +28,11 @@ html.ios7 body {
 	position: relative;
     overflow: hidden;
 }
+html.ios7 #videos,
+html.ios7 .content {
+	height: 100%;
+}
+
 html * {
 	box-sizing: border-box;
 	font-family: RussoOne;
@@ -108,6 +115,7 @@ body.ios7{
 	-o-transform: rotate(-90deg);
 }
 .arrow-wrapper {
+	cursor: pointer;
 	display: none;
 	height: 5.563em;
 	position: absolute;
@@ -115,10 +123,10 @@ body.ios7{
 	width: 3.4668%;
 	z-index: 1;
 }
-.arrow-wrapper.arrow-wrapper-prev {
+.arrow-wrapper-prev {
 	left: 0;
 }
-.arrow-wrapper.arrow-wrapper-next {
+.arrow-wrapper-next {
 	background-color: white;
 	right: 0;
 }
@@ -177,16 +185,17 @@ div.background {
 	width: 98.76543209876543%;
 }
 .element-text-title {
-	margin-top: 0.292em;
-	font-size: 1.500em;
 	color: #d72658;
+	font-size: 1.500em;
+	margin: 0.292em 0 0.167em;
 	padding-right: 13.3%;
-	
+	line-height: 1em;	
 }
 .element-text-tiser {
 	color: #3f3f3f;
 	font-size: 1.063em;
-	margin-top: 1.125em;
+	line-height: 1em;
+	margin-top: 1.025em;
 	padding-right: 2.25%;
 }
 .element-text-time {
@@ -245,7 +254,7 @@ body.panel-active .icon-menu {
 	background-image: url("images/icon-arrow.png");
 	height: 2.875em;
 	margin: 1.375em auto 1.313em;
-	width: 38.0282%;
+	width: 1.4375em;
 }
 .icon-arrow-prev {
 	left: 1.7578%;
@@ -268,7 +277,6 @@ body.panel-active .icon-menu {
 	color: white;
 	cursor: pointer;
 	display: inline-block;
-	/*float: left;*/
 	font-size: 1.125em;
 	height: 13.333em;
 	margin: 0 1.1363636363636365%;
@@ -458,7 +466,6 @@ body.panel-active .content {
 }
 
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
-/*@media screen and (min-width:1024px) {*/
 	html {
 		font-size: 8px;
 		height: 768px;
@@ -470,7 +477,7 @@ body.panel-active .content {
 }
 
 @media screen and (max-width:768px),
-only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+	only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
 	html {
 		font-size: 8px;
 		height: 1024px;
@@ -481,6 +488,9 @@ only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (
 		position: absolute;
 		top: 0;
 		z-index: 1;
+	}
+	.content {
+		padding-bottom: 5.375em;
 	}
 	.element {
 		height: 181px;
@@ -527,13 +537,18 @@ only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (
 	}
 	body.panel-active .panel {
 		-webkit-transform: none;
+		-moz-transform: none;
+		-ms-transform: none;
+		-o-transform: none;
 		margin-top: 5.375em;
 	}
 	body.panel-active .content {
 		-webkit-transform: none;
+		-moz-transform: none;
+		-ms-transform: none;
+		-o-transform: none;
 		margin-right: 0;
 		margin-bottom: 28.125em;
-		/*height: 87.312em;*/
 	}
 	.transform-90 {
 		bottom: auto;
@@ -549,19 +564,28 @@ only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (
 		bottom: auto;
 		height: 4.091em;
 		left: auto;
-		right: 1.0416666666666665%;
+		right: 3.3333333333333335% !important;
 		top: auto;
 		width: 17.3828125%;
 	}
 	.arrow-wrapper.arrow-wrapper-prev {
-		-webkit-transform: rotate(90deg);
-		left: auto;
 		top: 0;
 	}
 	.arrow-wrapper.arrow-wrapper-next {
-		-webkit-transform: rotate(90deg);
 		background-color: white;
 		bottom: 0;
+	}
+	.icon-arrow-prev {
+		-webkit-transform: rotate(90deg);
+		-moz-transform: rotate(90deg);
+		-ms-transform: rotate(90deg);
+		-o-transform: rotate(90deg);
+	}
+	.icon-arrow-next {
+		-webkit-transform: rotate(270deg);
+		-moz-transform: rotate(270deg);
+		-ms-transform: rotate(270deg);
+		-o-transform: rotate(270deg);
 	}
 	.button {
 		margin: 1.036em auto;
