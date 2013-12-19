@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
@@ -20,7 +19,6 @@
 		308D05391370CCF300D202BF /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 308D05301370CCF300D202BF /* icon@2x.png */; };
 		30FC414916E50CA1004E6F35 /* icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30FC414816E50CA1004E6F35 /* icon-72@2x.png */; };
 		48A53083F1B64982B1511CA5 /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = E7078275EDF2447BBF8795E1 /* CDVConnection.m */; };
-		57D863EBE50A48CE9CCF6B96 /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = B8313FCF8B474C48A5614345 /* CDVLogger.m */; };
 		5AEE5B35173C68D80009041E /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AEE5B34173C68D80009041E /* CoreLocation.framework */; };
 		5B0F1657BD8D464EAFFAC3B8 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41836B9685449488626083D /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		5B1594DD16A7569C00FEF299 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B1594DC16A7569C00FEF299 /* AssetsLibrary.framework */; };
@@ -33,7 +31,6 @@
 		7E7966E51810823500FA85AD /* icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DB1810823500FA85AD /* icon-76@2x.png */; };
 		7E7966E61810823500FA85AD /* icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DC1810823500FA85AD /* icon-small.png */; };
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
-		82BF3AAE9F5E434FA1C5D349 /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 46400CF4CE6A4A9BA49DA5E2 /* CDVDevice.m */; };
 		8F091D86FBD942E39DCB638F /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3090F545AE724F2BA555092D /* CDVReachability.m */; };
 		8F8495AD55264AFA8E55C94F /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 32B6C9467CB94B20A73C78B7 /* CDVSplashScreen.m */; };
 		F3C7B2301857276C00AFEE23 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C7B2251857276C00AFEE23 /* Default-568h@2x.png */; };
@@ -420,11 +417,9 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
-				82BF3AAE9F5E434FA1C5D349 /* CDVDevice.m in Sources */,
 				48A53083F1B64982B1511CA5 /* CDVConnection.m in Sources */,
 				8F091D86FBD942E39DCB638F /* CDVReachability.m in Sources */,
 				8F8495AD55264AFA8E55C94F /* CDVSplashScreen.m in Sources */,
-				57D863EBE50A48CE9CCF6B96 /* CDVLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,7 +452,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: SERGEY ZEMSKOV (K3AM435T3L)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -482,8 +477,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = RussiaSport;
-				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE = "4E9F57F3-6D13-40C1-93D1-05EF0CF918A2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -493,7 +488,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: SERGEY ZEMSKOV (PZU54AD24U)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RussiaSport/RussiaSport-Prefix.pch";
@@ -516,8 +511,8 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = RussiaSport;
-				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE = "4E9F57F3-6D13-40C1-93D1-05EF0CF918A2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

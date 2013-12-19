@@ -30,7 +30,7 @@ $.each({
     }
 });
 
-var DEBUG = true;
+var DEBUG = false;
 var tags = window.localStorage.getItem("tags");
 if(!tags){
 	tags = {
@@ -113,7 +113,7 @@ onOffline: function() {
 	// Update DOM on a Received Event
 receivedEvent: function(id) {
 	if(DEBUG){
-		console.log('Received Event: ' + id);
+		//console.log('Received Event: ' + id);
 	}
 },
 resetAppInits: function() { //сброс конфига по дефолту и удаление различных inner стилей и параметров, которые записываются при работе и могу помешать при повторной инициализации контента.
@@ -299,7 +299,7 @@ __load: function(source){
                }
                });
     } else {
-        alert('Нет интернет соединения');
+        //alert('Нет интернет соединения');
     }
 },
 checkConnection: function() {
@@ -315,7 +315,7 @@ checkConnection: function() {
 	states[Connection.CELL]     = 'Cell generic connection';
 	states[Connection.NONE]     = 'No network connection';
 	
-	console.log('Connection type: ' + states[networkState]);
+	//console.log('Connection type: ' + states[networkState]);
 	return navigator.online;
 },
 prepareUrl: function(source) {
@@ -338,7 +338,7 @@ _getActiveTags: function(){
 },
 onDeviceReady: function() {
 	/*fix height ios 7*/
-	if (typeof(window.device) != 'undefined' && parseFloat(window.device.version) >= 7.0) {
+	if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
         $('body').addClass('ios7');
         $('html').addClass('ios7');
     }
