@@ -165,7 +165,8 @@ initPanel: function() {
 							});
 	
 	$('.icon-reload').on('click', function() {
-						app.loading.show_loading() && app.resetAppInits() && app.initContent();
+						document.location.reload();
+						// app.loading.show_loading() && app.resetAppInits() && app.initContent();
 						});
 	
 },
@@ -248,6 +249,12 @@ onGetNews: function(json){
 	if (!this.mySwipers || !this.mySwipers['#news']) {
 		jQuery(sources['news']['ph']).append(  [].concat(sources['news'].data).splice(0, 8) );
 		this.initSlider(sources['news']['ph']);
+	} else {
+		var length = app.mySwipers['#news'].slides.length,
+			tempSlide = this.mySwipers['#news'].createSlide();
+		jQuery(sources['news']['ph']).append(  [].concat(sources['news'].data).splice(sources['news'].offset-12, 8) );
+		this.mySwipers['#news'].appendSlide(tempSlide); this.mySwipers['#news'].removeLastSlide();
+		this.mySwipers['#news'].is_busy = false;
 	}
 },
 onGetVideo: function(json){
@@ -279,7 +286,14 @@ onGetVideo: function(json){
 	if (!this.mySwipers || !this.mySwipers['#video']) {
 		jQuery(sources['video']['ph']).append( [].concat(sources['video'].data).splice(0, 8) );
 		this.initSlider(sources['video']['ph']);
+	} else {
+		var length = app.mySwipers['#video'].slides.length,
+			tempSlide = this.mySwipers['#video'].createSlide();
+		jQuery(sources['video']['ph']).append(  [].concat(sources['video'].data).splice(sources['video'].offset-12, 8) );
+		this.mySwipers['#video'].appendSlide(tempSlide); this.mySwipers['#video'].removeLastSlide();
+		this.mySwipers['#video'].is_busy = false;
 	}
+
 },
 onGetLive: function(json){
     var html = '';
@@ -311,6 +325,12 @@ onGetLive: function(json){
 	if (!this.mySwipers || !this.mySwipers['#live']) {
 		jQuery(sources['live']['ph']).append( [].concat(sources['live'].data).splice(0, 8) );
 		this.initSlider(sources['live']['ph']);
+	} else {
+		var length = app.mySwipers['#live'].slides.length,
+			tempSlide = this.mySwipers['#live'].createSlide();
+		jQuery(sources['live']['ph']).append(  [].concat(sources['live'].data).splice(sources['live'].offset-12, 8) );
+		this.mySwipers['#live'].appendSlide(tempSlide); this.mySwipers['#live'].removeLastSlide();
+		this.mySwipers['#live'].is_busy = false;
 	}
 },
 __load: function(source){
@@ -411,23 +431,24 @@ onDeviceReady: function() {
 							}
 							if (app.mySwipers._positions[i]) swiper.swipeTo(app.mySwipers._positions[i]);
 						},
-						onSlideChangeStart: function(swiper) {
+						onTouchMove: function(swiper) {
 							var currentIndex = swiper.activeIndex,
 								slidesLength = swiper.slides.length,
 								slidesOffset = slidesLength-currentIndex,
-								tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны	;
-							if ( slidesOffset<8 ) {
-								if ( sources[sourcesKey].data[currentIndex+8] ) {
-									$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
-									temp = swiper.createSlide();
+								tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
+							if (swiper.is_busy===true) return;
+							if ( slidesOffset<12 ) {
+								if ( sources[sourcesKey].data[slidesLength+8] ) {
+									$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength-1, slidesLength+8).join('')   );
+									tempSlide = swiper.createSlide();
 									swiper.appendSlide(tempSlide); swiper.removeLastSlide();
+									swiper.is_busy = false;
 								} else if (sources[sourcesKey].stop!==true){
+									swiper.is_busy = true;
+									$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength).join('')   );
+									tempSlide = swiper.createSlide();
+									swiper.appendSlide(tempSlide); swiper.removeLastSlide();
 									that.__load(sources[sourcesKey]);
-									setTimeout(function() {
-										$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
-										temp = swiper.createSlide();
-										swiper.appendSlide(tempSlide); swiper.removeLastSlide();
-									}, 500);
 								}
 							}
 						},
@@ -489,23 +510,24 @@ initSlider: function(element) {
 				$this.find('.arrow-wrapper-next').show();
 			}
 		},
-		onSlideChangeStart: function(swiper) {
+		onTouchMove: function(swiper) {
 			var currentIndex = swiper.activeIndex,
 				slidesLength = swiper.slides.length,
 				slidesOffset = slidesLength-currentIndex,
 				tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
-			if ( slidesOffset<8 ) {
-				if ( sources[sourcesKey].data[currentIndex+8] ) {
-					$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
-					temp = swiper.createSlide();
+			if (swiper.is_busy===true) return;
+			if ( slidesOffset<12 ) {
+				if ( sources[sourcesKey].data[slidesLength+8] ) {
+					$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength-1, slidesLength+8).join('')   );
+					tempSlide = swiper.createSlide();
 					swiper.appendSlide(tempSlide); swiper.removeLastSlide();
+					swiper.is_busy = false;
 				} else if (sources[sourcesKey].stop!==true){
+					swiper.is_busy = true;
+					$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength).join('')   );
+					tempSlide = swiper.createSlide();
+					swiper.appendSlide(tempSlide); swiper.removeLastSlide();
 					that.__load(sources[sourcesKey]);
-					setTimeout(function() {
-						$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
-						temp = swiper.createSlide();
-						swiper.appendSlide(tempSlide); swiper.removeLastSlide();
-					}, 500);
 				}
 			}
 		},
