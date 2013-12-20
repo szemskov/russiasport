@@ -88,7 +88,7 @@ initialize: function() {
 	// Bind any events that are required on startup. Common events are:
 	// 'load', 'deviceready', 'offline', and 'online'.
 bindEvents: function() {
-	document.addEventListener('deviceready', this.onDeviceReady, false);
+	document.addEventListener('deviceready', this.onDeviceReady, true);
 	document.addEventListener('pause', this.onPause, false);
 	document.addEventListener('resume', this.onResume, false);
 	document.addEventListener('online', this.onOnline, false);
