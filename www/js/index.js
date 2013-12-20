@@ -185,7 +185,24 @@ initContent: function() {
 			}
 		}, 1000);
 	})(this);
-	
+	(function() {//event для поля поиска.
+		var oldValue = '',
+			$search_field = $('#search-field');
+		$search_field.on('keyup', function() {
+			var $this = $search_field,
+				value = $this.val(),
+				is_length_enough = value.length>2
+			if ($this.is_searching) clearTimeout($this.is_searching);
+			if (!is_length_enough || oldValue===value) {
+				return false;
+			}
+			$this.is_searching = setTimeout(function() {
+				// ajax start
+				// ajax end
+				oldValue = value;
+			}, 2000)
+		})
+	})();
 },
 updateSources: function(source, json_data) {
 	if (arguments.length<2) throw new Error('Arguments.length<2');
