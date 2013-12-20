@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
@@ -32,6 +33,8 @@
 		7E7966E61810823500FA85AD /* icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DC1810823500FA85AD /* icon-small.png */; };
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
 		8F091D86FBD942E39DCB638F /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3090F545AE724F2BA555092D /* CDVReachability.m */; };
+		F32A8F911864681F00D3F919 /* Icon-57.png in Resources */ = {isa = PBXBuildFile; fileRef = F32A8F901864681F00D3F919 /* Icon-57.png */; };
+		F32A8F931864684000D3F919 /* Icon-57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F32A8F921864684000D3F919 /* Icon-57@2x.png */; };
 		F3C7B2301857276C00AFEE23 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C7B2251857276C00AFEE23 /* Default-568h@2x.png */; };
 		F3C7B2311857276C00AFEE23 /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C7B2261857276C00AFEE23 /* Default-Landscape.png */; };
 		F3C7B2321857276C00AFEE23 /* Default-Landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C7B2271857276C00AFEE23 /* Default-Landscape@2x.png */; };
@@ -103,6 +106,8 @@
 		B8313FCF8B474C48A5614345 /* CDVLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVLogger.m; path = org.apache.cordova.console/CDVLogger.m; sourceTree = "<group>"; };
 		D4611CAFA1214786AFA87C48 /* CDVLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVLogger.h; path = org.apache.cordova.console/CDVLogger.h; sourceTree = "<group>"; };
 		E7078275EDF2447BBF8795E1 /* CDVConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVConnection.m; path = "org.apache.cordova.network-information/CDVConnection.m"; sourceTree = "<group>"; };
+		F32A8F901864681F00D3F919 /* Icon-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-57.png"; sourceTree = "<group>"; };
+		F32A8F921864684000D3F919 /* Icon-57@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-57@2x.png"; sourceTree = "<group>"; };
 		F3C7B2251857276C00AFEE23 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F3C7B2261857276C00AFEE23 /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
 		F3C7B2271857276C00AFEE23 /* Default-Landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x.png"; sourceTree = "<group>"; };
@@ -244,6 +249,8 @@
 		308D052D1370CCF300D202BF /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				F32A8F921864684000D3F919 /* Icon-57@2x.png */,
+				F32A8F901864681F00D3F919 /* Icon-57.png */,
 				7E7966D41810823500FA85AD /* icon-40.png */,
 				7E7966D51810823500FA85AD /* icon-40@2x.png */,
 				7E7966D61810823500FA85AD /* icon-50.png */,
@@ -363,11 +370,13 @@
 				7E7966E41810823500FA85AD /* icon-76.png in Resources */,
 				7E7966DF1810823500FA85AD /* icon-40@2x.png in Resources */,
 				308D05371370CCF300D202BF /* icon-72.png in Resources */,
+				F32A8F911864681F00D3F919 /* Icon-57.png in Resources */,
 				308D05381370CCF300D202BF /* icon.png in Resources */,
 				308D05391370CCF300D202BF /* icon@2x.png in Resources */,
 				F3C7B2371857276C00AFEE23 /* Default-Portrait@2x~ipad.png in Resources */,
 				F3C7B2351857276C00AFEE23 /* Default-Portrait.png in Resources */,
 				F3C7B2391857276C00AFEE23 /* Default@2x~iphone.png in Resources */,
+				F32A8F931864684000D3F919 /* Icon-57@2x.png in Resources */,
 				F3C7B2361857276C00AFEE23 /* Default-Portrait@2x.png in Resources */,
 				1F766FE113BBADB100FB74C0 /* Localizable.strings in Resources */,
 				F3C7B2341857276C00AFEE23 /* Default-Landscape~ipad.png in Resources */,
@@ -451,7 +460,7 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: SERGEY ZEMSKOV (K3AM435T3L)";
-				COPY_PHASE_STRIP = NO;
+				COPY_PHASE_STRIP = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
