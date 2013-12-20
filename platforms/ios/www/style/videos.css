@@ -8,13 +8,22 @@
 	font-weight: normal;
 	font-style: normal;
 }
+@font-face {
+    font-family: "OpenSans";
+    src: url("font/OpenSans/OpenSans-Semibold-webfont.eot");
+	src: url("font/OpenSans/OpenSans-Semibold-webfont.eot?#iefix") format("embedded-opentype"),
+		 url("font/OpenSans/OpenSans-Semibold-webfont.woff") format("woff"),
+		 url("font/OpenSans/OpenSans-Semibold-webfont.ttf") format("truetype"),
+		 url("font/OpenSans/OpenSans-Semibold-webfont.svg#OpenSansSemibold") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
 html {
-	font-size: 16px;
+	font-size: 8px;
 	position: relative;
 }
 html, body {
 	height: 100%;
-    overflow: hidden;
 }
 
 /* Высота страницы - 100% высоты дисплея, для iOS сжимаем и сдвигаем вниз на высоту верхней "шапки" */
@@ -22,11 +31,12 @@ html.ios7 {
     height: 100%;
 	box-sizing: border-box;
 	padding-top: 20px;
+	overflow: hidden;
 }
 html.ios7 body {
     height: 100%;
 	position: relative;
-    overflow: hidden;
+	overflow: hidden;
 }
 html.ios7 #videos,
 html.ios7 .content {
@@ -68,7 +78,12 @@ body.is_loading #is_loading {
 	vertical-align: middle;
 	width: 33.3333% !important;
 }
-
+.three>* {
+	vertical-align: middle;
+}
+.third {
+	text-align: right;
+}
 .line {
 	background-image: -webkit-linear-gradient(0deg, #c1d7ea 50%, #e8f1f7);
 	background-image: -moz-linear-gradient(0deg, #c1d7ea 50%, #e8f1f7);
@@ -119,6 +134,7 @@ body.ios7{
 	display: none;
 	height: 5.563em;
 	position: absolute;
+	text-align: center;
 	top: 3.625em;
 	width: 3.4668%;
 	z-index: 1;
@@ -134,6 +150,10 @@ body.ios7{
 	background: url('images/background-header.png');
 	height: 5.375em;
 	padding: 0.875em 1.0742% 0.875em 0.8301%;
+}
+.header .icon-reload {
+	margin-left: 5.555555555555555%;
+	vertical-align: middle;
 }
 div.play {
 	box-sizing: border-box;
@@ -226,13 +246,16 @@ div.background {
 	background-repeat: no-repeat;
 	background-size: contain;
 	cursor: pointer;
+	display: inline-block;
 	height: 100%;
 	width: 100%;
 }
 .icon-reload {
 	background-image: url("images/icon-reload.png");
 	background-position: center right;
-	height: 2.750em;
+	/*height: 2.750em;*/
+	height: 3.875em;
+	width: 2.500em;
 }
 .icon-logo {
 	background-image: url("images/icon-logo.png");
@@ -429,6 +452,37 @@ body.panel-active .icon-menu {
 	text-align: center;
 	width: 83.54661791590493%;
 }
+#search-field-wrapper {
+	display: none;
+	position: relative;
+	width: 59.530791788856305%;
+}
+#search-field {
+	/*background-color: #f4f4f4;*/
+	background-image: -webkit-linear-gradient(#f4f4f4, #e6e6e6);
+	border: 3px solid #00618d;
+	border-radius: 26px;
+	box-shadow: 0px -3px 3px rgba(255,255,255,0.5);
+	font: normal 1.375em OpenSans;
+	height: 2.545em;
+	margin-top: 3px;
+	outline: none;
+	padding: 0 1.625em 0 16.25%;
+	width: 100%;
+}
+#search-field-wrapper:before {
+	content: '';
+	background: url("images/icon-search.png");
+	background-size: 100% 100%;
+	bottom: 0;
+	display: block;
+	height: 2em;
+	left: 1.188em;
+	margin: auto;
+	position: absolute;
+	top: 3px;
+	width: 2em;
+}
 
 /* Левая панель */
 .panel.left {
@@ -469,6 +523,7 @@ body.panel-active .content {
 	html {
 		font-size: 8px;
 		height: 768px;
+		overflow: hidden;
 		width: 1024px;
 	}
 	.panel.left {

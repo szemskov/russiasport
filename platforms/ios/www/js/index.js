@@ -56,25 +56,28 @@ if(!tags){
 
 var sources = {
 	"news" : {"ph":"#news",
-		"url":"http://russiasport.ru/api.php?wall&format=json&uid=35&offset=:offset&count=:limit&tag_tids[]=:tids",
+		"url":"http://russiasport.ru/api.php?wall&format=json&uid=35&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
 		"limit":12,
 		"offset":0,
 		"stop":false,
 		"data": [],
+		"phrase": "",
 		"callback":"app.onGetNews"},
 	"video" : {"ph":"#video",
-		"url":"http://russiasport.ru/api.php?video&format=json&proccess&offset=:offset&count=:limit&tag_tids[]=:tids",
+		"url":"http://russiasport.ru/api.php?video&format=json&proccess&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
 		"limit":12,
 		"offset":0,
 		"stop":false,
 		"data": [],
+		"phrase": "",
 		"callback":"app.onGetVideo"},
 	"live" : {"ph":"#live",
-		"url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&tag_tids[]=:tids",
+		"url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
 		"limit":12,
 		"offset":0,
 		"stop":false,
 		"data": [],
+		"phrase": "",
 		"callback":"app.onGetLive"},
 };
 
@@ -88,7 +91,7 @@ initialize: function() {
 	// Bind any events that are required on startup. Common events are:
 	// 'load', 'deviceready', 'offline', and 'online'.
 bindEvents: function() {
-	document.addEventListener('deviceready', this.onDeviceReady, false);
+	document.addEventListener('deviceready', this.onDeviceReady, true);
 	document.addEventListener('pause', this.onPause, false);
 	document.addEventListener('resume', this.onResume, false);
 	document.addEventListener('online', this.onOnline, false);
@@ -122,6 +125,7 @@ resetAppInits: function() { //сброс конфига по дефолту и �
 		if (sources[i].stop) sources[i].stop = false;
 		if (sources[i].data.length) sources[i].data = [];
 		if (sources[i].ph && $(sources[i].ph)) $(sources[i].ph).removeAttr('style');
+		sources[i].phrase = '';
 	}
 	if (this.mySwipers) {
 		for (i in this.mySwipers)
@@ -142,7 +146,7 @@ initPanel: function() {
 	for(var data_type in tags){
 		panel.append('<div class="sport-icon-element sport-icon-element-'+(++i)+' '+data_type+(tags[data_type].active?' active':'')+'"><div data-type="'+data_type+'" class="icon"></div>'+tags[data_type].name+'</div>');
 	}
-	$('.icon-menu, #close').on('click', function() {
+	$('.icon-menu, #close').on('click', function(e) {
 		$('body').toggleClass('panel-active');
 	})
 	/* Клик по кнопкам в левой панели */
@@ -152,19 +156,13 @@ initPanel: function() {
 						 tags[type].active = this.classList.contains('active')?0:1;
 						 window.localStorage.setItem("tags", $.toJSON(tags));
 						 this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
-						 $('body').addClass('is_loading');
-						 app.resetAppInits() && app.initContent();
+						 app.loading.show_loading() && app.resetAppInits() && app.initContent();
 						 });
 	
-	
-	$('.icon.icon-menu').on('click', function() {
-							$('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
-							});
 	
 	$('.icon-reload').on('click', function() {
-						$('body').addClass('is_loading');
-						 app.resetAppInits() && app.initContent();
-						 });
+						app.loading.show_loading() && app.resetAppInits() && app.initContent();
+						});
 	
 },
 initContent: function() {
@@ -174,18 +172,44 @@ initContent: function() {
 		// $(sources[i]['ph']).append('<img src="./style/images/loader.gif" alt="" title="" />');
 		this.__load(sources[i]);
 	}
-	(function(app) {
-		if ( !$('body').hasClass('is_loading') ) return;
-		var timer = setInterval(function() {
-			var counter = 3,
-				k = 0;
-			for (var i in sources) {
-				if ( sources.hasOwnProperty(i) && app.mySwipers &&  app.mySwipers['#'+i] && (app.mySwipers['#'+i] instanceof Swiper) ) k+=1;
-				if (k===counter) $('body').removeClass('is_loading') && clearInterval(timer);
+	this.loading.is_all_swipers_ready(this.loading.hide_loading);
+	(function(that) {//event для поля поиска.
+		var oldValue = '',
+			$search_field = $('#search-field');
+		$search_field.on('keyup', function(e) {
+			var $this = $search_field,
+				value = $this.val(),
+				is_length_enough = value.length>2,
+				code = e.keyCode || e.which;
+			if ($this.is_searching) clearTimeout($this.is_searching);
+			if (!is_length_enough || oldValue===value) {
+				return false;
 			}
-		}, 1000);
+			if (code===13) {
+				that.loading.show_loading();
+				app.resetAppInits();
+				that.loading.is_all_swipers_ready(that.loading.hide_loading);
+				for (i in sources) {
+					sources[i].phrase = value;
+					$(sources[i]['ph']).empty();
+					that.__load(sources[i]);
+				}
+				oldValue = value;
+				return true;
+			}
+			$this.is_searching = setTimeout(function() {
+				that.loading.show_loading();
+				app.resetAppInits();
+				that.loading.is_all_swipers_ready(that.loading.hide_loading);
+				for (i in sources) {
+					sources[i].phrase = value;
+					$(sources[i]['ph']).empty();
+					that.__load(sources[i]);
+				}
+				oldValue = value;
+			}, 2000)
+		})
 	})(this);
-	
 },
 updateSources: function(source, json_data) {
 	if (arguments.length<2) throw new Error('Arguments.length<2');
@@ -324,6 +348,7 @@ prepareUrl: function(source) {
 	url = source.url.replace(':limit',source.limit)
 	.replace(':offset',source.offset)
 	.replace(':callback',source.callback)
+	.replace(':phrase',source.phrase)
 	.replace(':tids',tids);
 	return url;
 },
@@ -543,5 +568,45 @@ is_portrait: function is_portrait() {
 		var r = ( window.innerWidth<768 );
 	}
 	return r;
+},
+loading: {
+	show_loading: function() {
+		$('body').addClass('is_loading');
+		return true;
+	},
+	hide_loading: function() {
+		$('body').removeClass('is_loading');
+		return true;
+	},
+	is_loading: function() {
+		return $('body').hasClass('is_loading');
+	},
+	is_all_swipers_ready: function(callback) {
+		var callback = (callback && callback instanceof Function) ? callback : function() {};
+		(function(that) {
+			if ( !that.loading.is_loading ) return;
+			var timer = setInterval(function() {
+				var counter = 3,
+					k = 0;
+				for (var i in sources) {
+					if ( sources.hasOwnProperty(i) && that.mySwipers &&  that.mySwipers['#'+i] && (that.mySwipers['#'+i] instanceof Swiper) ) k+=1;
+					if (k===counter) {
+						clearInterval(timer);
+						callback();
+					}
+				}
+			}, 1000);
+		})(app, callback);
+	}
+},
+onOffSearch_field: function() {
+	var $search_field = $('#search-field-wrapper'),
+		is_hidden = $search_field.is(':hidden');
+	if (is_hidden) {
+		$search_field.css('display', 'inline-block')
+	} else {
+		$search_field.hide();
+	}
+	return true;
 }
 };
