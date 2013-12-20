@@ -180,16 +180,16 @@ initContent: function() {
 	(function(that) {//event для поля поиска.
 		var oldValue = '',
 			$search_field = $('#search-field');
-		$search_field.on('keyup', function() {
+		$search_field.on('keyup', function(e) {
 			var $this = $search_field,
 				value = $this.val(),
-				is_length_enough = value.length>2
+				is_length_enough = value.length>2,
+				code = e.keyCode || e.which;
 			if ($this.is_searching) clearTimeout($this.is_searching);
 			if (!is_length_enough || oldValue===value) {
 				return false;
 			}
-			$this.is_searching = setTimeout(function() {
-				// ajax start
+			if (code===13) {
 				that.loading.show_loading();
 				app.resetAppInits();
 				that.loading.is_all_swipers_ready(that.loading.hide_loading);
@@ -198,7 +198,18 @@ initContent: function() {
 					$(sources[i]['ph']).empty();
 					that.__load(sources[i]);
 				}
-				// ajax end
+				oldValue = value;
+				return true;
+			}
+			$this.is_searching = setTimeout(function() {
+				that.loading.show_loading();
+				app.resetAppInits();
+				that.loading.is_all_swipers_ready(that.loading.hide_loading);
+				for (i in sources) {
+					sources[i].phrase = value;
+					$(sources[i]['ph']).empty();
+					that.__load(sources[i]);
+				}
 				oldValue = value;
 			}, 2000)
 		})
