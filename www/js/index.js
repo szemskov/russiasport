@@ -593,7 +593,13 @@ loading: {
 	}
 },
 onOffSearch_field: function() {
-	$('#search-field-wrapper').toggle();
+	var $search_field = $('#search-field-wrapper'),
+		is_hidden = $search_field.is(':hidden');
+	if (is_hidden) {
+		$search_field.css('display', 'inline-block')
+	} else {
+		$search_field.hide();
+	}
 	return true;
 }
 };

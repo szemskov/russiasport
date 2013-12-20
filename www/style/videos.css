@@ -31,10 +31,12 @@ html.ios7 {
     height: 100%;
 	box-sizing: border-box;
 	padding-top: 20px;
+	overflow: hidden;
 }
 html.ios7 body {
     height: 100%;
 	position: relative;
+	overflow: hidden;
 }
 html.ios7 #videos,
 html.ios7 .content {
@@ -451,7 +453,7 @@ body.panel-active .icon-menu {
 	width: 83.54661791590493%;
 }
 #search-field-wrapper {
-	display: inline-block;
+	display: none;
 	position: relative;
 	width: 59.530791788856305%;
 }
