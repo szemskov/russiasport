@@ -46,6 +46,7 @@ html.ios7 .content {
 html * {
 	box-sizing: border-box;
 	font-family: RussoOne;
+     -webkit-tap-highlight-color:rgba(0,0,0,0);
 }
 a {
 	text-decoration: none;
