@@ -22,6 +22,11 @@ html * {
 	box-sizing: border-box;
 	font-family: RussoOne;
 }
+html.ios7 {
+    height: 100%;
+	box-sizing: border-box;
+	padding-top: 20px;
+}
 html,
 body,
 .header {
