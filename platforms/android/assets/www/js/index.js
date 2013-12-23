@@ -56,25 +56,28 @@ if(!tags){
 
 var sources = {
 	"news" : {"ph":"#news",
-		"url":"http://russiasport.ru/api.php?wall&format=json&uid=35&offset=:offset&count=:limit&tag_tids[]=:tids",
+		"url":"http://russiasport.ru/api.php?wall&format=json&uid=35&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
 		"limit":12,
 		"offset":0,
 		"stop":false,
 		"data": [],
+		"phrase": "",
 		"callback":"app.onGetNews"},
 	"video" : {"ph":"#video",
-		"url":"http://russiasport.ru/api.php?video&format=json&proccess&offset=:offset&count=:limit&tag_tids[]=:tids",
+		"url":"http://russiasport.ru/api.php?video&format=json&proccess&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
 		"limit":12,
 		"offset":0,
 		"stop":false,
 		"data": [],
+		"phrase": "",
 		"callback":"app.onGetVideo"},
 	"live" : {"ph":"#live",
-		"url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&tag_tids[]=:tids",
+		"url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
 		"limit":12,
 		"offset":0,
 		"stop":false,
 		"data": [],
+		"phrase": "",
 		"callback":"app.onGetLive"},
 };
 
@@ -88,7 +91,7 @@ initialize: function() {
 	// Bind any events that are required on startup. Common events are:
 	// 'load', 'deviceready', 'offline', and 'online'.
 bindEvents: function() {
-	document.addEventListener('deviceready', this.onDeviceReady, false);
+	document.addEventListener('deviceready', this.onDeviceReady, true);
 	document.addEventListener('pause', this.onPause, false);
 	document.addEventListener('resume', this.onResume, false);
 	document.addEventListener('online', this.onOnline, false);
@@ -122,6 +125,7 @@ resetAppInits: function() { //сброс конфига по дефолту и �
 		if (sources[i].stop) sources[i].stop = false;
 		if (sources[i].data.length) sources[i].data = [];
 		if (sources[i].ph && $(sources[i].ph)) $(sources[i].ph).removeAttr('style');
+		sources[i].phrase = '';
 	}
 	if (this.mySwipers) {
 		for (i in this.mySwipers)
@@ -152,8 +156,7 @@ initPanel: function() {
 						 tags[type].active = this.classList.contains('active')?0:1;
 						 window.localStorage.setItem("tags", $.toJSON(tags));
 						 this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
-						 $('body').addClass('is_loading');
-						 app.resetAppInits() && app.initContent();
+						 app.loading.show_loading() && app.resetAppInits() && app.initContent();
 						 });
 	
 	
@@ -162,9 +165,9 @@ initPanel: function() {
 							});
 	
 	$('.icon-reload').on('click', function() {
-						$('body').addClass('is_loading');
-						 app.resetAppInits() && app.initContent();
-						 });
+						document.location.reload();
+						// app.loading.show_loading() && app.resetAppInits() && app.initContent();
+						});
 	
 },
 initContent: function() {
@@ -174,18 +177,44 @@ initContent: function() {
 		// $(sources[i]['ph']).append('<img src="./style/images/loader.gif" alt="" title="" />');
 		this.__load(sources[i]);
 	}
-	(function(app) {
-		if ( !$('body').hasClass('is_loading') ) return;
-		var timer = setInterval(function() {
-			var counter = 3,
-				k = 0;
-			for (var i in sources) {
-				if ( sources.hasOwnProperty(i) && app.mySwipers &&  app.mySwipers['#'+i] && (app.mySwipers['#'+i] instanceof Swiper) ) k+=1;
-				if (k===counter) $('body').removeClass('is_loading') && clearInterval(timer);
+	this.loading.is_all_swipers_ready(this.loading.hide_loading);
+	(function(that) {//event для поля поиска.
+		var oldValue = '',
+			$search_field = $('#search-field');
+		$search_field.on('keyup', function(e) {
+			var $this = $search_field,
+				value = $this.val(),
+				is_length_enough = value.length>2,
+				code = e.keyCode || e.which;
+			if ($this.is_searching) clearTimeout($this.is_searching);
+			if (!is_length_enough || oldValue===value) {
+				return false;
 			}
-		}, 1000);
+			if (code===13) {
+				that.loading.show_loading();
+				app.resetAppInits();
+				that.loading.is_all_swipers_ready(that.loading.hide_loading);
+				for (i in sources) {
+					sources[i].phrase = value;
+					$(sources[i]['ph']).empty();
+					that.__load(sources[i]);
+				}
+				oldValue = value;
+				return true;
+			}
+			$this.is_searching = setTimeout(function() {
+				that.loading.show_loading();
+				app.resetAppInits();
+				that.loading.is_all_swipers_ready(that.loading.hide_loading);
+				for (i in sources) {
+					sources[i].phrase = value;
+					$(sources[i]['ph']).empty();
+					that.__load(sources[i]);
+				}
+				oldValue = value;
+			}, 2000)
+		})
 	})(this);
-	
 },
 updateSources: function(source, json_data) {
 	if (arguments.length<2) throw new Error('Arguments.length<2');
@@ -220,6 +249,12 @@ onGetNews: function(json){
 	if (!this.mySwipers || !this.mySwipers['#news']) {
 		jQuery(sources['news']['ph']).append(  [].concat(sources['news'].data).splice(0, 8) );
 		this.initSlider(sources['news']['ph']);
+	} else {
+		var length = app.mySwipers['#news'].slides.length,
+			tempSlide = this.mySwipers['#news'].createSlide();
+		jQuery(sources['news']['ph']).append(  [].concat(sources['news'].data).splice(sources['news'].offset-12, 8) );
+		this.mySwipers['#news'].appendSlide(tempSlide); this.mySwipers['#news'].removeLastSlide();
+		this.mySwipers['#news'].is_busy = false;
 	}
 },
 onGetVideo: function(json){
@@ -251,7 +286,14 @@ onGetVideo: function(json){
 	if (!this.mySwipers || !this.mySwipers['#video']) {
 		jQuery(sources['video']['ph']).append( [].concat(sources['video'].data).splice(0, 8) );
 		this.initSlider(sources['video']['ph']);
+	} else {
+		var length = app.mySwipers['#video'].slides.length,
+			tempSlide = this.mySwipers['#video'].createSlide();
+		jQuery(sources['video']['ph']).append(  [].concat(sources['video'].data).splice(sources['video'].offset-12, 8) );
+		this.mySwipers['#video'].appendSlide(tempSlide); this.mySwipers['#video'].removeLastSlide();
+		this.mySwipers['#video'].is_busy = false;
 	}
+
 },
 onGetLive: function(json){
     var html = '';
@@ -283,6 +325,12 @@ onGetLive: function(json){
 	if (!this.mySwipers || !this.mySwipers['#live']) {
 		jQuery(sources['live']['ph']).append( [].concat(sources['live'].data).splice(0, 8) );
 		this.initSlider(sources['live']['ph']);
+	} else {
+		var length = app.mySwipers['#live'].slides.length,
+			tempSlide = this.mySwipers['#live'].createSlide();
+		jQuery(sources['live']['ph']).append(  [].concat(sources['live'].data).splice(sources['live'].offset-12, 8) );
+		this.mySwipers['#live'].appendSlide(tempSlide); this.mySwipers['#live'].removeLastSlide();
+		this.mySwipers['#live'].is_busy = false;
 	}
 },
 __load: function(source){
@@ -324,6 +372,7 @@ prepareUrl: function(source) {
 	url = source.url.replace(':limit',source.limit)
 	.replace(':offset',source.offset)
 	.replace(':callback',source.callback)
+	.replace(':phrase',source.phrase)
 	.replace(':tids',tids);
 	return url;
 },
@@ -382,23 +431,24 @@ onDeviceReady: function() {
 							}
 							if (app.mySwipers._positions[i]) swiper.swipeTo(app.mySwipers._positions[i]);
 						},
-						onSlideChangeStart: function(swiper) {
+						onTouchMove: function(swiper) {
 							var currentIndex = swiper.activeIndex,
 								slidesLength = swiper.slides.length,
 								slidesOffset = slidesLength-currentIndex,
-								tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны	;
-							if ( slidesOffset<8 ) {
-								if ( sources[sourcesKey].data[currentIndex+8] ) {
-									$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
-									temp = swiper.createSlide();
+								tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
+							if (swiper.is_busy===true) return;
+							if ( slidesOffset<12 ) {
+								if ( sources[sourcesKey].data[slidesLength+8] ) {
+									$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength-1, slidesLength+8).join('')   );
+									tempSlide = swiper.createSlide();
 									swiper.appendSlide(tempSlide); swiper.removeLastSlide();
+									swiper.is_busy = false;
 								} else if (sources[sourcesKey].stop!==true){
+									swiper.is_busy = true;
+									$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength).join('')   );
+									tempSlide = swiper.createSlide();
+									swiper.appendSlide(tempSlide); swiper.removeLastSlide();
 									that.__load(sources[sourcesKey]);
-									setTimeout(function() {
-										$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
-										temp = swiper.createSlide();
-										swiper.appendSlide(tempSlide); swiper.removeLastSlide();
-									}, 500);
 								}
 							}
 						},
@@ -460,23 +510,24 @@ initSlider: function(element) {
 				$this.find('.arrow-wrapper-next').show();
 			}
 		},
-		onSlideChangeStart: function(swiper) {
+		onTouchMove: function(swiper) {
 			var currentIndex = swiper.activeIndex,
 				slidesLength = swiper.slides.length,
 				slidesOffset = slidesLength-currentIndex,
 				tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
-			if ( slidesOffset<8 ) {
-				if ( sources[sourcesKey].data[currentIndex+8] ) {
-					$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
-					temp = swiper.createSlide();
+			if (swiper.is_busy===true) return;
+			if ( slidesOffset<12 ) {
+				if ( sources[sourcesKey].data[slidesLength+8] ) {
+					$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength-1, slidesLength+8).join('')   );
+					tempSlide = swiper.createSlide();
 					swiper.appendSlide(tempSlide); swiper.removeLastSlide();
+					swiper.is_busy = false;
 				} else if (sources[sourcesKey].stop!==true){
+					swiper.is_busy = true;
+					$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength).join('')   );
+					tempSlide = swiper.createSlide();
+					swiper.appendSlide(tempSlide); swiper.removeLastSlide();
 					that.__load(sources[sourcesKey]);
-					setTimeout(function() {
-						$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength, slidesLength+8).join('')   );
-						temp = swiper.createSlide();
-						swiper.appendSlide(tempSlide); swiper.removeLastSlide();
-					}, 500);
 				}
 			}
 		},
@@ -543,5 +594,45 @@ is_portrait: function is_portrait() {
 		var r = ( window.innerWidth<768 );
 	}
 	return r;
+},
+loading: {
+	show_loading: function() {
+		$('body').addClass('is_loading');
+		return true;
+	},
+	hide_loading: function() {
+		$('body').removeClass('is_loading');
+		return true;
+	},
+	is_loading: function() {
+		return $('body').hasClass('is_loading');
+	},
+	is_all_swipers_ready: function(callback) {
+		var callback = (callback && callback instanceof Function) ? callback : function() {};
+		(function(that) {
+			if ( !that.loading.is_loading ) return;
+			var timer = setInterval(function() {
+				var counter = 3,
+					k = 0;
+				for (var i in sources) {
+					if ( sources.hasOwnProperty(i) && that.mySwipers &&  that.mySwipers['#'+i] && (that.mySwipers['#'+i] instanceof Swiper) ) k+=1;
+					if (k===counter) {
+						clearInterval(timer);
+						callback();
+					}
+				}
+			}, 1000);
+		})(app, callback);
+	}
+},
+onOffSearch_field: function() {
+	var $search_field = $('#search-field-wrapper'),
+		is_hidden = $search_field.is(':hidden');
+	if (is_hidden) {
+		$search_field.css('display', 'inline-block')
+	} else {
+		$search_field.hide();
+	}
+	return true;
 }
 };

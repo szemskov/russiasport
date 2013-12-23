@@ -21,6 +21,12 @@
 html * {
 	box-sizing: border-box;
 	font-family: RussoOne;
+	 -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+html.ios7 {
+    height: 100%;
+	box-sizing: border-box;
+	padding-top: 20px;
 }
 html,
 body,
