@@ -42,14 +42,28 @@ var node = {
 		    document.addEventListener('deviceready', this.onDeviceReady, true);
 		},
 		onGetVideo: function(node) {
-			if(typeof(node.links.sd_video.hls)!='undefined'){
-				var ref = window.open(node.links.sd_video.hls, '_self','location=no');
+			if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
+				if(typeof(node.links.sd_video.hls)!='undefined'){
+					var ref = window.open(node.links.sd_video.hls, '_self','location=no');
+				}
+			} else {
+				if(typeof(node.links.sd_video.rtsp)!='undefined'){
+					//var ref = window.open(node.links.sd_video.hds, '_self','location=no');
+					window.plugins.videoPlayer.play(node.links.sd_video.rtsp);
+				}
 			}
 			return false;
 		},
 		onGetLive: function(node) {
-			if(typeof(node.links.live.hls)!='undefined'){
-                var ref = window.open(node.links.live.hls, '_self','location=no');
+			if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
+				if(typeof(node.links.live.hls)!='undefined'){
+	                var ref = window.open(node.links.live.hls, '_self','location=no');
+				}
+			} else{
+				if(typeof(node.links.live.rtsp)!='undefined'){
+					window.plugins.videoPlayer.play(node.links.live.rtsp);
+	                //var ref = window.open(node.links.live.hds, '_self','location=no');
+				}
 			}
 			return false;
 		},

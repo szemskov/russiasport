@@ -12,6 +12,9 @@
     	<param name="ios-package" value="CDVConnection" />
     	<param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
 	</feature>
+	<feature name="VideoPlayer">
+    	<param name="android-package" value="org.apache.cordova.video.VideoPlayer" />
+	</feature>
 	
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />
@@ -54,4 +57,5 @@
     
     <access origin="http://127.0.0.1*" />
     <access origin="http://russiasport.ru*" />
+    
 </widget>
