@@ -10,7 +10,7 @@
     <feature name="App">
         <param name="android-package" value="org.apache.cordova.App" />
     </feature>
-    <name>RussiaSport</name>
+    <name>Russiasport HD</name>
     <description>
         RussiaSport content, LIVE videos etc.
     </description>

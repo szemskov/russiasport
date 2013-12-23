@@ -52,7 +52,8 @@ var node = {
 				alert(node.links.live.rtsp);
 				if(typeof(node.links.sd_video.rtsp)!='undefined'){
 					//var ref = window.open(node.links.sd_video.hds, '_self','location=no');
-					window.plugins.videoPlayer.play(node.links.sd_video.hds);
+					var res = window.plugins.videoPlayer.play(node.links.sd_video.hds);
+					alert(res);
 				}
 			}
 			return false;
@@ -67,7 +68,8 @@ var node = {
 			} else{
 				alert(node.links.live.rtsp);
 				if(typeof(node.links.live.rtsp)!='undefined'){
-					window.plugins.videoPlayer.play(node.links.live.rtsp);
+					var res = window.plugins.videoPlayer.play(node.links.live.rtsp);
+					alert(res);
 	                //var ref = window.open(node.links.live.hds, '_self','location=no');
 				}
 			}
