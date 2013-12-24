@@ -205,12 +205,18 @@ div.background {
 	position: absolute;
 	width: 98.76543209876543%;
 }
+#live .element.is-live .element-text {
+	background-color: #D72658;
+}
 .element-text-title {
 	color: #d72658;
 	font-size: 1.500em;
 	margin: 0.292em 0 0.167em;
 	padding-right: 13.3%;
 	line-height: 1em;	
+}
+#live .element.is-live .element-text-title {
+	color: white;
 }
 .element-text-tiser {
 	color: #3f3f3f;
@@ -224,9 +230,15 @@ div.background {
 	font-size: 1.063em;
 	margin-right: 1.875%;
 }
+#live .element.is-live .element-text-time {
+	color: white;
+}
 .element-text-date {
 	color: #564f52;
 	font-size: 1em;
+}
+#live .element.is-live .element-text-date {
+	color: #FFEA00;
 }
 .element-comments {
 	top: 0.500em;
@@ -235,6 +247,12 @@ div.background {
 	position: absolute;
 	right: 0.750em;
 	z-index: 2;
+}
+#live .element.is-live .element-comments {
+	color: white;
+}
+#live .element.is-live .icon-comments {
+	background-image: url("images/icon-comments-white.png")
 }
 .content {
 	width: auto;
