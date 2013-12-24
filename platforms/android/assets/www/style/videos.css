@@ -22,14 +22,10 @@ html {
 	font-size: 8px;
 	position: relative;
 }
-html,
-body,
-#videos,
-.content {
+html, body {
 	height: 100%;
-	overflow: hidden;
-	width: 100%;
 }
+
 /* Высота страницы - 100% высоты дисплея, для iOS сжимаем и сдвигаем вниз на высоту верхней "шапки" */
 html.ios7 {
     height: 100%;
@@ -528,6 +524,14 @@ body.panel-active .content {
 	html {
 		font-size: 8px;
 	}
+	html,
+	body,
+	#videos,
+	.content {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
 	.panel.left {
 		height: 725px;
 	}
@@ -536,6 +540,14 @@ body.panel-active .content {
 @media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : portrait) {
 	html {
 		font-size: 8px;
+	}
+	html,
+	body,
+	#videos,
+	.content {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
 	}
 	.header {
 		height: 5.375em;
