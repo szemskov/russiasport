@@ -309,8 +309,7 @@ onGetLive: function(json){
     this.updateSources(sources['live'], json);
     for(var i in json){
         var video = json[i];
-        
-        html='<li class="element swiper-slide">'+
+        html='<li class="element'+(video.is_live===1?' is-live':'')+' swiper-slide">'+
         '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetLive\')" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
@@ -320,7 +319,7 @@ onGetLive: function(json){
         '<img src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
         '<div class="element-text">'+
         '<p class="element-text-title">'+video.node_title+'</p>'+
-        '<span class="element-text-time">'+video.time+'</span>'+
+        '<span class="element-text-time">'+(video.is_live?'сегодня':video.time)+'</span>'+
         '<span class="element-text-date">'+video.dt+'</span>'+
         '<p class="element-comments">'+
         '<span class="icon icon-comments"></span>'+
@@ -525,6 +524,13 @@ initSlider: function(element) {
 		onInit: function(swiper) {
 			if ( swiper.slides.length>$(swiper.slides).filter('.swiper-slide-visible').length ) {
 				$this.find('.arrow-wrapper-next').show();
+			}
+			var lives = $(swiper.slides).filter('.is-live');
+			if (!lives.length) return false;
+			var live_index = lives.eq(0).index();
+			swiper.swipeTo(live_index);
+			if ( swiper.slides[live_index].previousElementSibling.classList.contains('swiper-slide-visible') && sources[sourcesKey]!=='stop')  {
+				that.__load(sources[sourcesKey])
 			}
 		},
 		onTouchMove: function(swiper) {

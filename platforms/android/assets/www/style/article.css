@@ -222,6 +222,9 @@ body.is_loading #is_loading {
 	font-family: OpenSans;
 	margin: 1.391em 0;
 }
+.inforamtion .text a {
+	font: normal 1em OpenSans;
+}
 .under-line {
 	color: white;
 	height: auto;

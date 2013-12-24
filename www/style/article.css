@@ -222,6 +222,9 @@ body.is_loading #is_loading {
 	font-family: OpenSans;
 	margin: 1.391em 0;
 }
+.inforamtion .text a {
+	font: normal 1em OpenSans;
+}
 .under-line {
 	color: white;
 	height: auto;
@@ -311,8 +314,6 @@ body.is_loading #is_loading {
 @media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {
 	html {
 		font-size: 8px;
-		height: 768px;
-		width: 1920px;
 	}
 }
 
