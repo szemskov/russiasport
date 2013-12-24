@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.russiasport" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Russiasport HD</name>
+    <name>Russiasport</name>
     <description>
         RussiaSport content, LIVE videos etc.
     </description>
@@ -11,6 +11,10 @@
     <feature name="NetworkStatus">
     	<param name="ios-package" value="CDVConnection" />
     	<param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+	</feature>
+	<feature name="Notification">
+   		<param name="android-package" value="org.apache.cordova.Notification" />
+   		<param name="ios-package" value="CDVNotification" />
 	</feature>
 	<feature name="VideoPlayer">
     	<param name="android-package" value="org.apache.cordova.video.VideoPlayer" />

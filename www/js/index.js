@@ -17,6 +17,8 @@
  * under the License.
  */
 
+/* ens*/
+var NOTIFICATION_ALERT = true;
 
 /* PubSyb jQuery template */
 var o = $( {} );
@@ -57,6 +59,7 @@ if(!tags){
 var sources = {
 	"news" : {"ph":"#news",
 		"url":"http://russiasport.ru/api.php?wall&format=json&uid=35&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
+        "title":"Новости",
 		"limit":12,
 		"offset":0,
 		"stop":false,
@@ -65,6 +68,7 @@ var sources = {
 		"callback":"app.onGetNews"},
 	"video" : {"ph":"#video",
 		"url":"http://russiasport.ru/api.php?video&format=json&proccess&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
+        "title":"Видео",
 		"limit":12,
 		"offset":0,
 		"stop":false,
@@ -73,6 +77,7 @@ var sources = {
 		"callback":"app.onGetVideo"},
 	"live" : {"ph":"#live",
 		"url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
+        "title":"Трансляции",
 		"limit":12,
 		"offset":0,
 		"stop":false,
@@ -106,12 +111,15 @@ onPause: function() {
 },
 onResume: function() {
 	app.receivedEvent('resume');
+    //app.initContent();
 },
 onOnline: function() {
 	app.receivedEvent('online');
+    //NOTIFICATION_ALERT = false;
 },
 onOffline: function() {
 	app.receivedEvent('offline');
+    NOTIFICATION_ALERT = true;
 },
 	// Update DOM on a Received Event
 receivedEvent: function(id) {
@@ -343,28 +351,12 @@ __load: function(source){
                jsonpCallback: source.callback,
                dataType: 'jsonp',
                error: function(e) {
-               //console.log(e.message);
+                //console.log(e.message);
                }
                });
     } else {
-        //alert('Нет интернет соединения');
+        app._no_connection_notify();
     }
-},
-checkConnection: function() {
-	var networkState = navigator.connection.type;
-	
-	var states = {};
-	states[Connection.UNKNOWN]  = 'Unknown connection';
-	states[Connection.ETHERNET] = 'Ethernet connection';
-	states[Connection.WIFI]     = 'WiFi connection';
-	states[Connection.CELL_2G]  = 'Cell 2G connection';
-	states[Connection.CELL_3G]  = 'Cell 3G connection';
-	states[Connection.CELL_4G]  = 'Cell 4G connection';
-	states[Connection.CELL]     = 'Cell generic connection';
-	states[Connection.NONE]     = 'No network connection';
-	
-	//console.log('Connection type: ' + states[networkState]);
-	return navigator.online;
 },
 prepareUrl: function(source) {
 	var tids = this._getActiveTags();
@@ -386,6 +378,7 @@ _getActiveTags: function(){
 	return tids.join('&tag_tids[]=');
 },
 onDeviceReady: function() {
+    
 	/*fix height ios 7*/
 	if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
         $('body').addClass('ios7');
@@ -396,6 +389,12 @@ onDeviceReady: function() {
 	/*init panel*/
 	app.initPanel();
 	app.receivedEvent('initpanel');
+    
+    if(!navigator.onLine){
+        app._no_connection_notify();
+    }
+    NOTIFICATION_ALERT = false;
+    
 	/*грузим контент*/
 	app.initContent();
 
@@ -491,6 +490,8 @@ onDeviceReady: function() {
 			}
 		}
 		});
+    
+
 },
 initSlider: function(element) {
 	if (!this.mySwipers) this.mySwipers = {_positions: {}};
@@ -634,5 +635,10 @@ onOffSearch_field: function() {
 		$search_field.hide();
 	}
 	return true;
+},
+_no_connection_notify: function(){
+    if(NOTIFICATION_ALERT){
+        navigator.notification.alert('Требуется соединение с интернетом',false,'ВНИМАНИЕ');
+    }
 }
 };

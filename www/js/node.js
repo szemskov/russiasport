@@ -42,37 +42,44 @@ var node = {
 		    document.addEventListener('deviceready', this.onDeviceReady, true);
 		},
 		onGetVideo: function(node) {
-			alert(1);
-			return false;
-			if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
-				if(typeof(node.links.sd_video.hls)!='undefined'){
-					var ref = window.open(node.links.sd_video.hls, '_self','location=no');
-				}
-			} else {
-				alert(node.links.live.rtsp);
-				if(typeof(node.links.sd_video.rtsp)!='undefined'){
-					//var ref = window.open(node.links.sd_video.hds, '_self','location=no');
-					var res = window.plugins.videoPlayer.play(node.links.sd_video.hds);
-					alert(res);
-				}
-			}
+            if(window.node.checkConnection()!='No network connection'){
+                if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
+                    if(typeof(node.links.sd_video.hls)!='undefined'){
+                        var ref = window.open(node.links.sd_video.hls, '_self','location=no');
+                    }
+                } else {
+                    if(typeof(node.links.sd_video.rtsp)!='undefined'){
+                        window.plugins.videoPlayer.play(node.links.sd_video.rtsp);
+                    }
+                }
+            } else {
+                navigator.notification.alert('Для просмотра видео требуется соединение с интернетом',false,'ВНИМАНИЕ');
+            }
 			return false;
 		},
 		onGetLive: function(node) {
-			alert(2);
-			return false;
-			if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
-				if(typeof(node.links.live.hls)!='undefined'){
-	                var ref = window.open(node.links.live.hls, '_self','location=no');
-				}
-			} else{
-				alert(node.links.live.rtsp);
-				if(typeof(node.links.live.rtsp)!='undefined'){
-					var res = window.plugins.videoPlayer.play(node.links.live.rtsp);
-					alert(res);
-	                //var ref = window.open(node.links.live.hds, '_self','location=no');
-				}
-			}
+            //alert(window.node.checkConnection());
+            //alert($.inArray(window.node.checkConnection(), Array('3G','4G','WiFi','Ethernet')));
+            if($.inArray(window.node.checkConnection(), Array('3G','4G','WiFi','Ethernet'))!==false){
+                if(!node.links.live){
+                    var time = $( "a[data-nid='"+node.nid+"'] span.element-text-time").text();
+                    var date = $( "a[data-nid='"+node.nid+"'] span.element-text-date").text();
+                    navigator.notification.alert('Начало трансляции ' +date+ ' в '+time,false,'ВНИМАНИЕ');
+                }
+                
+                if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
+                    if(typeof(node.links.live.hls)!='undefined'){
+                        var ref = window.open(node.links.live.hls, '_self','location=no');
+                    }
+                } else {
+                    if(typeof(node.links.live.rtsp)!='undefined'){
+                        window.plugins.videoPlayer.play(node.links.live.rtsp);
+                    }
+                }
+                
+            } else {
+                navigator.notification.alert('Для просмотра трансляции требуется подключиться 3G или WiFi сети',false,'ВНИМАНИЕ');
+            }
 			return false;
 		},
 		onGetNode: function(node) {
@@ -143,10 +150,15 @@ var node = {
 			document.body.appendChild(script);
 		},
 		onClickNode: function(nid, callback){
-			if(typeof(nid)!='undefined'){
-				this.nid = parseInt(nid);
-				this.__load(callback);
-			}
+            if(navigator.onLine){
+                if(typeof(nid)!='undefined'){
+                    this.nid = parseInt(nid);
+                    this.__load(callback);
+                }
+            } else {
+		        navigator.notification.alert('Требуется соединение с интернетом',false,'ВНИМАНИЕ');
+		    }
+            
 		},
 		__load: function(callback){
 			if(typeof(callback)=='undefined'){
@@ -164,11 +176,12 @@ var node = {
 		               jsonpCallback: callback,
 		               dataType: 'jsonp',
 		               error: function(e) {
-		            	   //console.log(e.message);
+                        //navigator.notification.alert(e.message,false,'ВНИМАНИЕ');
+                        //navigator.notification.alert('Не удалось загрузить контент',false,'ВНИМАНИЕ');
 		               }
 		               });
 		    } else {
-		        //alert('Нет интернет соединения');
+		        navigator.notification.alert('Требуется соединение с интернетом',false,'ВНИМАНИЕ');
 		    }
 		},
 		onDeviceReady: function() {
@@ -187,4 +200,19 @@ var node = {
 			}
 			
 		},
+        checkConnection: function() {
+            var networkState = navigator.connection.type;
+	
+            var states = {};
+            states[Connection.UNKNOWN]  = 'Unknown connection';
+            states[Connection.ETHERNET] = 'Ethernet';
+            states[Connection.WIFI]     = 'WiFi';
+            states[Connection.CELL_2G]  = '2G';
+            states[Connection.CELL_3G]  = '3G';
+            states[Connection.CELL_4G]  = '4G';
+            states[Connection.CELL]     = 'Cell generic connection';
+            states[Connection.NONE]     = 'No network connection';
+	
+            return states[networkState];
+        }
 };
