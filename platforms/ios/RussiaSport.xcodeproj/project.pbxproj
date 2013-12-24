@@ -49,6 +49,7 @@
 		F3C7B2391857276C00AFEE23 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C7B22E1857276C00AFEE23 /* Default@2x~iphone.png */; };
 		F3C7B23A1857276C00AFEE23 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C7B22F1857276C00AFEE23 /* Default~iphone.png */; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
+		98E5BBDD6F5246159F80F38E /* CDVCompass.m in Sources */ = {isa = PBXBuildFile; fileRef = EDECC3B1B5A94D75B33CAF38 /* CDVCompass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +129,8 @@
 		F3ECACD6186184310091747E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F41836B9685449488626083D /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = Russiasport/config.xml; sourceTree = "<group>"; };
+		EDECC3B1B5A94D75B33CAF38 /* CDVCompass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVCompass.m"; path = "org.apache.cordova.device-orientation/CDVCompass.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		29BB7EF78F4D4B858E9207A8 /* CDVCompass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVCompass.h"; path = "org.apache.cordova.device-orientation/CDVCompass.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,6 +255,8 @@
 				D4611CAFA1214786AFA87C48 /* CDVLogger.h */,
 				E19AB452E01C449B9A2E1825 /* CDVNotification.m */,
 				EF482DF96AF64B65963C0AD5 /* CDVNotification.h */,
+				EDECC3B1B5A94D75B33CAF38 /* CDVCompass.m */,
+				29BB7EF78F4D4B858E9207A8 /* CDVCompass.h */,
 			);
 			name = Plugins;
 			path = Russiasport/Plugins;
@@ -440,6 +445,7 @@
 				48A53083F1B64982B1511CA5 /* CDVConnection.m in Sources */,
 				8F091D86FBD942E39DCB638F /* CDVReachability.m in Sources */,
 				1C18938750804331941F3807 /* CDVNotification.m in Sources */,
+				98E5BBDD6F5246159F80F38E /* CDVCompass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
