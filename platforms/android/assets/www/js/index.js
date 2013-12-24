@@ -223,6 +223,7 @@ initContent: function() {
 			}, 2000)
 		})
 	})(this);
+	this.is_landscape_mode = this.is_landscape();
 },
 updateSources: function(source, json_data) {
 	if (arguments.length<2) throw new Error('Arguments.length<2');
@@ -409,84 +410,99 @@ onDeviceReady: function() {
 		||
 			(orientationEvent==='resize' && (app.innerWidth<768 && window.innerWidth>768) || (app.innerWidth>768 && window.innerWidth<768) )
 		) {
+			app.is_landscape_mode = app.is_landscape();
 			app.innerWidth = window.innerWidth;
-			if (app.mySwipers) {
-				$.each(app.mySwipers, function(i, mySwiper) {
-					var sourcesKey = i.substr(1, i.length-1);
-					if (!app.mySwipers[i] || !(app.mySwipers[i] instanceof Swiper)) return true;
-					var $this = $(i).closest('.line');
-					app.mySwipers[i].destroy();
-					$this.find('.slider.swiper-wrapper').removeAttr('style');
-					app.mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
-						pagination: '.pagination',
-						loop: false,
-						mode: app.is_landscape() ? 'horizontal' : 'vertical',
-						grabCursor: true,
-						paginationClickable: true,
-						slidesPerView: 'auto',
-						onInit: function(swiper) {
-							if ( swiper.slides.length>$(swiper.slides).filter('.swiper-slide-visible').length ) {
-								$this.find('.arrow-wrapper-next').show();
-							}
-							if (app.mySwipers._positions[i]) swiper.swipeTo(app.mySwipers._positions[i]);
-						},
-						onTouchMove: function(swiper) {
-							var currentIndex = swiper.activeIndex,
-								slidesLength = swiper.slides.length,
-								slidesOffset = slidesLength-currentIndex,
-								tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
-							if (swiper.is_busy===true) return;
-							if ( slidesOffset<12 ) {
-								if ( sources[sourcesKey].data[slidesLength+8] ) {
-									$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength-1, slidesLength+8).join('')   );
-									tempSlide = swiper.createSlide();
-									swiper.appendSlide(tempSlide); swiper.removeLastSlide();
-									swiper.is_busy = false;
-								} else if (sources[sourcesKey].stop!==true){
-									swiper.is_busy = true;
-									$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength).join('')   );
-									tempSlide = swiper.createSlide();
-									swiper.appendSlide(tempSlide); swiper.removeLastSlide();
-									that.__load(sources[sourcesKey]);
+			if ( navigator.userAgent.toLowerCase().search('android')>-1 ) {
+				setTimeout(function() {
+					if (window.outerWidth>window.outerHeight) {
+						app.is_landscape_mode = true;
+					} else {
+						app.is_landscape_mode = false;
+					}
+					init();
+				}, 300);
+			} else {
+				init();
+			}
+			function init() {
+				if (app.mySwipers) {
+					$.each(app.mySwipers, function(i, mySwiper) {
+						var sourcesKey = i.substr(1, i.length-1);
+						if (!app.mySwipers[i] || !(app.mySwipers[i] instanceof Swiper)) return true;
+						var $this = $(i).closest('.line');
+						app.mySwipers[i].destroy();
+						$this.find('.slider.swiper-wrapper').removeAttr('style');
+						app.mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
+							pagination: '.pagination',
+							loop: false,
+							mode: app.is_landscape_mode ? 'horizontal' : 'vertical',
+							grabCursor: true,
+							paginationClickable: true,
+							slidesPerView: 'auto',
+							onInit: function(swiper) {
+								if ( swiper.slides.length>$(swiper.slides).filter('.swiper-slide-visible').length ) {
+									$this.find('.arrow-wrapper-next').show();
 								}
-							}
-						},
-						onSlideChangeEnd: function(swiper) {
-							app.mySwipers._positions[i] = swiper.activeIndex;
-						}
-					});
-					app.mySwipers[i].wrapperTransitionEnd(function(swiper) {
-							var transition = swiper.getWrapperTranslate();
-							if (transition===0) {
-								$this.find('.arrow-wrapper-prev').hide();
-							} else {
-								$this.find('.arrow-wrapper-prev').show();
-							}
-							var grid = swiper.slidesGrid;
-							var visible_count = parseInt(swiper[app.is_landscape()?'width':'height']/grid[1], 10);
-							var pos = 0;
-							for (var i=swiper.slidesGrid.length-1; i>=-1; i-=1) {
-								if ( swiper.slidesGrid[i]<-transition ) {
-									pos = i+1;
-									if (grid.length-pos===visible_count) {
-										$this.find('.arrow-wrapper-next').hide();
-										break;
-									} else {
-										$this.find('.arrow-wrapper-next').show();
+								if (app.mySwipers._positions[i]) swiper.swipeTo(app.mySwipers._positions[i]);
+							},
+							onTouchMove: function(swiper) {
+								var currentIndex = swiper.activeIndex,
+									slidesLength = swiper.slides.length,
+									slidesOffset = slidesLength-currentIndex,
+									tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
+								if (swiper.is_busy===true) return;
+								if ( slidesOffset<12 ) {
+									if ( sources[sourcesKey].data[slidesLength+8] ) {
+										$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength-1, slidesLength+8).join('')   );
+										tempSlide = swiper.createSlide();
+										swiper.appendSlide(tempSlide); swiper.removeLastSlide();
+										swiper.is_busy = false;
+									} else if (sources[sourcesKey].stop!==true){
+										swiper.is_busy = true;
+										$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength).join('')   );
+										tempSlide = swiper.createSlide();
+										swiper.appendSlide(tempSlide); swiper.removeLastSlide();
+										that.__load(sources[sourcesKey]);
 									}
 								}
+							},
+							onSlideChangeEnd: function(swiper) {
+								app.mySwipers._positions[i] = swiper.activeIndex;
 							}
-						}, true)
-					$this.find('.arrow-wrapper-prev').off('click.swipePrev').on('click.swipePrev', function(e){
-						e.preventDefault();
-						app.mySwipers[i].swipePrev();
-					})
+						});
+						app.mySwipers[i].wrapperTransitionEnd(function(swiper) {
+								var transition = swiper.getWrapperTranslate();
+								if (transition===0) {
+									$this.find('.arrow-wrapper-prev').hide();
+								} else {
+									$this.find('.arrow-wrapper-prev').show();
+								}
+								var grid = swiper.slidesGrid;
+								var visible_count = parseInt(swiper[app.is_landscape_mode?'width':'height']/grid[1], 10);
+								var pos = 0;
+								for (var i=swiper.slidesGrid.length-1; i>=-1; i-=1) {
+									if ( swiper.slidesGrid[i]<-transition ) {
+										pos = i+1;
+										if (grid.length-pos===visible_count) {
+											$this.find('.arrow-wrapper-next').hide();
+											break;
+										} else {
+											$this.find('.arrow-wrapper-next').show();
+										}
+									}
+								}
+							}, true)
+						$this.find('.arrow-wrapper-prev').off('click.swipePrev').on('click.swipePrev', function(e){
+							e.preventDefault();
+							app.mySwipers[i].swipePrev();
+						})
 
-					$this.find('.arrow-wrapper-next').off('click.swipeNext').on('click.swipeNext', function(e){
-						e.preventDefault();
-						app.mySwipers[i].swipeNext();
+						$this.find('.arrow-wrapper-next').off('click.swipeNext').on('click.swipeNext', function(e){
+							e.preventDefault();
+							app.mySwipers[i].swipeNext();
+						})
 					})
-				})
+				}
 			}
 		}
 		});
@@ -503,7 +519,7 @@ initSlider: function(element) {
 		pagination: '.pagination',
 		loop: false,
 		grabCursor: true,
-		mode: app.is_landscape() ? 'horizontal' : 'vertical',
+		mode: app.is_landscape_mode ? 'horizontal' : 'vertical',
 		paginationClickable: true,
 		slidesPerView: 'auto',
 		onInit: function(swiper) {
@@ -544,7 +560,7 @@ initSlider: function(element) {
 			$this.find('.arrow-wrapper-prev').show();
 		}
 		var grid = swiper.slidesGrid;
-		var visible_count = parseInt(swiper[app.is_landscape()?'width':'height']/grid[1], 10);
+		var visible_count = parseInt(swiper[app.is_landscape_mode?'width':'height']/grid[1], 10);
 		var pos = 0;
 		for (var i=swiper.slidesGrid.length-1; i>=-1; i-=1) {
 			if ( swiper.slidesGrid[i]<-transition ) {

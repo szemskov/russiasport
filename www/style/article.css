@@ -308,20 +308,17 @@ body.is_loading #is_loading {
 	text-align: left;
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {
 	html {
 		font-size: 8px;
 		height: 768px;
-		width: 1024px;
+		width: 1920px;
 	}
 }
 
-@media screen and (max-width:768px),
-only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : portrait) {
 	html {
 		font-size: 8px;
-		height: 1024px;
-		width: 768px;
 	}
 	.under-line-comments {
 		padding: 1.033em 5.729166666666666%;

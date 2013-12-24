@@ -22,10 +22,14 @@ html {
 	font-size: 8px;
 	position: relative;
 }
-html, body {
+html,
+body,
+#videos,
+.content {
 	height: 100%;
+	overflow: hidden;
+	width: 100%;
 }
-
 /* Высота страницы - 100% высоты дисплея, для iOS сжимаем и сдвигаем вниз на высоту верхней "шапки" */
 html.ios7 {
     height: 100%;
@@ -504,9 +508,9 @@ body.panel-active .panel {
 }
 body.panel-active .content {
 	margin-right: 26.708984375%;
-	-webkit-transform: translateX(36.44237175216523%);
-	-moz-transform: translateX(36.44237175216523%);
-	transform: translateX(36.44237175216523%);
+	-webkit-transform: translateX(26.708984375%);
+	-moz-transform: translateX(26.708984375%);
+	transform: translateX(26.708984375%);
 }
 .panel.left #sport_types {
 	height: 100%;
@@ -520,24 +524,18 @@ body.panel-active .content {
 	transition: transform 0.2s linear;
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {
 	html {
 		font-size: 8px;
-		height: 768px;
-		overflow: hidden;
-		width: 1024px;
 	}
 	.panel.left {
 		height: 725px;
 	}
 }
 
-@media screen and (max-width:768px),
-	only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : portrait) {
 	html {
 		font-size: 8px;
-		height: 1024px;
-		width: 768px;
 	}
 	.header {
 		height: 5.375em;
@@ -577,11 +575,6 @@ body.panel-active .content {
 	.slider {
 		height: 100%;
 		width: 100%;
-	}
-	.content {
-		height: 121.875em;
-		overflow: hidden;
-		width: auto;
 	}
 	.panel.left {
 		background-image: url("images/background-sport-type-vertical.png");
