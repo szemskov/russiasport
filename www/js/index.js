@@ -149,6 +149,7 @@ initPanel: function() {
 			sources[i]['url'] = sources[i]['url'].replace('russiasport.ru','russiasport.webta.ru');
 		}
 	}*/
+	this.onOffSearch_field();
 	var panel = jQuery('#sport_types');
 	i=0;
 	for(var data_type in tags){
@@ -381,7 +382,6 @@ onDeviceReady: function() {
     
 	/*fix height ios 7*/
 	if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
-        $('body').addClass('ios7');
         $('html').addClass('ios7');
     }
 	app.receivedEvent('deviceready');
