@@ -149,6 +149,7 @@ initPanel: function() {
 			sources[i]['url'] = sources[i]['url'].replace('russiasport.ru','russiasport.webta.ru');
 		}
 	}*/
+	this.onOffSearch_field();
 	var panel = jQuery('#sport_types');
 	i=0;
 	for(var data_type in tags){
