@@ -384,6 +384,9 @@ onDeviceReady: function() {
 	if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
         $('html').addClass('ios7');
     }
+	if (navigator.userAgent.toLowerCase().search('android')>-1) {
+			$('html').addClass('android');
+	}
 	app.receivedEvent('deviceready');
 	
 	/*init panel*/
