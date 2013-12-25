@@ -22,25 +22,21 @@ html {
 	font-size: 8px;
 	position: relative;
 }
-html, body {
+html,
+body,
+#videos,
+.content {
+	width: 100%;
 	height: 100%;
+	overflow: hidden;
 }
-
 /* Высота страницы - 100% высоты дисплея, для iOS сжимаем и сдвигаем вниз на высоту верхней "шапки" */
 html.ios7 {
-    height: 100%;
 	box-sizing: border-box;
 	padding-top: 20px;
-	overflow: hidden;
 }
 html.ios7 body {
-    height: 100%;
 	position: relative;
-	overflow: hidden;
-}
-html.ios7 #videos,
-html.ios7 .content {
-	height: 100%;
 }
 
 html * {
@@ -253,10 +249,6 @@ div.background {
 }
 #live .element.is-live .icon-comments {
 	background-image: url("images/icon-comments-white.png")
-}
-.content {
-	width: auto;
-	overflow: hidden;
 }
 
 /* Иконки и кнопки */
@@ -542,14 +534,6 @@ body.panel-active .content {
 	html {
 		font-size: 8px;
 	}
-	html,
-	body,
-	#videos,
-	.content {
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-	}
 	.panel.left {
 		height: 725px;
 	}
@@ -559,14 +543,7 @@ body.panel-active .content {
 	html {
 		font-size: 8px;
 	}
-	html,
-	body,
-	#videos,
-	.content {
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-	}
+	
 	.header {
 		height: 5.375em;
 		position: absolute;
