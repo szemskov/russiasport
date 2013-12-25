@@ -382,7 +382,6 @@ onDeviceReady: function() {
     
 	/*fix height ios 7*/
 	if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
-        $('body').addClass('ios7');
         $('html').addClass('ios7');
     }
 	app.receivedEvent('deviceready');
