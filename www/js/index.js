@@ -256,12 +256,12 @@ onGetNews: function(json){
 		sources['news'].data.push( html );
 	}
 	if (!this.mySwipers || !this.mySwipers['#news']) {
-		jQuery(sources['news']['ph']).append(  [].concat(sources['news'].data).splice(0, 8) );
+		jQuery(sources['news']['ph']).append(  [].concat(sources['news'].data).splice(0, sources['news'].offset) );
 		this.initSlider(sources['news']['ph']);
 	} else {
 		var length = app.mySwipers['#news'].slides.length,
 			tempSlide = this.mySwipers['#news'].createSlide();
-		jQuery(sources['news']['ph']).append(  [].concat(sources['news'].data).splice(sources['news'].offset-12, 8) );
+		jQuery(sources['news']['ph']).append(  [].concat(sources['news'].data).splice(sources['news'].offset-sources['news'].limit, sources['news'].data.length) );
 		this.mySwipers['#news'].appendSlide(tempSlide); this.mySwipers['#news'].removeLastSlide();
 		this.mySwipers['#news'].is_busy = false;
 	}
@@ -293,12 +293,12 @@ onGetVideo: function(json){
 		sources['video'].data.push( html );
 	}
 	if (!this.mySwipers || !this.mySwipers['#video']) {
-		jQuery(sources['video']['ph']).append( [].concat(sources['video'].data).splice(0, 8) );
+		jQuery(sources['video']['ph']).append( [].concat(sources['video'].data).splice(0, sources['video'].offset) );
 		this.initSlider(sources['video']['ph']);
 	} else {
 		var length = app.mySwipers['#video'].slides.length,
 			tempSlide = this.mySwipers['#video'].createSlide();
-		jQuery(sources['video']['ph']).append(  [].concat(sources['video'].data).splice(sources['video'].offset-12, 8) );
+		jQuery(sources['video']['ph']).append(  [].concat(sources['video'].data).splice(sources['video'].offset-sources['video'].limit, sources['video'].data.length) );
 		this.mySwipers['#video'].appendSlide(tempSlide); this.mySwipers['#video'].removeLastSlide();
 		this.mySwipers['#video'].is_busy = false;
 	}
@@ -307,7 +307,6 @@ onGetVideo: function(json){
 onGetLive: function(json){
     var html = '';
     this.updateSources(sources['live'], json);
-	json[3].is_live = 1;
     for(var i in json){
         var video = json[i];
         html='<li class="element'+(video.is_live===1?' is-live':'')+' swiper-slide">'+
@@ -320,8 +319,8 @@ onGetLive: function(json){
         '<img src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
         '<div class="element-text">'+
         '<p class="element-text-title">'+video.node_title+'</p>'+
-        '<span class="element-text-time">'+(video.is_live?'сегодня':video.time)+'</span>'+
-        '<span class="element-text-date">'+video.dt+'</span>'+
+        '<span class="element-text-time">'+video.time+'</span>'+
+        '<span class="element-text-date">'+(video.is_live==1?'в эфире':video.dt)+'</span>'+
         '<p class="element-comments">'+
         '<span class="icon icon-comments"></span>'+
         video.comment_count+
@@ -332,12 +331,12 @@ onGetLive: function(json){
 		 sources['live'].data.push( html );
 	}
 	if (!this.mySwipers || !this.mySwipers['#live']) {
-		jQuery(sources['live']['ph']).append( [].concat(sources['live'].data).splice(0, 8) );
+		jQuery(sources['live']['ph']).append( [].concat(sources['live'].data).splice(0, sources['live'].offset) );
 		this.initSlider(sources['live']['ph']);
 	} else {
 		var length = app.mySwipers['#live'].slides.length,
 			tempSlide = this.mySwipers['#live'].createSlide();
-		jQuery(sources['live']['ph']).append(  [].concat(sources['live'].data).splice(sources['live'].offset-12, 8) );
+		jQuery(sources['live']['ph']).append(  [].concat(sources['live'].data).splice(sources['live'].offset-sources['live'].limit, sources['live'].data.length) );
 		this.mySwipers['#live'].appendSlide(tempSlide); this.mySwipers['#live'].removeLastSlide();
 		this.mySwipers['#live'].is_busy = false;
 	}
@@ -445,25 +444,18 @@ onDeviceReady: function() {
 								}
 								if (app.mySwipers._positions[i]) swiper.swipeTo(app.mySwipers._positions[i]);
 							},
-							onTouchMove: function(swiper) {
+							onResistanceAfter: function(swiper) {
 								var currentIndex = swiper.activeIndex,
 									slidesLength = swiper.slides.length,
 									slidesOffset = slidesLength-currentIndex,
 									tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
-								if (swiper.is_busy===true) return;
-								if ( slidesOffset<12 ) {
-									if ( sources[sourcesKey].data[slidesLength+8] ) {
-										$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength-1, slidesLength+8).join('')   );
-										tempSlide = swiper.createSlide();
-										swiper.appendSlide(tempSlide); swiper.removeLastSlide();
-										swiper.is_busy = false;
-									} else if (sources[sourcesKey].stop!==true){
-										swiper.is_busy = true;
-										$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength).join('')   );
-										tempSlide = swiper.createSlide();
-										swiper.appendSlide(tempSlide); swiper.removeLastSlide();
-										that.__load(sources[sourcesKey]);
-									}
+								if (swiper.is_busy===true || sources[sourcesKey].stop===true) return;
+								swiper.is_busy = true;
+								that.__load(sources[sourcesKey])
+							},
+							onSlideNext: function(swiper) {
+								if (swiper.slides[swiper.slides.length-1].classList.contains('swiper-slide-visible')) {
+									that.__load(sources[sourcesKey]);
 								}
 							},
 							onSlideChangeEnd: function(swiper) {
@@ -531,29 +523,22 @@ initSlider: function(element) {
 			var live_index = lives.eq(0).index();
 			swiper.swipeTo(live_index);
 			if ( swiper.slides[live_index].previousElementSibling.classList.contains('swiper-slide-visible') && sources[sourcesKey]!=='stop')  {
-				that.__load(sources[sourcesKey])
+				that.__load(sources[sourcesKey]);
 			}
 		},
-		onTouchMove: function(swiper) {
+		onSlideNext: function(swiper) {
+			if (swiper.slides[swiper.slides.length-1].classList.contains('swiper-slide-visible')) {
+				that.__load(sources[sourcesKey]);
+			}
+		},
+		onResistanceAfter: function(swiper) {
 			var currentIndex = swiper.activeIndex,
 				slidesLength = swiper.slides.length,
 				slidesOffset = slidesLength-currentIndex,
 				tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
-			if (swiper.is_busy===true) return;
-			if ( slidesOffset<12 ) {
-				if ( sources[sourcesKey].data[slidesLength+8] ) {
-					$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength-1, slidesLength+8).join('')   );
-					tempSlide = swiper.createSlide();
-					swiper.appendSlide(tempSlide); swiper.removeLastSlide();
-					swiper.is_busy = false;
-				} else if (sources[sourcesKey].stop!==true){
-					swiper.is_busy = true;
-					$(swiper.wrapper).append( [].concat(sources[sourcesKey].data).splice(slidesLength).join('')   );
-					tempSlide = swiper.createSlide();
-					swiper.appendSlide(tempSlide); swiper.removeLastSlide();
-					that.__load(sources[sourcesKey]);
-				}
-			}
+			if (swiper.is_busy===true || sources[sourcesKey].stop===true) return;
+			swiper.is_busy = true;
+			that.__load(sources[sourcesKey])
 		},
 		onSlideChangeEnd: function(swiper) {
 			that.mySwipers._positions[element] = swiper.activeIndex;
@@ -573,7 +558,7 @@ initSlider: function(element) {
 			if ( swiper.slidesGrid[i]<-transition ) {
 				pos = i+1;
 				if (grid.length-pos===visible_count) {
-					$this.find('.arrow-wrapper-next').hide();
+					// $this.find('.arrow-wrapper-next').hide();
 					break;
 				} else {
 					$this.find('.arrow-wrapper-next').show();
