@@ -30,6 +30,10 @@
     <feature name="VideoPlayer">
         <param name="android-package" value="org.apache.cordova.video.VideoPlayer" />
     </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+        <param name="ios-package" value="CDVInAppBrowser" />
+    </feature>
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />
     <preference name="target-device" value="tablet" />
@@ -66,7 +70,4 @@
     <gap:splash gap:platform="ios" height="768" src="res/screen/ios/screen-ipad-landscape.png" width="1024" />
     <access origin="http://127.0.0.1*" />
     <access origin="http://russiasport.ru*" />
-    <feature name="InAppBrowser">
-        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
-    </feature>
 </widget>
