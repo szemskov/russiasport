@@ -17,6 +17,13 @@
  * under the License.
  */
 
+obj = {
+	x: function() {
+		console.log(1);
+		arguments.callee = new Function();
+	}
+}
+
 /* ens*/
 var NOTIFICATION_ALERT = true;
 
@@ -310,7 +317,7 @@ onGetLive: function(json){
     this.updateSources(sources['live'], json);
     for(var i in json){
         var video = json[i];
-        html='<li class="element'+(video.is_live===1?' is-live':'')+' swiper-slide">'+
+        html='<li class="element'+(video.is_live==1?' is-live':'')+' swiper-slide">'+
         '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetLive\')" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
@@ -518,6 +525,7 @@ initSlider: function(element) {
 		paginationClickable: true,
 		slidesPerView: 'auto',
 		onInit: function(swiper) {
+			if (swiper.inited) return false;
 			if ( swiper.slides.length>$(swiper.slides).filter('.swiper-slide-visible').length ) {
 				$this.find('.arrow-wrapper-next').show();
 			}
@@ -527,6 +535,8 @@ initSlider: function(element) {
 			swiper.swipeTo(live_index);
 			if ( swiper.slides[live_index].previousElementSibling.classList.contains('swiper-slide-visible') && sources[sourcesKey]!=='stop')  {
 				that.__load(sources[sourcesKey]);
+			} else {
+				swiper.inited = true;
 			}
 		},
 		onSlideNext: function(swiper) {
