@@ -205,12 +205,18 @@ div.background {
 	position: absolute;
 	width: 98.76543209876543%;
 }
+#live .element.is-live .element-text {
+	background-color: #D72658;
+}
 .element-text-title {
 	color: #d72658;
 	font-size: 1.500em;
 	margin: 0.292em 0 0.167em;
 	padding-right: 13.3%;
 	line-height: 1em;	
+}
+#live .element.is-live .element-text-title {
+	color: white;
 }
 .element-text-tiser {
 	color: #3f3f3f;
@@ -224,9 +230,15 @@ div.background {
 	font-size: 1.063em;
 	margin-right: 1.875%;
 }
+#live .element.is-live .element-text-time {
+	color: white;
+}
 .element-text-date {
 	color: #564f52;
 	font-size: 1em;
+}
+#live .element.is-live .element-text-date {
+	color: #FFEA00;
 }
 .element-comments {
 	top: 0.500em;
@@ -235,6 +247,12 @@ div.background {
 	position: absolute;
 	right: 0.750em;
 	z-index: 2;
+}
+#live .element.is-live .element-comments {
+	color: white;
+}
+#live .element.is-live .icon-comments {
+	background-image: url("images/icon-comments-white.png")
 }
 .content {
 	width: auto;
@@ -504,9 +522,9 @@ body.panel-active .panel {
 }
 body.panel-active .content {
 	margin-right: 26.708984375%;
-	-webkit-transform: translateX(36.44237175216523%);
-	-moz-transform: translateX(36.44237175216523%);
-	transform: translateX(36.44237175216523%);
+	-webkit-transform: translateX(26.708984375%);
+	-moz-transform: translateX(26.708984375%);
+	transform: translateX(26.708984375%);
 }
 .panel.left #sport_types {
 	height: 100%;
@@ -520,24 +538,34 @@ body.panel-active .content {
 	transition: transform 0.2s linear;
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {
 	html {
 		font-size: 8px;
-		height: 768px;
+	}
+	html,
+	body,
+	#videos,
+	.content {
+		width: 100%;
+		height: 100%;
 		overflow: hidden;
-		width: 1024px;
 	}
 	.panel.left {
 		height: 725px;
 	}
 }
 
-@media screen and (max-width:768px),
-	only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) {
+@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : portrait) {
 	html {
 		font-size: 8px;
-		height: 1024px;
-		width: 768px;
+	}
+	html,
+	body,
+	#videos,
+	.content {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
 	}
 	.header {
 		height: 5.375em;
@@ -577,11 +605,6 @@ body.panel-active .content {
 	.slider {
 		height: 100%;
 		width: 100%;
-	}
-	.content {
-		height: 121.875em;
-		overflow: hidden;
-		width: auto;
 	}
 	.panel.left {
 		background-image: url("images/background-sport-type-vertical.png");

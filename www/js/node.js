@@ -43,9 +43,9 @@ var node = {
 		},
 		onGetVideo: function(node) {
             if(window.node.checkConnection()!='No network connection'){
-                if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
-                    if(typeof(node.links.sd_video.hls)!='undefined'){
-                        var ref = window.open(node.links.sd_video.hls, '_self','location=no');
+                if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent)) {
+                    if(typeof(node.links.sd_video.hls)!='undefined') {
+                        var ref = window.open(node.links.sd_video.hls, '_blank','location=no,toolbar=yes');
                     }
                 } else {
                     if(typeof(node.links.sd_video.rtsp)!='undefined'){
@@ -67,9 +67,9 @@ var node = {
                     navigator.notification.alert('Начало трансляции ' +date+ ' в '+time,false,'ВНИМАНИЕ');
                 }
                 
-                if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
+                if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent)) {
                     if(typeof(node.links.live.hls)!='undefined'){
-                        var ref = window.open(node.links.live.hls, '_self','location=no');
+                        var ref = window.open(node.links.live.hls, '_blank','location=no,toolbar=yes');
                     }
                 } else {
                     if(typeof(node.links.live.rtsp)!='undefined'){
