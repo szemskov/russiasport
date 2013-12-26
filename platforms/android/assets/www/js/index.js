@@ -574,7 +574,6 @@ loading: {
 					if (k===counter) {
 						clearInterval(timer);
 						callback();
-						alert( $('.element').eq(0).width() );
 					}
 				}
 			}, 1000);
