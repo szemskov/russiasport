@@ -87,7 +87,8 @@ var node = {
 			var img = '';
 			if(node.full.indexOf("img")>0){
 				content = node.full.split('<br />');
-				img = content[0];
+				var z = $(content[0]).find('img').eq(0);
+				if (z.length) img = '<p>'+z[0].outerHTML+'</p>';
 				content.shift() ;
 				content = content.join(' ');
 			} else {
