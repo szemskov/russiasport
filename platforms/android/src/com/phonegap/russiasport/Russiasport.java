@@ -29,7 +29,7 @@ public class Russiasport extends CordovaActivity
     {
         super.onCreate(savedInstanceState);
         super.init();
-        super.setIntegerProperty("splashscreen", R.drawable.screen);
+        //super.setIntegerProperty("splashscreen", R.drawable.screen);
         // Set by <content src="index.html" /> in config.xml
         super.loadUrl(Config.getStartUrl());
         //super.loadUrl("file:///android_asset/www/index.html")
