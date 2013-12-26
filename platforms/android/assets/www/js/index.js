@@ -114,7 +114,9 @@ onResume: function() {
     //app.initContent();
 },
 onOnline: function() {
-	app.receivedEvent('online');
+	if ( app.loading.is_loading() ) {
+		document.location.reload();
+	}
     //NOTIFICATION_ALERT = false;
 },
 onOffline: function() {
@@ -139,6 +141,7 @@ resetAppInits: function() { //сброс конфига по дефолту и �
 		for (i in this.mySwipers)
 			if (this.mySwipers[i] instanceof Swiper) this.mySwipers[i].destroy();
 	}
+	this.loading.hide_loading();
 	delete this.mySwipers;
 	$('.arrow-wrapper').removeAttr('style');
 	return true;
@@ -225,6 +228,7 @@ initContent: function() {
 		})
 	})(this);
 	this.is_landscape_mode = this.is_landscape();
+	return true;
 },
 updateSources: function(source, json_data) {
 	if (arguments.length<2) throw new Error('Arguments.length<2');
@@ -379,11 +383,14 @@ _getActiveTags: function(){
 	return tids.join('&tag_tids[]=');
 },
 onDeviceReady: function() {
-    
+	app.loading.show_loading();
 	/*fix height ios 7*/
 	if (/ios|iphone|ipod|ipad/i.test(navigator.userAgent) && /OS\s7_0/i.test(navigator.userAgent)) {
         $('html').addClass('ios7');
     }
+	if (navigator.userAgent.toLowerCase().search('android')>-1) {
+		$('html').addClass('android');
+	}
 	app.receivedEvent('deviceready');
 	
 	/*init panel*/
@@ -391,7 +398,7 @@ onDeviceReady: function() {
 	app.receivedEvent('initpanel');
     
     if(!navigator.onLine){
-        app._no_connection_notify();
+        return false;
     }
     NOTIFICATION_ALERT = false;
     
@@ -411,90 +418,15 @@ onDeviceReady: function() {
 		) {
 			app.is_landscape_mode = app.is_landscape();
 			app.innerWidth = window.innerWidth;
-			if ( navigator.userAgent.toLowerCase().search('android')>-1 ) {
-				setTimeout(function() {
-					if (window.outerWidth>window.outerHeight) {
-						app.is_landscape_mode = true;
-					} else {
-						app.is_landscape_mode = false;
-					}
-					init();
-				}, 300);
-			} else {
-				init();
-			}
-			function init() {
-				if (app.mySwipers) {
-					$.each(app.mySwipers, function(i, mySwiper) {
-						var sourcesKey = i.substr(1, i.length-1);
-						if (!app.mySwipers[i] || !(app.mySwipers[i] instanceof Swiper)) return true;
-						var $this = $(i).closest('.line');
-						app.mySwipers[i].destroy();
-						$this.find('.slider.swiper-wrapper').removeAttr('style');
-						app.mySwipers[i] = new Swiper( $this.find('.swiper-container')[0] ,{
-							pagination: '.pagination',
-							loop: false,
-							mode: app.is_landscape_mode ? 'horizontal' : 'vertical',
-							grabCursor: true,
-							paginationClickable: true,
-							slidesPerView: 'auto',
-							onInit: function(swiper) {
-								if ( swiper.slides.length>$(swiper.slides).filter('.swiper-slide-visible').length ) {
-									$this.find('.arrow-wrapper-next').show();
-								}
-								if (app.mySwipers._positions[i]) swiper.swipeTo(app.mySwipers._positions[i]);
-							},
-							onResistanceAfter: function(swiper) {
-								var currentIndex = swiper.activeIndex,
-									slidesLength = swiper.slides.length,
-									slidesOffset = slidesLength-currentIndex,
-									tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
-								if (swiper.is_busy===true || sources[sourcesKey].stop===true) return;
-								swiper.is_busy = true;
-								that.__load(sources[sourcesKey])
-							},
-							onSlideNext: function(swiper) {
-								if (swiper.slides[swiper.slides.length-1].classList.contains('swiper-slide-visible')) {
-									that.__load(sources[sourcesKey]);
-								}
-							},
-							onSlideChangeEnd: function(swiper) {
-								app.mySwipers._positions[i] = swiper.activeIndex;
-							}
-						});
-						app.mySwipers[i].wrapperTransitionEnd(function(swiper) {
-								var transition = swiper.getWrapperTranslate();
-								if (transition===0) {
-									$this.find('.arrow-wrapper-prev').hide();
-								} else {
-									$this.find('.arrow-wrapper-prev').show();
-								}
-								var grid = swiper.slidesGrid;
-								var visible_count = parseInt(swiper[app.is_landscape_mode?'width':'height']/grid[1], 10);
-								var pos = 0;
-								for (var i=swiper.slidesGrid.length-1; i>=-1; i-=1) {
-									if ( swiper.slidesGrid[i]<-transition ) {
-										pos = i+1;
-										if (grid.length-pos===visible_count) {
-											$this.find('.arrow-wrapper-next').hide();
-											break;
-										} else {
-											$this.find('.arrow-wrapper-next').show();
-										}
-									}
-								}
-							}, true)
-						$this.find('.arrow-wrapper-prev').off('click.swipePrev').on('click.swipePrev', function(e){
-							e.preventDefault();
-							app.mySwipers[i].swipePrev();
-						})
-
-						$this.find('.arrow-wrapper-next').off('click.swipeNext').on('click.swipeNext', function(e){
-							e.preventDefault();
-							app.mySwipers[i].swipeNext();
-						})
-					})
-				}
+			if (app.mySwipers) {
+				$.each(app.mySwipers, function(i, mySwiper) {
+					var sourcesKey = i.substr(1, i.length-1);
+					if (!app.mySwipers[i] || !(app.mySwipers[i] instanceof Swiper)) return true;
+					var $this = $(i).closest('.line');
+					app.mySwipers[i].destroy();
+					$this.find('.slider.swiper-wrapper').removeAttr('style');
+					app.initSlider(i);
+				})
 			}
 		}
 		});
@@ -502,82 +434,99 @@ onDeviceReady: function() {
 
 },
 initSlider: function(element) {
-	if (!this.mySwipers) this.mySwipers = {_positions: {}};
-	var $this = $(element).closest('.line'),
-		that = this,
-		sourcesKey = element.substr(1, element.length-1);
+	var init = function init() {
+		if (!this.mySwipers) this.mySwipers = {_positions: {}};
+		var $this = $(element).closest('.line'),
+			that = this,
+			sourcesKey = element.substr(1, element.length-1);
 
-	var mySwiper = new Swiper( $this.find('.swiper-container')[0] ,{
-		pagination: '.pagination',
-		loop: false,
-		grabCursor: true,
-		mode: app.is_landscape_mode ? 'horizontal' : 'vertical',
-		paginationClickable: true,
-		slidesPerView: 'auto',
-		onInit: function(swiper) {
-			if ( swiper.slides.length>$(swiper.slides).filter('.swiper-slide-visible').length ) {
-				$this.find('.arrow-wrapper-next').show();
-			}
-			var lives = $(swiper.slides).filter('.is-live');
-			if (!lives.length) return false;
-			var live_index = lives.eq(0).index();
-			swiper.swipeTo(live_index);
-			if ( swiper.slides[live_index].previousElementSibling.classList.contains('swiper-slide-visible') && sources[sourcesKey]!=='stop')  {
-				that.__load(sources[sourcesKey]);
-			}
-		},
-		onSlideNext: function(swiper) {
-			if (swiper.slides[swiper.slides.length-1].classList.contains('swiper-slide-visible')) {
-				that.__load(sources[sourcesKey]);
-			}
-		},
-		onResistanceAfter: function(swiper) {
-			var currentIndex = swiper.activeIndex,
-				slidesLength = swiper.slides.length,
-				slidesOffset = slidesLength-currentIndex,
-				tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
-			if (swiper.is_busy===true || sources[sourcesKey].stop===true) return;
-			swiper.is_busy = true;
-			that.__load(sources[sourcesKey])
-		},
-		onSlideChangeEnd: function(swiper) {
-			that.mySwipers._positions[element] = swiper.activeIndex;
-		}
-	});
-	mySwiper.wrapperTransitionEnd(function(swiper) {
-		var transition = swiper.getWrapperTranslate();
-		if (transition===0) {
-			$this.find('.arrow-wrapper-prev').hide();
-		} else {
-			$this.find('.arrow-wrapper-prev').show();
-		}
-		var grid = swiper.slidesGrid;
-		var visible_count = parseInt(swiper[app.is_landscape_mode?'width':'height']/grid[1], 10);
-		var pos = 0;
-		for (var i=swiper.slidesGrid.length-1; i>=-1; i-=1) {
-			if ( swiper.slidesGrid[i]<-transition ) {
-				pos = i+1;
-				if (grid.length-pos===visible_count) {
-					// $this.find('.arrow-wrapper-next').hide();
-					break;
-				} else {
+		var mySwiper = new Swiper( $this.find('.swiper-container')[0] ,{
+			pagination: '.pagination',
+			loop: false,
+			grabCursor: true,
+			mode: app.is_landscape_mode ? 'horizontal' : 'vertical',
+			paginationClickable: true,
+			slidesPerView: 'auto',
+			onInit: function(swiper) {
+				if ( swiper.slides.length>$(swiper.slides).filter('.swiper-slide-visible').length ) {
 					$this.find('.arrow-wrapper-next').show();
 				}
+				var lives = $(swiper.slides).filter('.is-live');
+				if (!lives.length || ( this.mySwipers && this.mySwipers[element] ) ) return false;
+				var live_index = lives.eq(0).index();
+				swiper.swipeTo(live_index);
+				if ( swiper.slides[live_index].previousElementSibling.classList.contains('swiper-slide-visible') && sources[sourcesKey]!=='stop')  {
+					that.__load(sources[sourcesKey]);
+				}
+			},
+			onSlideNext: function(swiper) {
+				if (swiper.slides[swiper.slides.length-1].classList.contains('swiper-slide-visible')) {
+					that.__load(sources[sourcesKey]);
+				}
+			},
+			onResistanceAfter: function(swiper) {
+				var currentIndex = swiper.activeIndex,
+					slidesLength = swiper.slides.length,
+					slidesOffset = slidesLength-currentIndex,
+					tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
+				if (swiper.is_busy===true || sources[sourcesKey].stop===true) return;
+				swiper.is_busy = true;
+				that.__load(sources[sourcesKey])
+			},
+			onSlideChangeEnd: function(swiper) {
+				that.mySwipers._positions[element] = swiper.activeIndex;
 			}
+		});
+
+		mySwiper.wrapperTransitionEnd(function(swiper) {
+			var transition = swiper.getWrapperTranslate();
+			if (transition===0) {
+				$this.find('.arrow-wrapper-prev').hide();
+			} else {
+				$this.find('.arrow-wrapper-prev').show();
+			}
+			var grid = swiper.slidesGrid;
+			var visible_count = parseInt(swiper[app.is_landscape_mode?'width':'height']/grid[1], 10);
+			var pos = 0;
+			for (var i=swiper.slidesGrid.length-1; i>=-1; i-=1) {
+				if ( swiper.slidesGrid[i]<-transition ) {
+					pos = i+1;
+					if (grid.length-pos===visible_count) {
+						// $this.find('.arrow-wrapper-next').hide();
+						break;
+					} else {
+						$this.find('.arrow-wrapper-next').show();
+					}
+				}
+			}
+		}, true)
+
+		if (mySwiper) {
+			this.mySwipers[element] = mySwiper
 		}
-	}, true)
-	if (mySwiper) {
-		this.mySwipers[element] = mySwiper
+
+		$this.find('.arrow-wrapper-prev').on('click.swipePrev', function(e){
+			e.preventDefault();
+			that.mySwipers[element].swipePrev();
+		})
+		
+		$this.find('.arrow-wrapper-next').on('click.swipeNext', function(e){
+			e.preventDefault();
+			that.mySwipers[element].swipeNext();
+		})
+	}.bind(this)
+	if ( navigator.userAgent.toLowerCase().search('android')>-1 ) {
+		setTimeout(function() {
+			if (window.outerWidth>window.outerHeight) {
+				app.is_landscape_mode = true;
+			} else {
+				app.is_landscape_mode = false;
+			}
+			init();
+		}, 300);
+	} else {
+		init();
 	}
-	$this.find('.arrow-wrapper-prev').on('click.swipePrev', function(e){
-		e.preventDefault();
-		that.mySwipers[element].swipePrev();
-	})
-	
-	$this.find('.arrow-wrapper-next').on('click.swipeNext', function(e){
-		e.preventDefault();
-		that.mySwipers[element].swipeNext();
-	})
 },
 wrapText: function(text) {
 	if (text.length>109) {

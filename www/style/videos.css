@@ -60,13 +60,23 @@ body,
 }
 body.is_loading #is_loading {
 	display: block;
+	height: 4em;
 	left: 50%;
+	margin: -2em -2em;
 	position: fixed;
 	top: 50%;
+	width: 4em;
 	z-index: 5;
-	-webkit-transform: translate(-50%,-50%);
-		-ms-transform: translate(-50%,-50%);
-			transform: translate(-50%,-50%);
+}
+html.android body.is_loading #is_loading {
+	-webkit-animation: spin 2s linear infinite;
+			animation: spin 2s linear infinite;
+}
+@-webkit-keyframes spin {
+	100% {
+		-webkit-transform: rotate(360deg);
+				transform: rotate(360deg);
+		}
 }
 .three {
 	display: inline-block;
@@ -530,16 +540,18 @@ body.panel-active .content {
 	transition: transform 0.2s linear;
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {
+/*@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {*/
+@media only screen and (max-width: 1920px) {
 	html {
-		font-size: 8px;
+		font-size: 7px;
 	}
 	.panel.left {
 		height: 725px;
 	}
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : portrait) {
+/*@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : portrait) {*/
+@media only screen and (max-width: 768px) {
 	html {
 		font-size: 8px;
 	}
@@ -554,9 +566,9 @@ body.panel-active .content {
 		padding-bottom: 5.375em;
 	}
 	.element {
-		height: 181px;
+		height: 22.625em;
         padding-bottom: 1em;
-		width: 240px;
+		width: 100%;
 	}
     .element-text {
         margin-bottom: 1em;
