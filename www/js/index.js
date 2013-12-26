@@ -519,7 +519,6 @@ initSlider: function(element) {
 			} else {
 				app.is_landscape_mode = false;
 			}
-			alert(app.is_landscape_mode)
 			init();
 		}, 2000);
 	} else {
