@@ -542,7 +542,7 @@ body.panel-active .content {
 
 @media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {
 	html {
-		font-size: 8px;
+		font-size: 7px;
 	}
 	.panel.left {
 		height: 725px;
@@ -564,9 +564,9 @@ body.panel-active .content {
 		padding-bottom: 5.375em;
 	}
 	.element {
-		height: 181px;
+		height: 22.625em;
         padding-bottom: 1em;
-		width: 240px;
+		width: 100%;
 	}
     .element-text {
         margin-bottom: 1em;
