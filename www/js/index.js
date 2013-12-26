@@ -134,16 +134,16 @@ resetAppInits: function() { //сброс конфига по дефолту и �
 		if (sources[i].offset) sources[i].offset = 0;
 		if (sources[i].stop) sources[i].stop = false;
 		if (sources[i].data.length) sources[i].data = [];
-		if (sources[i].ph && $(sources[i].ph)) $(sources[i].ph).removeAttr('style');
+		if (sources[i].ph && $(sources[i].ph)) $(sources[i].ph).attr('style', '');
 		sources[i].phrase = '';
 	}
 	if (this.mySwipers) {
 		for (i in this.mySwipers)
 			if (this.mySwipers[i] instanceof Swiper) this.mySwipers[i].destroy();
 	}
-	this.loading.hide_loading();
+	// this.loading.hide_loading();
 	delete this.mySwipers;
-	$('.arrow-wrapper').removeAttr('style');
+	$('.arrow-wrapper').attr('style', '');
 	return true;
 },
 initPanel: function() {
@@ -424,7 +424,7 @@ onDeviceReady: function() {
 					if (!app.mySwipers[i] || !(app.mySwipers[i] instanceof Swiper)) return true;
 					var $this = $(i).closest('.line');
 					app.mySwipers[i].destroy();
-					$this.find('.slider.swiper-wrapper').removeAttr('style');
+					$this.find('.slider.swiper-wrapper').attr('style', '');
 					app.initSlider(i);
 				})
 			}
@@ -452,9 +452,10 @@ initSlider: function(element) {
 					$this.find('.arrow-wrapper-next').show();
 				}
 				var lives = $(swiper.slides).filter('.is-live');
-				if (!lives.length || ( this.mySwipers && this.mySwipers[element] ) ) return false;
+				if (lives.length===0 || swiper.swiped) return false;
 				var live_index = lives.eq(0).index();
 				swiper.swipeTo(live_index);
+				swiper.swiped = true;
 				if ( swiper.slides[live_index].previousElementSibling.classList.contains('swiper-slide-visible') && sources[sourcesKey]!=='stop')  {
 					that.__load(sources[sourcesKey]);
 				}
