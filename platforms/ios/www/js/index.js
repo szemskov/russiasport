@@ -310,7 +310,7 @@ onGetLive: function(json){
     this.updateSources(sources['live'], json);
     for(var i in json){
         var video = json[i];
-        html='<li class="element'+(video.is_live===1?' is-live':'')+' swiper-slide">'+
+        html='<li class="element'+(video.is_live==1?' is-live':'')+' swiper-slide">'+
         '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetLive\')" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
