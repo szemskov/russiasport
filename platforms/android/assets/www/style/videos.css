@@ -540,16 +540,18 @@ body.panel-active .content {
 	transition: transform 0.2s linear;
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {
+/*@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {*/
+@media only screen and (max-width: 1920px) {
 	html {
-		font-size: 8px;
+		font-size: 7px;
 	}
 	.panel.left {
 		height: 725px;
 	}
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : portrait) {
+/*@media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : portrait) {*/
+@media only screen and (max-width: 768px) {
 	html {
 		font-size: 8px;
 	}
@@ -564,9 +566,9 @@ body.panel-active .content {
 		padding-bottom: 5.375em;
 	}
 	.element {
-		height: 181px;
+		height: 22.625em;
         padding-bottom: 1em;
-		width: 240px;
+		width: 100%;
 	}
     .element-text {
         margin-bottom: 1em;

@@ -477,7 +477,6 @@ initSlider: function(element) {
 				that.mySwipers._positions[element] = swiper.activeIndex;
 			}
 		});
-
 		mySwiper.wrapperTransitionEnd(function(swiper) {
 			var transition = swiper.getWrapperTranslate();
 			if (transition===0) {
@@ -500,11 +499,9 @@ initSlider: function(element) {
 				}
 			}
 		}, true)
-
 		if (mySwiper) {
 			this.mySwipers[element] = mySwiper
 		}
-
 		$this.find('.arrow-wrapper-prev').on('click.swipePrev', function(e){
 			e.preventDefault();
 			that.mySwipers[element].swipePrev();
