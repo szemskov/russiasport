@@ -261,6 +261,7 @@ onGetNews: function(json){
 		delete news;
 		delete html;
 	}
+	if (json.length<sources['news'].limit) sources['news'].stop = true;
 	if (!this.mySwipers || !this.mySwipers['#news']) {
 		jQuery(sources['news']['ph']).append(  [].concat(sources['news'].data).splice(0, sources['news'].offset) );
 		this.initSlider(sources['news']['ph']);
@@ -300,6 +301,7 @@ onGetVideo: function(json){
 		delete video;
 		delete html;
 	}
+	if (json.length<sources['video'].limit) sources['video'].stop = true;
 	if (!this.mySwipers || !this.mySwipers['#video']) {
 		jQuery(sources['video']['ph']).append( [].concat(sources['video'].data).splice(0, sources['video'].offset) );
 		this.initSlider(sources['video']['ph']);
@@ -340,6 +342,7 @@ onGetLive: function(json){
 		 delete html;
 		 delete video;
 	}
+	if (json.length<sources['live'].limit) sources['live'].stop = true;
 	if (!this.mySwipers || !this.mySwipers['#live']) {
 		jQuery(sources['live']['ph']).append( [].concat(sources['live'].data).splice(0, sources['live'].offset) );
 		this.initSlider(sources['live']['ph']);
@@ -467,7 +470,7 @@ initSlider: function(element) {
 				}
 			},
 			onSlideNext: function(swiper) {
-				if (swiper.slides[swiper.slides.length-1].classList.contains('swiper-slide-visible')) {
+				if (swiper.slides[swiper.slides.length-1].classList.contains('swiper-slide-visible') && sources[sourcesKey].stop!==true) {
 					that.__load(sources[sourcesKey]);
 				}
 			},
@@ -498,7 +501,7 @@ initSlider: function(element) {
 				if ( swiper.slidesGrid[i]<-transition ) {
 					pos = i+1;
 					if (grid.length-pos===visible_count) {
-						// $this.find('.arrow-wrapper-next').hide();
+						$this.find('.arrow-wrapper-next').hide();
 						break;
 					} else {
 						$this.find('.arrow-wrapper-next').show();
