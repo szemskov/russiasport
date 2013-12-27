@@ -158,9 +158,13 @@ initPanel: function() {
 	this.onOffSearch_field();
 	var panel = jQuery('#sport_types');
 	i=0;
+	var selectedSportTypeCounter = 0;
 	for(var data_type in tags){
 		panel.append('<div class="sport-icon-element sport-icon-element-'+(++i)+' '+data_type+(tags[data_type].active?' active':'')+'"><div data-type="'+data_type+'" class="icon"></div>'+tags[data_type].name+'</div>');
+		if (tags[data_type].active) selectedSportTypeCounter+=1;
+		$('#menu_icon .red_counter', '.header').text(selectedSportTypeCounter);
 	}
+	console.log(selectedSportTypeCounter);
 	$('.icon-menu, #close').on('click', function() {
 		$('body').toggleClass('panel-active');
 	})
@@ -322,7 +326,6 @@ onGetVideo: function(json){
 
 },
 onGetLive: function(json){
-	console.log(json.length)
     var html = '';
     this.updateSources(sources['live'], json);
     for(var i in json){
@@ -382,11 +385,12 @@ __load: function(source){
 },
 prepareUrl: function(source) {
 	var tids = this._getActiveTags();
+	var searchPhrase = window.localStorage.getItem('lastSearch') ? window.localStorage.getItem('lastSearch') : sources.phrase;
 	//init placeholders
 	url = source.url.replace(':limit',source.limit)
 	.replace(':offset',source.offset)
 	.replace(':callback',source.callback)
-	.replace(':phrase',source.phrase)
+	.replace(':phrase', searchPhrase)
 	.replace(':tids',tids);
 	return url;
 },
