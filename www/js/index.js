@@ -64,6 +64,7 @@ var sources = {
 		"offset":0,
 		"stop":false,
 		"data": [],
+		"slider": null,
 		"phrase": "",
 		"callback":"app.onGetNews"},
 	"video" : {"ph":"#video",
@@ -73,6 +74,7 @@ var sources = {
 		"offset":0,
 		"stop":false,
 		"data": [],
+		"slider": null,
 		"phrase": "",
 		"callback":"app.onGetVideo"},
 	"live" : {"ph":"#live",
@@ -82,6 +84,7 @@ var sources = {
 		"offset":0,
 		"stop":false,
 		"data": [],
+		"slider": null,
 		"phrase": "",
 		"callback":"app.onGetLive"},
 };
@@ -136,13 +139,13 @@ resetAppInits: function() { //сброс конфига по дефолту и �
 		if (sources[i].data.length) sources[i].data = [];
 		if (sources[i].ph && $(sources[i].ph)) $(sources[i].ph).attr('style', '');
 		sources[i].phrase = '';
-	}
-	if (this.mySwipers) {
-		for (i in this.mySwipers)
-			if (this.mySwipers[i] instanceof Swiper) this.mySwipers[i].destroy();
+		if (sources[i].slider) {
+			if (sources[i].slider instanceof Swiper) sources[i].slider.destroy();
+			sources[i].slider = null;
+		}
+		sources[i].lastSliderIndex = 0;
 	}
 	// this.loading.hide_loading();
-	delete this.mySwipers;
 	$('.arrow-wrapper').attr('style', '');
 	return true;
 },
@@ -169,6 +172,8 @@ initPanel: function() {
 						 window.localStorage.setItem("tags", $.toJSON(tags));
 						 this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
 						 app.loading.show_loading() && app.resetAppInits() && app.initContent();
+						 $('#search-field').val('');
+						 $('#search-field').data('oldValue', '')
 						 });
 	
 	
@@ -181,15 +186,15 @@ initPanel: function() {
 						// app.loading.show_loading() && app.resetAppInits() && app.initContent();
 						});
 	(function(that) {//event для поля поиска.
-		var oldValue = '',
-			$search_field = $('#search-field');
+		var $search_field = $('#search-field');
+		$search_field.data('oldValue', '');
 		$search_field.on('keyup', function(e) {
 			var $this = $search_field,
 				value = $this.val(),
 				is_length_enough = value.length>2,
 				code = e.keyCode || e.which;
 			if ($this.is_searching) clearTimeout($this.is_searching);
-			if (!is_length_enough || oldValue===value) {
+			if (!is_length_enough || $search_field.data('oldValue')===value) {
 				return false;
 			}
 			if (code===13) {
@@ -201,7 +206,7 @@ initPanel: function() {
 					$(sources[i]['ph']).empty();
 					that.__load(sources[i]);
 				}
-				oldValue = value;
+				$search_field.data('oldValue', value);
 				return true;
 			}
 			$this.is_searching = setTimeout(function() {
@@ -213,7 +218,7 @@ initPanel: function() {
 					$(sources[i]['ph']).empty();
 					that.__load(sources[i]);
 				}
-				oldValue = value;
+				search_field.data('oldValue', value);
 			}, 2000)
 		})
 	})(this);
@@ -262,15 +267,15 @@ onGetNews: function(json){
 		delete html;
 	}
 	if (json.length<sources['news'].limit) sources['news'].stop = true;
-	if (!this.mySwipers || !this.mySwipers['#news']) {
+	if (!sources['news'].slider) {
 		jQuery(sources['news']['ph']).append(  [].concat(sources['news'].data).splice(0, sources['news'].offset) );
 		this.initSlider(sources['news']['ph']);
 	} else {
-		var length = app.mySwipers['#news'].slides.length,
-			tempSlide = this.mySwipers['#news'].createSlide();
+		var length = sources['news'].slider.slides.length,
+			tempSlide = sources['news'].slider.createSlide();
 		jQuery(sources['news']['ph']).append(  [].concat(sources['news'].data).splice(sources['news'].offset-sources['news'].limit, sources['news'].data.length) );
-		this.mySwipers['#news'].appendSlide(tempSlide); this.mySwipers['#news'].removeLastSlide();
-		this.mySwipers['#news'].is_busy = false;
+		sources['news'].slider.appendSlide(tempSlide); sources['news'].slider.removeLastSlide();
+		sources['news'].slider.is_busy = false;
 	}
 },
 onGetVideo: function(json){
@@ -285,7 +290,7 @@ onGetVideo: function(json){
         '<span class="text">cмотреть</span>'+
         '<div class="background"></div>'+
         '</div>'+
-        '<img src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
+        '<img src="'+(video.uri480x360 ? video.uri480x360.replace('webta.','') : '')+'" alt="" title=""/>'+
         '<div class="element-text">'+
         '<p class="element-text-title">'+video.title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
@@ -302,15 +307,15 @@ onGetVideo: function(json){
 		delete html;
 	}
 	if (json.length<sources['video'].limit) sources['video'].stop = true;
-	if (!this.mySwipers || !this.mySwipers['#video']) {
+	if (!sources['video'].slider) {
 		jQuery(sources['video']['ph']).append( [].concat(sources['video'].data).splice(0, sources['video'].offset) );
 		this.initSlider(sources['video']['ph']);
 	} else {
-		var length = app.mySwipers['#video'].slides.length,
-			tempSlide = this.mySwipers['#video'].createSlide();
+		var length = sources['video'].slider.length,
+			tempSlide = sources['video'].slider.createSlide();
 		jQuery(sources['video']['ph']).append(  [].concat(sources['video'].data).splice(sources['video'].offset-sources['video'].limit, sources['video'].data.length) );
-		this.mySwipers['#video'].appendSlide(tempSlide); this.mySwipers['#video'].removeLastSlide();
-		this.mySwipers['#video'].is_busy = false;
+		sources['video'].slider.appendSlide(tempSlide); sources['video'].slider.removeLastSlide();
+		sources['video'].slider.is_busy = false;
 	}
 
 },
@@ -343,15 +348,15 @@ onGetLive: function(json){
 		 delete video;
 	}
 	if (json.length<sources['live'].limit) sources['live'].stop = true;
-	if (!this.mySwipers || !this.mySwipers['#live']) {
+	if (!sources['live'].slider) {
 		jQuery(sources['live']['ph']).append( [].concat(sources['live'].data).splice(0, sources['live'].offset) );
 		this.initSlider(sources['live']['ph']);
 	} else {
-		var length = app.mySwipers['#live'].slides.length,
-			tempSlide = this.mySwipers['#live'].createSlide();
+		var length = sources['live'].slider.slides.length,
+			tempSlide = sources['live'].slider.createSlide();
 		jQuery(sources['live']['ph']).append(  [].concat(sources['live'].data).splice(sources['live'].offset-sources['live'].limit, sources['live'].data.length) );
-		this.mySwipers['#live'].appendSlide(tempSlide); this.mySwipers['#live'].removeLastSlide();
-		this.mySwipers['#live'].is_busy = false;
+		sources['live'].slider.appendSlide(tempSlide); sources['live'].slider.removeLastSlide();
+		sources['live'].slider.is_busy = false;
 	}
 },
 __load: function(source){
@@ -426,15 +431,12 @@ onDeviceReady: function() {
 		) {
 			app.is_landscape_mode = app.is_landscape();
 			app.innerWidth = window.innerWidth;
-			if (app.mySwipers) {
-				$.each(app.mySwipers, function(i, mySwiper) {
-					var sourcesKey = i.substr(1, i.length-1);
-					if (!app.mySwipers[i] || !(app.mySwipers[i] instanceof Swiper)) return true;
-					var $this = $(i).closest('.line');
-					app.mySwipers[i].destroy();
-					$this.find('.slider.swiper-wrapper').attr('style', '');
-					app.initSlider(i);
-				})
+			for (i in sources) {
+				var slider = sources[i].slider;
+				if (!(slider instanceof Swiper)) continue;
+				slider.destroy();
+				$(sources[i]['ph']).attr('style', '');
+				app.initSlider('#'+i);
 			}
 		}
 		delete that;
@@ -444,12 +446,10 @@ onDeviceReady: function() {
 },
 initSlider: function(element) {
 	var init = function init() {
-		if (!this.mySwipers) this.mySwipers = {_positions: {}};
-		var $this = $(element).closest('.line'),
-			that = this,
-			sourcesKey = element.substr(1, element.length-1);
+		// if (!this.mySwipers) this.mySwipers = {_positions: {}};
+		var sourcesKey = element.substr(1, element.length-1);
 
-		var mySwiper = new Swiper( $this.find('.swiper-container')[0] ,{
+		sources[sourcesKey].slider = new Swiper( $(element).closest('.line').find('.swiper-container')[0] ,{
 			pagination: '.pagination',
 			loop: false,
 			grabCursor: true,
@@ -458,20 +458,24 @@ initSlider: function(element) {
 			slidesPerView: 'auto',
 			onInit: function(swiper) {
 				if ( swiper.slides.length>$(swiper.slides).filter('.swiper-slide-visible').length ) {
-					$this.find('.arrow-wrapper-next').show();
+					$(swiper.container).parent().find('.arrow-wrapper-next').show();
+				}
+				if (!swiper.swiped && sources[sourcesKey].lastSliderIndex) {
+					swiper.swipeTo(sources[sourcesKey].lastSliderIndex);
+					swiper.swiped = true;
 				}
 				var lives = $(swiper.slides).filter('.is-live');
 				if (lives.length===0 || swiper.swiped) return false;
 				var live_index = lives.eq(0).index();
 				swiper.swipeTo(live_index);
 				swiper.swiped = true;
-				if ( swiper.slides[live_index].previousElementSibling.classList.contains('swiper-slide-visible') && sources[sourcesKey]!=='stop')  {
-					that.__load(sources[sourcesKey]);
+				if ( swiper.slides[live_index].previousElementSibling.classList.contains('swiper-slide-visible') &&  sources[sourcesKey].stop!==true)  {
+					app.__load(sources[sourcesKey]);
 				}
 			},
 			onSlideNext: function(swiper) {
 				if (swiper.slides[swiper.slides.length-1].classList.contains('swiper-slide-visible') && sources[sourcesKey].stop!==true) {
-					that.__load(sources[sourcesKey]);
+					app.__load(sources[sourcesKey]);
 				}
 			},
 			onResistanceAfter: function(swiper) {
@@ -481,18 +485,18 @@ initSlider: function(element) {
 					tempSlide = null;  //для хранения переменного слайда, который доабвляается в массив swiper.slides, иначе все добавления в $(swiper.wrapper) будут безрезультатны;
 				if (swiper.is_busy===true || sources[sourcesKey].stop===true) return;
 				swiper.is_busy = true;
-				that.__load(sources[sourcesKey])
+				app.__load(sources[sourcesKey])
 			},
 			onSlideChangeEnd: function(swiper) {
-				that.mySwipers._positions[element] = swiper.activeIndex;
+				sources[sourcesKey].lastSliderIndex = swiper.activeIndex;
 			}
 		});
-		mySwiper.wrapperTransitionEnd(function(swiper) {
+		sources[sourcesKey].slider.wrapperTransitionEnd(function(swiper) {
 			var transition = swiper.getWrapperTranslate();
 			if (transition===0) {
-				$this.find('.arrow-wrapper-prev').hide();
+				$(swiper.container).closest('.line').find('.arrow-wrapper-prev').hide();
 			} else {
-				$this.find('.arrow-wrapper-prev').show();
+				$(swiper.container).closest('.line').find('.arrow-wrapper-prev').show();
 			}
 			var grid = swiper.slidesGrid;
 			var visible_count = parseInt(swiper[app.is_landscape_mode?'width':'height']/grid[1], 10);
@@ -501,25 +505,22 @@ initSlider: function(element) {
 				if ( swiper.slidesGrid[i]<-transition ) {
 					pos = i+1;
 					if (grid.length-pos===visible_count) {
-						$this.find('.arrow-wrapper-next').hide();
+						$(swiper.container).closest('.line').find('.arrow-wrapper-next').hide();
 						break;
 					} else {
-						$this.find('.arrow-wrapper-next').show();
+						$(swiper.container).closest('.line').find('.arrow-wrapper-next').show();
 					}
 				}
 			}
 		}, true)
-		if (mySwiper) {
-			this.mySwipers[element] = mySwiper
-		}
-		$this.find('.arrow-wrapper-prev').on('click.swipePrev', function(e){
+		$(element).closest('.line').find('.arrow-wrapper-prev').on('click.swipePrev', function(e){
 			e.preventDefault();
-			that.mySwipers[element].swipePrev();
+			sources[sourcesKey].slider.swipePrev();
 		})
 		
-		$this.find('.arrow-wrapper-next').on('click.swipeNext', function(e){
+		$(element).closest('.line').find('.arrow-wrapper-next').on('click.swipeNext', function(e){
 			e.preventDefault();
-			that.mySwipers[element].swipeNext();
+			sources[sourcesKey].slider.swipeNext();
 		})
 		delete $this;
 		delete that;
@@ -583,7 +584,7 @@ loading: {
 				var counter = 3,
 					k = 0;
 				for (var i in sources) {
-					if ( sources.hasOwnProperty(i) && that.mySwipers &&  that.mySwipers['#'+i] && (that.mySwipers['#'+i] instanceof Swiper) ) k+=1;
+					if ( sources.hasOwnProperty(i) && sources[i].slider && (sources[i].slider instanceof Swiper) && sources[i].slider.initialized===true) k+=1;
 					if (k===counter) {
 						clearInterval(timer);
 						callback();

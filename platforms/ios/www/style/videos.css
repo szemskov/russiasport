@@ -106,7 +106,6 @@ body.ios7{
 	overflow: hidden;
 }
 .slider {
-	height: 22.625em;
 	list-style-type: none;
 	overflow: hidden;
 	width: 5000px;
@@ -544,6 +543,9 @@ body.panel-active .content {
 @media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {
 	html {
 		font-size: 8px;
+	}
+	.slider {
+		height: 22.625em !important;
 	}
 	.panel.left {
 		height: 725px;
