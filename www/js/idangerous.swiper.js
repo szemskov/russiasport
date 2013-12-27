@@ -500,6 +500,7 @@ var Swiper = function (selector, params) {
         } else {
             callback(this, arguments[2], arguments[3], arguments[4], arguments[5]);
         }
+        console.log( this, arguments[2], arguments[3], arguments[4], arguments[5] )
     }
     function isArray (obj) {
         "use strict";
