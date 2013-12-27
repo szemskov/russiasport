@@ -494,11 +494,11 @@ var Swiper = function (selector, params) {
         if( Object.prototype.toString.call( callback ) === '[object Array]' ) {
             for (var i = 0; i < callback.length; i++) {
                 if (typeof callback[i] === 'function') {
-                    callback[i](arguments[1], arguments[2], arguments[3], arguments[4], arguments[5])
+                    callback[i](this, arguments[2], arguments[3], arguments[4], arguments[5])
                 }
             }
         } else {
-            callback(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
+            callback(this, arguments[2], arguments[3], arguments[4], arguments[5]);
         }
     }
     function isArray (obj) {
@@ -2291,11 +2291,14 @@ Swiper.prototype = {
             i;
         
         function fireCallBack() {
-            callback(a);
-            if (a.params.queueEndCallbacks) a._queueEndCallbacks = false;
+            var id = $(this).attr('id');
+            var s = sources[id].slider;
+
+            callback(s);
+            if (s.params.queueEndCallbacks) s._queueEndCallbacks = false;
             if (!permanent) {
                 for (i=0; i<events.length; i++) {
-                    a.h.removeEventListener(el, events[i], fireCallBack);
+                    s.h.removeEventListener(el, events[i], fireCallBack);
                 }
             }
         }

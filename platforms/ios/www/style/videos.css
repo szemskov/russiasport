@@ -544,6 +544,9 @@ body.panel-active .content {
 	html {
 		font-size: 8px;
 	}
+	.slider {
+		height: 22.625em !important;
+	}
 	.panel.left {
 		height: 725px;
 	}
