@@ -106,6 +106,7 @@ body.ios7{
 	overflow: hidden;
 }
 .slider {
+	height: 22.625em;
 	list-style-type: none;
 	overflow: hidden;
 	width: 5000px;
