@@ -2291,11 +2291,14 @@ Swiper.prototype = {
             i;
         
         function fireCallBack() {
-            callback(a);
-            if (a.params.queueEndCallbacks) a._queueEndCallbacks = false;
+            var id = $(this).attr('id');
+            var s = sources[id].slider;
+
+            callback(s);
+            if (s.params.queueEndCallbacks) s._queueEndCallbacks = false;
             if (!permanent) {
                 for (i=0; i<events.length; i++) {
-                    a.h.removeEventListener(el, events[i], fireCallBack);
+                    s.h.removeEventListener(el, events[i], fireCallBack);
                 }
             }
         }
