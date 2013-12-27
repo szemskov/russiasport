@@ -180,16 +180,6 @@ initPanel: function() {
 						document.location.reload();
 						// app.loading.show_loading() && app.resetAppInits() && app.initContent();
 						});
-	
-},
-initContent: function() {
-	//remove old data and load from server
-	for(var i in sources){
-		$(sources[i]['ph']).empty();
-		// $(sources[i]['ph']).append('<img src="./style/images/loader.gif" alt="" title="" />');
-		this.__load(sources[i]);
-	}
-	this.loading.is_all_swipers_ready(this.loading.hide_loading);
 	(function(that) {//event для поля поиска.
 		var oldValue = '',
 			$search_field = $('#search-field');
@@ -228,6 +218,15 @@ initContent: function() {
 		})
 	})(this);
 	this.is_landscape_mode = this.is_landscape();
+},
+initContent: function() {
+	//remove old data and load from server
+	for(var i in sources){
+		$(sources[i]['ph']).empty();
+		// $(sources[i]['ph']).append('<img src="./style/images/loader.gif" alt="" title="" />');
+		this.__load(sources[i]);
+	}
+	this.loading.is_all_swipers_ready(this.loading.hide_loading);
 	return true;
 },
 updateSources: function(source, json_data) {
