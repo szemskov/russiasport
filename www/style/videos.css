@@ -523,10 +523,7 @@ body.panel-active .panel {
 	transform: translateX(100%);
 }
 body.panel-active .content {
-	margin-right: 26.708984375%;
-	-webkit-transform: translateX(26.708984375%);
-	-moz-transform: translateX(26.708984375%);
-	transform: translateX(26.708984375%);
+	margin: 0 26.708984375%;
 }
 .panel.left #sport_types {
 	height: 100%;
@@ -613,10 +610,6 @@ body.panel-active .content {
 		margin-top: 5.375em;
 	}
 	body.panel-active .content {
-		-webkit-transform: none;
-		-moz-transform: none;
-		-ms-transform: none;
-		-o-transform: none;
 		margin-right: 0;
 		margin-bottom: 28.125em;
 	}
