@@ -56,7 +56,7 @@ if(!tags){
 	tags = $.parseJSON(tags);
 }
 
-var sources = {	
+var sources = {
 	"news" : {"ph":"#news",
 		"url":"http://russiasport.ru/api.php?wall&format=json&uid=35&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
         "title":"Новости",
@@ -80,7 +80,7 @@ var sources = {
 	"live" : {"ph":"#live",
 		"url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
         "title":"Трансляции",
-		"limit":30,
+		"limit":12,
 		"offset":0,
 		"stop":false,
 		"data": [],
@@ -138,7 +138,7 @@ resetAppInits: function() { //сброс конфига по дефолту и �
 		if (sources[i].stop) sources[i].stop = false;
 		if (sources[i].data.length) sources[i].data = [];
 		if (sources[i].ph && $(sources[i].ph)) $(sources[i].ph).attr('style', '');
-		// sources[i].phrase = '';
+		sources[i].phrase = '';
 		if (sources[i].slider) {
 			if (sources[i].slider instanceof Swiper) sources[i].slider.destroy();
 			sources[i].slider = null;
@@ -164,7 +164,6 @@ initPanel: function() {
 		if (tags[data_type].active) selectedSportTypeCounter+=1;
 		$('#menu_icon .red_counter', '.header').text(selectedSportTypeCounter);
 	}
-	console.log(selectedSportTypeCounter);
 	$('.icon-menu, #close').on('click', function() {
 		$('body').toggleClass('panel-active');
 	})
@@ -208,11 +207,11 @@ initPanel: function() {
 				app.resetAppInits();
 				that.loading.is_all_swipers_ready(that.loading.hide_loading);
 				for (i in sources) {
-					sources[i].phrase = value;
+					// sources[i].phrase = value;
+					window.localStorage.setItem('lastSearch', value)
 					$(sources[i]['ph']).empty();
 					that.__load(sources[i]);
 				}
-				window.localStorage.setItem('lastSearch', value)
 				return true;
 			}
 			$this.is_searching = setTimeout(function() {
@@ -220,11 +219,11 @@ initPanel: function() {
 				app.resetAppInits();
 				that.loading.is_all_swipers_ready(that.loading.hide_loading);
 				for (i in sources) {
-					sources[i].phrase = value;
+					// sources[i].phrase = value;
+					window.localStorage.setItem('lastSearch', value)
 					$(sources[i]['ph']).empty();
 					that.__load(sources[i]);
 				}
-				window.localStorage.setItem('lastSearch', value)
 			}, 2000)
 		})
 	})(this);
@@ -357,7 +356,6 @@ onGetLive: function(json){
 	if (!sources['live'].slider) {
 		jQuery(sources['live']['ph']).append( [].concat(sources['live'].data).splice(0, sources['live'].offset) );
 		this.initSlider(sources['live']['ph']);
-		sources['live'].limit = 12;
 	} else {
 		var length = sources['live'].slider.slides.length,
 			tempSlide = sources['live'].slider.createSlide();
@@ -385,7 +383,7 @@ __load: function(source){
 },
 prepareUrl: function(source) {
 	var tids = this._getActiveTags();
-	var searchPhrase = window.localStorage.getItem('lastSearch') ? window.localStorage.getItem('lastSearch') : sources.phrase;
+	var searchPhrase = window.localStorage.getItem('lastSearch') ? window.localStorage.getItem('lastSearch') : source.phrase;
 	//init placeholders
 	url = source.url.replace(':limit',source.limit)
 	.replace(':offset',source.offset)
@@ -427,6 +425,8 @@ onDeviceReady: function() {
 	app.initContent();
 
 	app.receivedEvent('init content');
+	if (window.localStorage.getItem('lastSearch')===null) window.localStorage.setItem('lastSearch', '');
+	$('#search-field').val(window.localStorage.getItem('lastSearch'));
 	app.innerWidth = window.innerWidth;
 	var supportsOrientationChange = "onorientationchange" in window,
 		orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";

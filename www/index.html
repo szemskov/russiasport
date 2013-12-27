@@ -11,14 +11,11 @@
         <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     </head>
     <body>
-    	<!-- <img id="speed_test" src="http://russiasport.ru/api.php?wall&format=json&uid=35&offset=0&count=12&phrase=%D1%81%D0%B0%D0%BC%D0%B1%D0%BE&tag_tids[]=&callback=app.onGetNews&_=1388160628733" alt=""> -->
     	<img src="style/images/loader.gif" alt="" id="is_loading">
 			<div id="videos"> 
 				<div class="header">
 		    		<label for="left-panel-visibility" id="menu_icon" class="three">
-
-
-		    			<div class="icon icon-menu"><div class="red_counter">31</div></div>
+		    			<div class="icon icon-menu"><div class="red_counter" style="display:none">31</div></div>
 		    		</label
 		    		><div class="three icon icon-logo"></div
 		    		><div class="three third">
@@ -83,6 +80,5 @@
 	<script type="text/javascript" charset="utf-8" src="js/index.js"></script>
     <script type="text/javascript" charset="utf-8">
         app.initialize();
-        app.onDeviceReady();
     </script>
 </html>
