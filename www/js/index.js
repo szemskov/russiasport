@@ -259,6 +259,8 @@ onGetNews: function(json){
         '</a>'+
         '</li>';
 		sources['news'].data.push( html );
+		delete news;
+		delete html;
 	}
 	if (!this.mySwipers || !this.mySwipers['#news']) {
 		jQuery(sources['news']['ph']).append(  [].concat(sources['news'].data).splice(0, sources['news'].offset) );
@@ -296,6 +298,8 @@ onGetVideo: function(json){
         '</a>'+
         '</li>';
 		sources['video'].data.push( html );
+		delete video;
+		delete html;
 	}
 	if (!this.mySwipers || !this.mySwipers['#video']) {
 		jQuery(sources['video']['ph']).append( [].concat(sources['video'].data).splice(0, sources['video'].offset) );
@@ -334,6 +338,8 @@ onGetLive: function(json){
         '</a>'+
         '</li>';
 		 sources['live'].data.push( html );
+		 delete html;
+		 delete video;
 	}
 	if (!this.mySwipers || !this.mySwipers['#live']) {
 		jQuery(sources['live']['ph']).append( [].concat(sources['live'].data).splice(0, sources['live'].offset) );
@@ -429,6 +435,7 @@ onDeviceReady: function() {
 				})
 			}
 		}
+		delete that;
 		});
     
 
@@ -512,6 +519,9 @@ initSlider: function(element) {
 			e.preventDefault();
 			that.mySwipers[element].swipeNext();
 		})
+		delete $this;
+		delete that;
+		delete sourcesKey;
 	}.bind(this)
 	if ( navigator.userAgent.toLowerCase().search('android')>-1 ) {
 		setTimeout(function() {
