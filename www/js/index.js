@@ -56,7 +56,7 @@ if(!tags){
 	tags = $.parseJSON(tags);
 }
 
-var sources = {
+var sources = {	
 	"news" : {"ph":"#news",
 		"url":"http://russiasport.ru/api.php?wall&format=json&uid=35&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
         "title":"Новости",
@@ -80,7 +80,7 @@ var sources = {
 	"live" : {"ph":"#live",
 		"url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
         "title":"Трансляции",
-		"limit":12,
+		"limit":30,
 		"offset":0,
 		"stop":false,
 		"data": [],
@@ -138,7 +138,7 @@ resetAppInits: function() { //сброс конфига по дефолту и �
 		if (sources[i].stop) sources[i].stop = false;
 		if (sources[i].data.length) sources[i].data = [];
 		if (sources[i].ph && $(sources[i].ph)) $(sources[i].ph).attr('style', '');
-		sources[i].phrase = '';
+		// sources[i].phrase = '';
 		if (sources[i].slider) {
 			if (sources[i].slider instanceof Swiper) sources[i].slider.destroy();
 			sources[i].slider = null;
@@ -172,8 +172,6 @@ initPanel: function() {
 						 window.localStorage.setItem("tags", $.toJSON(tags));
 						 this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
 						 app.loading.show_loading() && app.resetAppInits() && app.initContent();
-						 $('#search-field').val('');
-						 $('#search-field').data('oldValue', '')
 						 });
 	
 	
@@ -186,15 +184,19 @@ initPanel: function() {
 						// app.loading.show_loading() && app.resetAppInits() && app.initContent();
 						});
 	(function(that) {//event для поля поиска.
+		if ( window.localStorage.getItem('lastSearch')==null ) {
+			window.localStorage.setItem('lastSearch', '');
+		}
 		var $search_field = $('#search-field');
-		$search_field.data('oldValue', '');
+			$search_field.val( window.localStorage.getItem('lastSearch') );
+
 		$search_field.on('keyup', function(e) {
 			var $this = $search_field,
 				value = $this.val(),
-				is_length_enough = value.length>2,
+				is_length_enough = value.length ? value.length>2 : window.localStorage.getItem('lastSearch')!=='',
 				code = e.keyCode || e.which;
 			if ($this.is_searching) clearTimeout($this.is_searching);
-			if (!is_length_enough || $search_field.data('oldValue')===value) {
+			if (!is_length_enough || window.localStorage.getItem('lastSearch')===value) {
 				return false;
 			}
 			if (code===13) {
@@ -206,7 +208,7 @@ initPanel: function() {
 					$(sources[i]['ph']).empty();
 					that.__load(sources[i]);
 				}
-				$search_field.data('oldValue', value);
+				window.localStorage.setItem('lastSearch', value)
 				return true;
 			}
 			$this.is_searching = setTimeout(function() {
@@ -218,7 +220,7 @@ initPanel: function() {
 					$(sources[i]['ph']).empty();
 					that.__load(sources[i]);
 				}
-				search_field.data('oldValue', value);
+				window.localStorage.setItem('lastSearch', value)
 			}, 2000)
 		})
 	})(this);
@@ -320,6 +322,7 @@ onGetVideo: function(json){
 
 },
 onGetLive: function(json){
+	console.log(json.length)
     var html = '';
     this.updateSources(sources['live'], json);
     for(var i in json){
@@ -351,6 +354,7 @@ onGetLive: function(json){
 	if (!sources['live'].slider) {
 		jQuery(sources['live']['ph']).append( [].concat(sources['live'].data).splice(0, sources['live'].offset) );
 		this.initSlider(sources['live']['ph']);
+		sources['live'].limit = 12;
 	} else {
 		var length = sources['live'].slider.slides.length,
 			tempSlide = sources['live'].slider.createSlide();
