@@ -50,7 +50,6 @@
 		F3C7B23A1857276C00AFEE23 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C7B22F1857276C00AFEE23 /* Default~iphone.png */; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
 		B62DD035805C4BEDB8CEF3F4 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4C075ED53A46A4AB982FA6 /* CDVInAppBrowser.m */; };
-		B9A2E69D75FF4749BDA8C714 /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 469CF51FA805411885AD21B9 /* CDVSplashScreen.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,8 +125,6 @@
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = Russiasport/config.xml; sourceTree = "<group>"; };
 		DC4C075ED53A46A4AB982FA6 /* CDVInAppBrowser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVInAppBrowser.m"; path = "org.apache.cordova.inappbrowser/CDVInAppBrowser.m"; sourceTree = "<group>"; fileEncoding = 4; };
 		7FBA6655E00D45A0A295F20F /* CDVInAppBrowser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVInAppBrowser.h"; path = "org.apache.cordova.inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; fileEncoding = 4; };
-		469CF51FA805411885AD21B9 /* CDVSplashScreen.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVSplashScreen.m"; path = "org.apache.cordova.splashscreen/CDVSplashScreen.m"; sourceTree = "<group>"; fileEncoding = 4; };
-		5C54216D095941BD9574E4ED /* CDVSplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVSplashScreen.h"; path = "org.apache.cordova.splashscreen/CDVSplashScreen.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,8 +245,6 @@
 				EF482DF96AF64B65963C0AD5 /* CDVNotification.h */,
 				DC4C075ED53A46A4AB982FA6 /* CDVInAppBrowser.m */,
 				7FBA6655E00D45A0A295F20F /* CDVInAppBrowser.h */,
-				469CF51FA805411885AD21B9 /* CDVSplashScreen.m */,
-				5C54216D095941BD9574E4ED /* CDVSplashScreen.h */,
 			);
 			name = Plugins;
 			path = Russiasport/Plugins;
@@ -439,7 +434,6 @@
 				8F091D86FBD942E39DCB638F /* CDVReachability.m in Sources */,
 				1C18938750804331941F3807 /* CDVNotification.m in Sources */,
 				B62DD035805C4BEDB8CEF3F4 /* CDVInAppBrowser.m in Sources */,
-				B9A2E69D75FF4749BDA8C714 /* CDVSplashScreen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
