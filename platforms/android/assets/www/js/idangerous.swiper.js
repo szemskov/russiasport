@@ -494,11 +494,11 @@ var Swiper = function (selector, params) {
         if( Object.prototype.toString.call( callback ) === '[object Array]' ) {
             for (var i = 0; i < callback.length; i++) {
                 if (typeof callback[i] === 'function') {
-                    callback[i](arguments[1], arguments[2], arguments[3], arguments[4], arguments[5])
+                    callback[i](this, arguments[2], arguments[3], arguments[4], arguments[5])
                 }
             }
         } else {
-            callback(arguments[1], arguments[2], arguments[3], arguments[4], arguments[5]);
+            callback(this, arguments[2], arguments[3], arguments[4], arguments[5]);
         }
     }
     function isArray (obj) {
