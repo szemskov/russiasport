@@ -138,7 +138,6 @@ resetAppInits: function() { //сброс конфига по дефолту и �
 		if (sources[i].stop) sources[i].stop = false;
 		if (sources[i].data.length) sources[i].data = [];
 		if (sources[i].ph && $(sources[i].ph)) $(sources[i].ph).attr('style', '');
-		console.log(sources[i].ph)
 		sources[i].phrase = '';
 		if (sources[i].slider) {
 			if (sources[i].slider instanceof Swiper) sources[i].slider.destroy();
