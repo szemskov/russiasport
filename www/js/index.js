@@ -300,10 +300,10 @@ onGetVideo: function(json){
         '<p class="element-text-title">'+video.title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
         '<span class="element-text-date">'+video.dt+'</span>'+
-        '<p class="element-comments">'+
+        /*'<p class="element-comments">'+
         '<span class="icon icon-comments"></span>'+
         video.comment_count+
-        '</p>'+
+        '</p>'+*/
         '</div>'+
         '</a>'+
         '</li>';
@@ -341,10 +341,10 @@ onGetLive: function(json){
         '<p class="element-text-title">'+video.node_title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
         '<span class="element-text-date">'+(video.is_live==1?'в эфире':video.dt)+'</span>'+
-        '<p class="element-comments">'+
+        /*'<p class="element-comments">'+
         '<span class="icon icon-comments"></span>'+
         video.comment_count+
-        '</p>'+
+        '</p>'+*/
         '</div>'+
         '</a>'+
         '</li>';
