@@ -524,6 +524,9 @@ body.panel-active .panel {
 body.panel-active .content {
 	margin: 0 26.708984375%;
 }
+body.panel-active .red_counter {
+	display: none;
+}
 .panel.left #sport_types {
 	height: 100%;
 	text-align: center;
@@ -609,8 +612,7 @@ body.panel-active .content {
 		margin-top: 5.375em;
 	}
 	body.panel-active .content {
-		margin-right: 0;
-		margin-bottom: 28.125em;
+		margin: 0 0 28.125em 0;
 	}
 	.transform-90 {
 		bottom: auto;
@@ -659,17 +661,15 @@ body.panel-active .content {
 }
 .red_counter {
 	background-color: red;
-	background-color: rgba(255,0,0,0.8);
+	background-color: rgba(255,0,0,1);
 	border-radius: 50%;
-	bottom: 0;
 	color: white;
 	height: 1.9375em;
 	line-height: 1.9375em;
-	left: 0;
 	margin: auto;
 	position: absolute;
-	right: 0;
+	right: -0.375em;
 	text-align: center;
-	top: 0;
+	top: -0.250em;
 	width: 1.9375em;
 }
