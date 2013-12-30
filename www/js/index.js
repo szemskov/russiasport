@@ -80,7 +80,7 @@ var sources = {
 	"live" : {"ph":"#live",
 		"url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
         "title":"Трансляции",
-		"limit":12,
+		"limit":30,
 		"offset":0,
 		"stop":false,
 		"data": [],
@@ -341,9 +341,20 @@ onGetVideo: function(json){
 onGetLive: function(json){
     var html = '';
     this.updateSources(sources['live'], json);
+    if (!sources['live'].slider) { // если первый раз инициализация, то ищем лайвы и прошедшие анонсы
+		var live_indexes = json.map(function(obj) {
+			return obj.is_live;
+		}).indexOf(1);
+		var livetime_indexes = json.map(function(obj) {
+			var current_time = new Date().getTime();
+			var anounce_time = new Date(obj.live_time*1000);
+			return current_time>=anounce_time;
+		}).indexOf(true);
+		var priority_index = live_indexes>-1 ? live_indexes : livetime_indexes>-1 ? livetime_indexes : null;
+	}
     for(var i in json){
         var video = json[i];
-        html='<li class="element'+(video.is_live==1?' is-live':'')+' swiper-slide">'+
+        html='<li class="element'+(video.is_live==1?' is-live':'')+' swiper-slide'+ (priority_index===parseInt(i, 10) ? ' priority' : '') +'">'+
         '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetLive\')" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
@@ -368,16 +379,6 @@ onGetLive: function(json){
 	}
 	if (json.length<sources['live'].limit) sources['live'].stop = true;
 	if (!sources['live'].slider) {
-		console.log(z = json)
-		lives = json.map(function(obj) {
-			return obj.is_live;
-		}).indexOf(1);
-		livetimes = json.map(function(obj) {
-			return obj.live_time;
-		}).filter(function(unix_time) {
-			var current_time = new Date().getTime();
-			
-		})
 		jQuery(sources['live']['ph']).append( [].concat(sources['live'].data).splice(0, sources['live'].offset) );
 		this.initSlider(sources['live']['ph']);
 	} else {
@@ -408,6 +409,7 @@ __load: function(source){
 prepareUrl: function(source) {
 	var tids = this._getActiveTags();
 	var searchPhrase = window.localStorage.getItem('lastSearch') ? window.localStorage.getItem('lastSearch') : source.phrase;
+	if (source.limit>12 && source.offset>0) source.limit = 12;
 	//init placeholders
 	url = source.url.replace(':limit',source.limit)
 	.replace(':offset',source.offset)
@@ -496,12 +498,13 @@ initSlider: function(element) {
 					swiper.swipeTo(sources[sourcesKey].lastSliderIndex);
 					swiper.swiped = true;
 				}
-				var lives = $(swiper.slides).filter('.is-live');
-				if (lives.length===0 || swiper.swiped) return false;
-				var live_index = lives.eq(0).index();
-				swiper.swipeTo(live_index);
+				var priority = $(swiper.slides).filter('.priority');
+				if (priority.length===0 || swiper.swiped) return false;
+				var priority_index = priority.eq(0).index();
+				if (priority_index===0) return false;
+				swiper.swipeTo(priority_index);
 				swiper.swiped = true;
-				if ( swiper.slides[live_index].previousElementSibling.classList.contains('swiper-slide-visible') &&  sources[sourcesKey].stop!==true)  {
+				if ( swiper.slides[priority_index].previousElementSibling.classList.contains('swiper-slide-visible') &&  sources[sourcesKey].stop!==true)  {
 					app.__load(sources[sourcesKey]);
 				}
 			},
