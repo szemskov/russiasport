@@ -96,7 +96,7 @@ html.android body.is_loading #is_loading {
 	background-image: -moz-linear-gradient(0deg, #c1d7ea 50%, #e8f1f7);
 	background-image: linear-gradient(0deg, #c1d7ea 50%, #e8f1f7);
 	height: 30.250em;
-	padding: 3.625em 0 4.000em 5.34979%;
+	padding: 3.625em 0 4.000em 6.875em;
 	position: relative;
 }
 body.ios7{
@@ -122,15 +122,15 @@ body.ios7{
 	width: 100%;
 }
 .transform-90 {
-	bottom: 2.909em;
-	left: 1em;
+	bottom: 2.133em;
 	color: #009de3;
-	font-size: 1.375em;
+	font-size: 1.875em;
+	line-height: 3.667em;
 	position: absolute;
-	-webkit-transform-origin:0 0;
-	-moz-transform-origin:0 0;
-	-ms-transform-origin:0 0;
-	-o-transform-origin:0 0;
+	-webkit-transform-origin: left bottom;
+	-moz-transform-origin: left bottom;
+	-ms-transform-origin: left bottom;
+	-o-transform-origin: left bottom;
 	-webkit-transform: rotate(-90deg);
 	-moz-transform: rotate(-90deg);
 	-ms-transform: rotate(-90deg);
@@ -524,6 +524,9 @@ body.panel-active .panel {
 body.panel-active .content {
 	margin: 0 26.708984375%;
 }
+body.panel-active .red_counter {
+	display: none !important;
+}
 .panel.left #sport_types {
 	height: 100%;
 	text-align: center;
@@ -609,8 +612,7 @@ body.panel-active .content {
 		margin-top: 5.375em;
 	}
 	body.panel-active .content {
-		margin-right: 0;
-		margin-bottom: 28.125em;
+		margin: 0 0 28.125em 0;
 	}
 	.transform-90 {
 		bottom: auto;
@@ -659,17 +661,16 @@ body.panel-active .content {
 }
 .red_counter {
 	background-color: red;
-	background-color: rgba(255,0,0,0.8);
+	background-color: rgba(255,0,0,1);
 	border-radius: 50%;
-	bottom: 0;
 	color: white;
-	height: 1.9375em;
-	line-height: 1.9375em;
-	left: 0;
+	font-size: 1.500em;
+	height: 1.667em;
+	line-height: 1.667em;
 	margin: auto;
 	position: absolute;
-	right: 0;
+	right: -0.375em;
 	text-align: center;
-	top: 0;
-	width: 1.9375em;
+	top: -0.250em;
+	width: 1.667em;
 }

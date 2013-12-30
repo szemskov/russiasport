@@ -351,7 +351,6 @@ onGetLive: function(json){
 			return current_time>=anounce_time;
 		}).indexOf(true);
 		var priority_index = live_indexes>-1 ? live_indexes : livetime_indexes>-1 ? livetime_indexes : null;
-		console.log(priority_index)
 	}
     for(var i in json){
         var video = json[i];
