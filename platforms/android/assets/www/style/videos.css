@@ -660,18 +660,6 @@ body.panel-active .red_counter {
 	position: relative;
 }
 .red_counter {
-/*	background-color: red;
-	background-color: rgba(255,0,0,1);
-	border-radius: 50%;
-	color: white;
-	height: 1.9375em;
-	line-height: 1.9375em;
-	margin: auto;
-	position: absolute;
-	right: -0.375em;
-	text-align: center;
-	top: -0.250em;
-	width: 1.9375em;*/
 	background-color: red;
 	background-color: rgba(255,0,0,1);
 	border-radius: 50%;
