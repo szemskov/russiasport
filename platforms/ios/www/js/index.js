@@ -158,8 +158,11 @@ initPanel: function() {
 	this.onOffSearch_field();
 	var panel = jQuery('#sport_types');
 	i=0;
+	var selectedSportTypeCounter = 0;
 	for(var data_type in tags){
 		panel.append('<div class="sport-icon-element sport-icon-element-'+(++i)+' '+data_type+(tags[data_type].active?' active':'')+'"><div data-type="'+data_type+'" class="icon"></div>'+tags[data_type].name+'</div>');
+		if (tags[data_type].active) selectedSportTypeCounter+=1;
+		$('#menu_icon .red_counter', '.header').text(selectedSportTypeCounter);
 	}
 	$('.icon-menu, #close').on('click', function() {
 		$('body').toggleClass('panel-active');
@@ -172,8 +175,6 @@ initPanel: function() {
 						 window.localStorage.setItem("tags", $.toJSON(tags));
 						 this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
 						 app.loading.show_loading() && app.resetAppInits() && app.initContent();
-						 $('#search-field').val('');
-						 $('#search-field').data('oldValue', '')
 						 });
 	
 	
@@ -186,15 +187,19 @@ initPanel: function() {
 						// app.loading.show_loading() && app.resetAppInits() && app.initContent();
 						});
 	(function(that) {//event для поля поиска.
+		if ( window.localStorage.getItem('lastSearch')==null ) {
+			window.localStorage.setItem('lastSearch', '');
+		}
 		var $search_field = $('#search-field');
-		$search_field.data('oldValue', '');
+			$search_field.val( window.localStorage.getItem('lastSearch') );
+
 		$search_field.on('keyup', function(e) {
 			var $this = $search_field,
 				value = $this.val(),
-				is_length_enough = value.length>2,
+				is_length_enough = value.length ? value.length>2 : window.localStorage.getItem('lastSearch')!=='',
 				code = e.keyCode || e.which;
 			if ($this.is_searching) clearTimeout($this.is_searching);
-			if (!is_length_enough || $search_field.data('oldValue')===value) {
+			if (!is_length_enough || window.localStorage.getItem('lastSearch')===value) {
 				return false;
 			}
 			if (code===13) {
@@ -202,11 +207,11 @@ initPanel: function() {
 				app.resetAppInits();
 				that.loading.is_all_swipers_ready(that.loading.hide_loading);
 				for (i in sources) {
-					sources[i].phrase = value;
+					// sources[i].phrase = value;
+					window.localStorage.setItem('lastSearch', value)
 					$(sources[i]['ph']).empty();
 					that.__load(sources[i]);
 				}
-				$search_field.data('oldValue', value);
 				return true;
 			}
 			$this.is_searching = setTimeout(function() {
@@ -214,11 +219,11 @@ initPanel: function() {
 				app.resetAppInits();
 				that.loading.is_all_swipers_ready(that.loading.hide_loading);
 				for (i in sources) {
-					sources[i].phrase = value;
+					// sources[i].phrase = value;
+					window.localStorage.setItem('lastSearch', value)
 					$(sources[i]['ph']).empty();
 					that.__load(sources[i]);
 				}
-				search_field.data('oldValue', value);
 			}, 2000)
 		})
 	})(this);
@@ -378,11 +383,12 @@ __load: function(source){
 },
 prepareUrl: function(source) {
 	var tids = this._getActiveTags();
+	var searchPhrase = window.localStorage.getItem('lastSearch') ? window.localStorage.getItem('lastSearch') : source.phrase;
 	//init placeholders
 	url = source.url.replace(':limit',source.limit)
 	.replace(':offset',source.offset)
 	.replace(':callback',source.callback)
-	.replace(':phrase',source.phrase)
+	.replace(':phrase', searchPhrase)
 	.replace(':tids',tids);
 	return url;
 },
@@ -419,6 +425,8 @@ onDeviceReady: function() {
 	app.initContent();
 
 	app.receivedEvent('init content');
+	if (window.localStorage.getItem('lastSearch')===null) window.localStorage.setItem('lastSearch', '');
+	$('#search-field').val(window.localStorage.getItem('lastSearch'));
 	app.innerWidth = window.innerWidth;
 	var supportsOrientationChange = "onorientationchange" in window,
 		orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";

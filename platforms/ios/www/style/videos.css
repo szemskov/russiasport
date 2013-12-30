@@ -287,11 +287,10 @@ div.background {
 	background-image: url("images/icon-menu-inactive.png");
 	background-position: left center;
 	height: 3.875em;
+	width: 3.688em;
 }
 body.panel-active .icon-menu {
 	background-image: url("images/icon-menu.png");
-	background-position: left center;
-	height: 3.875em;
 }
 .icon-arrow-prev,
 .icon-arrow-next {
@@ -523,10 +522,7 @@ body.panel-active .panel {
 	transform: translateX(100%);
 }
 body.panel-active .content {
-	margin-right: 26.708984375%;
-	-webkit-transform: translateX(26.708984375%);
-	-moz-transform: translateX(26.708984375%);
-	transform: translateX(26.708984375%);
+	margin: 0 26.708984375%;
 }
 .panel.left #sport_types {
 	height: 100%;
@@ -613,10 +609,6 @@ body.panel-active .content {
 		margin-top: 5.375em;
 	}
 	body.panel-active .content {
-		-webkit-transform: none;
-		-moz-transform: none;
-		-ms-transform: none;
-		-o-transform: none;
 		margin-right: 0;
 		margin-bottom: 28.125em;
 	}
@@ -661,4 +653,23 @@ body.panel-active .content {
 		margin: 1.036em auto;
 		width: 44.62890625%;
 	}
+}
+#menu_icon .icon-menu{
+	position: relative;
+}
+.red_counter {
+	background-color: red;
+	background-color: rgba(255,0,0,0.8);
+	border-radius: 50%;
+	bottom: 0;
+	color: white;
+	height: 1.9375em;
+	line-height: 1.9375em;
+	left: 0;
+	margin: auto;
+	position: absolute;
+	right: 0;
+	text-align: center;
+	top: 0;
+	width: 1.9375em;
 }
