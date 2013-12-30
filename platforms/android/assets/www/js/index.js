@@ -162,7 +162,7 @@ initPanel: function() {
 	for(var data_type in tags){
 		panel.append('<div class="sport-icon-element sport-icon-element-'+(++i)+' '+data_type+(tags[data_type].active?' active':'')+'"><div data-type="'+data_type+'" class="icon"></div>'+tags[data_type].name+'</div>');
 		if (tags[data_type].active) selectedSportTypeCounter+=1;
-		$('#menu_icon .red_counter', '.header').text(selectedSportTypeCounter);
+		$('#menu_icon .red_counter', '.header').text(selectedSportTypeCounter)[selectedSportTypeCounter===0?'hide':'show']();
 	}
 	$('.icon-menu, #close').on('click', function() {
 		$('body').toggleClass('panel-active');
@@ -175,6 +175,20 @@ initPanel: function() {
 						 window.localStorage.setItem("tags", $.toJSON(tags));
 						 this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
 						 app.loading.show_loading() && app.resetAppInits() && app.initContent();
+
+						 var $red_counter = $('#menu_icon .red_counter', '.header'),
+						 	counter =  $red_counter.text();
+
+						 counter = parseInt(counter, 10);
+						 counter = counter + (tags[type].active ? +1 : -1);
+						 $red_counter.text(counter);
+						 if ( counter===0 ) {
+						 	$red_counter.hide();
+						 } else {
+						 	$red_counter.show();
+						 }
+						 delete $red_counter;
+						 delete counter;
 						 });
 	
 	
@@ -300,10 +314,10 @@ onGetVideo: function(json){
         '<p class="element-text-title">'+video.title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
         '<span class="element-text-date">'+video.dt+'</span>'+
-        '<p class="element-comments">'+
+        /*'<p class="element-comments">'+
         '<span class="icon icon-comments"></span>'+
         video.comment_count+
-        '</p>'+
+        '</p>'+*/
         '</div>'+
         '</a>'+
         '</li>';
@@ -341,10 +355,10 @@ onGetLive: function(json){
         '<p class="element-text-title">'+video.node_title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
         '<span class="element-text-date">'+(video.is_live==1?'в эфире':video.dt)+'</span>'+
-        '<p class="element-comments">'+
+        /*'<p class="element-comments">'+
         '<span class="icon icon-comments"></span>'+
         video.comment_count+
-        '</p>'+
+        '</p>'+*/
         '</div>'+
         '</a>'+
         '</li>';

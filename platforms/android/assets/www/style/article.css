@@ -214,13 +214,14 @@ body.is_loading #is_loading {
 }
 .inforamtion .text {
 	color: #3f3f3f;
+	font-size: 1.5em;
 	margin: 0 auto;
-	padding: 1.391em 0;
+	padding: 0.9273333333333333em 0;
 	width: 58.59375%;
 }
 .inforamtion .text p {
 	font-family: OpenSans;
-	margin: 1.391em 0;
+	margin: 0.9273333333333333em 0;
 }
 .inforamtion .text a {
 	font: normal 1em OpenSans;
