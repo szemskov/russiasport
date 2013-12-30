@@ -368,6 +368,16 @@ onGetLive: function(json){
 	}
 	if (json.length<sources['live'].limit) sources['live'].stop = true;
 	if (!sources['live'].slider) {
+		console.log(z = json)
+		lives = json.map(function(obj) {
+			return obj.is_live;
+		}).indexOf(1);
+		livetimes = json.map(function(obj) {
+			return obj.live_time;
+		}).filter(function(unix_time) {
+			var current_time = new Date().getTime();
+			
+		})
 		jQuery(sources['live']['ph']).append( [].concat(sources['live'].data).splice(0, sources['live'].offset) );
 		this.initSlider(sources['live']['ph']);
 	} else {
