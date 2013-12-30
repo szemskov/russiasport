@@ -164,17 +164,21 @@ initPanel: function() {
 		if (tags[data_type].active) selectedSportTypeCounter+=1;
 		$('#menu_icon .red_counter', '.header').text(selectedSportTypeCounter)[selectedSportTypeCounter===0?'hide':'show']();
 	}
-	$('.icon-menu, #close').on('click', function() {
+	$('.icon-menu, #close').on('click', function(e) {
+		e.stopPropagation();
 		$('body').toggleClass('panel-active');
 	})
 	/* Клик по кнопкам в левой панели */
-	$('#sport_types').on('click.touch', '.sport-icon-element', function() {
+	$('#sport_types').on(app.event, '.sport-icon-element', (function() {
+		var $sport_types = $(this).closest('#sport_types');
+		return function(e) {
+						e.stopPropagation();
+						app.loading.show_loading();
 						 /*вид спорта*/
 						 var type = this.classList[2];
 						 tags[type].active = this.classList.contains('active')?0:1;
 						 window.localStorage.setItem("tags", $.toJSON(tags));
 						 this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
-						 app.loading.show_loading() && app.resetAppInits() && app.initContent();
 
 						 var $red_counter = $('#menu_icon .red_counter', '.header'),
 						 	counter =  $red_counter.text();
@@ -187,16 +191,24 @@ initPanel: function() {
 						 } else {
 						 	$red_counter.show();
 						 }
-						 delete $red_counter;
-						 delete counter;
-						 });
+						if ( $sport_types.timer ) clearTimeout($sport_types.timer)
+						$sport_types.timer = setTimeout(function() {
+							app.resetAppInits() && app.initContent();
+						}, 1500)
+
+						delete $red_counter;
+						delete counter;
+		}
+	})() );
 	
 	
-	$('.icon.icon-menu').on('click', function() {
+	$('.icon.icon-menu').on(app.event, function(e) {
+							e.stopPropagation();
 							$('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
 							});
 	
-	$('.icon-reload').on('click', function() {
+	$('.icon-reload').on(app.event, function(e) {
+						e.stopPropagation();
 						document.location.reload();
 						// app.loading.show_loading() && app.resetAppInits() && app.initContent();
 						});
@@ -436,6 +448,8 @@ onDeviceReady: function() {
 	if (navigator.userAgent.toLowerCase().search('android')>-1) {
 		$('html').addClass('android');
 	}
+	var ua = navigator.userAgent;
+	app.event = (ua.match(/iPad|Android/i)) ? "touchstart" : "click";
 	app.receivedEvent('deviceready');
 	
 	/*init panel*/
@@ -548,12 +562,14 @@ initSlider: function(element) {
 				}
 			}
 		}, true)
-		$(element).closest('.line').find('.arrow-wrapper-prev').on('click.swipePrev', function(e){
+		$(element).closest('.line').find('.arrow-wrapper-prev').on(app.event+'.swipePrev', function(e){
+			e.stopPropagation();
 			e.preventDefault();
 			sources[sourcesKey].slider.swipePrev();
 		})
 		
-		$(element).closest('.line').find('.arrow-wrapper-next').on('click.swipeNext', function(e){
+		$(element).closest('.line').find('.arrow-wrapper-next').on(app.event+'.swipeNext', function(e){
+			e.stopPropagation();
 			e.preventDefault();
 			sources[sourcesKey].slider.swipeNext();
 		})
