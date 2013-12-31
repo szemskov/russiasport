@@ -168,6 +168,12 @@ initPanel: function() {
 		e.stopPropagation();
 		$('body').toggleClass('panel-active');
 	})
+	$('.icon.icon-logo').on(app.event, function(e) {
+		e.stopPropagation();
+		window.localStorage.removeItem('tags');
+		window.localStorage.removeItem('lastSearch');
+		document.location.reload();
+	})
 	/* Клик по кнопкам в левой панели */
 	$('#sport_types').on(app.event, '.sport-icon-element', (function() {
 		var $sport_types = $(this).closest('#sport_types');

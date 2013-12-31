@@ -82,7 +82,6 @@ html.android body.is_loading #is_loading {
 	display: inline-block;
 	height: 100%;
 	line-height: 0;
-	vertical-align: middle;
 	width: 33.3333% !important;
 }
 .three>* {
@@ -90,6 +89,9 @@ html.android body.is_loading #is_loading {
 }
 .third {
 	text-align: right;
+}
+.centering {
+	text-align: center;
 }
 .line {
 	background-image: -webkit-linear-gradient(0deg, #c1d7ea 50%, #e8f1f7);
@@ -280,8 +282,9 @@ div.background {
 }
 .icon-logo {
 	background-image: url("images/icon-logo.png");
-	cursor: auto;
-	height: 2.750em;
+	x-height: 2.750em;
+	height: 2.313em;
+	width: 13.313em;
 }
 .icon-menu {
 	background-image: url("images/icon-menu-inactive.png");
