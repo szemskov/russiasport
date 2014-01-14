@@ -218,7 +218,7 @@ div.background {
 }
 .element-text-title {
 	color: #d72658;
-	font-size: 1.500em;
+	font-size: 1.700em;
 	margin: 0.292em 0 0.167em;
 	padding-right: 13.3%;
 	line-height: 1em;	
@@ -235,7 +235,7 @@ div.background {
 }
 .element-text-time {
 	color: #02a4ec;
-	font-size: 1.063em;
+	font-size: 1.263em;
 	margin-right: 1.875%;
 }
 #live .element.is-live .element-text-time {
@@ -243,7 +243,7 @@ div.background {
 }
 .element-text-date {
 	color: #564f52;
-	font-size: 1em;
+	font-size: 1.2em;
 }
 #live .element.is-live .element-text-date {
 	color: #FFEA00;
@@ -520,12 +520,14 @@ body.panel-active .icon-menu {
 	width: 26.708984375%;
 }
 body.panel-active .panel {
-	-webkit-transform: translateX(100%);
+	/*-webkit-transform: translateX(100%);
 	-moz-transform: translateX(100%);
-	transform: translateX(100%);
+	transform: translateX(100%);*/
+	margin-left: 0;
 }
 body.panel-active .content {
-	margin: 0 26.708984375%;
+	/*margin: 0 26.708984375%;*/
+	width: 73.291015625%;
 }
 body.panel-active .red_counter {
 	display: none !important;
@@ -537,9 +539,9 @@ body.panel-active .red_counter {
 }
 
 .animated {
-	-moz-transition: -moz-transform 0.2s linear;
-	-webkit-transition: -webkit-transform 0.2s linear, margin 0.2s linear;
-	transition: transform 0.2s linear;
+	-moz-transition: -moz-transform 0.2s ease-in-out;
+	-webkit-transition: -webkit-transform 0.2s ease-in-out, margin 0.2s ease-in-out, width 0.2s ease-in-out;
+	transition: transform 0.2s ease-in-out;
 }
 
 @media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {
