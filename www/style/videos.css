@@ -25,10 +25,22 @@ html {
 html,
 body,
 #videos,
-.content {
+.content,
+.content-overlay {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+}
+.content-overlay {
+	background-color: transparent;
+	display: none;
+	position: absolute;
+	z-index: 10;
+	top: 0;
+	left: 0;
+}
+.content {
+	position: relative;
 }
 /* Высота страницы - 100% высоты дисплея, для iOS сжимаем и сдвигаем вниз на высоту верхней "шапки" */
 html.ios7 {
@@ -520,14 +532,17 @@ body.panel-active .icon-menu {
 	width: 26.708984375%;
 }
 body.panel-active .panel {
-	/*-webkit-transform: translateX(100%);
+	-webkit-transform: translateX(100%);
 	-moz-transform: translateX(100%);
-	transform: translateX(100%);*/
-	margin-left: 0;
+	transform: translateX(100%);
+	/*margin-left: 0;*/
+}
+body.panel-active .content-overlay {
+	display: block;
 }
 body.panel-active .content {
-	/*margin: 0 26.708984375%;*/
-	width: 73.291015625%;
+	margin: 0 26.708984375%;
+	/*width: 73.291015625%;*/
 }
 body.panel-active .red_counter {
 	display: none !important;
