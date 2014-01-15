@@ -133,6 +133,7 @@ body.ios7{
 	width: 30.000em;
 }
 .element a>img {
+	background-image: url( attr("src") );
 	width: 100%;
 }
 .transform-90 {
@@ -168,7 +169,8 @@ body.ios7{
 	right: 0;
 }
 .header {
-	background: url('images/background-header.png');
+	background: url('images/background-header-sochi.png') 0 0 repeat-x;
+	background-size: auto 100%;
 	height: 5.375em;
 	padding: 0.875em 1.0742% 0.875em 0.8301%;
 }
@@ -187,6 +189,7 @@ div.play {
 	position: absolute;
 	text-align: center;
 	top: 6.714em;
+	z-index: 0;
 }
 div.background {
 	filter:alpha(opacity=85);
@@ -224,6 +227,7 @@ div.background {
 	padding: 0 6.25% 2.92% 0.625em;
 	position: absolute;
 	width: 98.76543209876543%;
+	z-index: 1;
 }
 #live .element.is-live .element-text {
 	background-color: #D72658;
@@ -558,7 +562,28 @@ body.panel-active .red_counter {
 	-webkit-transition: -webkit-transform 0.2s ease-in-out, margin 0.2s ease-in-out, width 0.2s ease-in-out;
 	transition: transform 0.2s ease-in-out;
 }
-
+@media only screen and (min-device-width : 1024px) and (max-device-width : 1920px) and (orientation : landscape) {
+	html {
+		font-size: 8px;
+	}
+	.slider {
+		height: 22.625em !important;
+	}
+	.panel.left {
+		height: 725px;
+	}
+}
+@media only screen and (min-device-width : 600) and (max-device-width : 720) and (orientation : landscape) {
+	html {
+		font-size: 4.6875px;
+	}
+	.slider {
+		height: 22.625em !important;
+	}
+	.panel.left {
+		height: 725px;
+	}
+}
 @media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {
 	html {
 		font-size: 8px;
