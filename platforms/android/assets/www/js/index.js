@@ -164,16 +164,34 @@ initPanel: function() {
 		if (tags[data_type].active) selectedSportTypeCounter+=1;
 		$('#menu_icon .red_counter', '.header').text(selectedSportTypeCounter)[selectedSportTypeCounter===0?'hide':'show']();
 	}
-	$('.icon-menu, #close').on('click', function(e) {
+
+	$('body').on('click.openVideo', '.swiper-slide>a', function(e) {
+		e.stopPropagation();
+		var method = $(this).closest('ul').attr('id');
+		if (method==='video') {
+			method = 'onGetVideo';
+		} else {
+			method = 'onGetLive';
+		}
+		if (method === 'onGetVideo' || 'onGetLive' ) node.onClickNode( $(this).data('nid'), node[method] );
+		return false;
+	})
+
+	$('.content-overlay').on('click', function(e) {
+		$('body').toggleClass('panel-active');
+		e.stopPropagation();
+		return false;
+	})
+	$('.icon-menu, #close').on(app.event, function(e) {
 		e.stopPropagation();
 		$('body').toggleClass('panel-active');
-	})
+	});
 	$('.icon.icon-logo').on(app.event, function(e) {
 		e.stopPropagation();
 		window.localStorage.removeItem('tags');
 		window.localStorage.removeItem('lastSearch');
 		document.location.reload();
-	})
+	});
 	/* Клик по кнопкам в левой панели */
 	$('#sport_types').on(app.event, '.sport-icon-element', (function() {
 		var $sport_types = $(this).closest('#sport_types');
