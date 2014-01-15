@@ -122,6 +122,7 @@ body.ios7{
 .slider {
 	list-style-type: none;
 	overflow: hidden;
+	height: 22.625em;
 	width: 5000px;
 }
 .element {
@@ -132,9 +133,15 @@ body.ios7{
 	position: relative;
 	width: 30.000em;
 }
-.element a>img {
-	max-height: 100%;
+.element>a {
+	display: block;
+	height: 100%;
 	width: 100%;
+}
+.slide-image {
+	height: 100%;
+	width: 100%;
+	background-size: cover;
 }
 .transform-90 {
 	bottom: 2.133em;
@@ -302,6 +309,7 @@ div.background {
 	background-image: url("images/icon-logo.png");
 	x-height: 2.750em;
 	height: 2.313em;
+	padding: 1.5em 3em;
 	width: 13.313em;
 }
 .icon-menu {
@@ -566,7 +574,7 @@ body.panel-active .red_counter {
 }
 
 
-@media only screen and (min-device-height : 360px) and (max-device-height: 600px) and (orientation : landscape) {
+/*@media only screen and (min-device-height : 360px) and (max-device-height: 600px) and (orientation : landscape) {
 	html {
 		font-size: 8px;
 	}
@@ -605,7 +613,7 @@ body.panel-active .red_counter {
 	.panel.left {
 		height: 725px;
 	}
-}
+}*/
 
 @media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : portrait) {
 	html {

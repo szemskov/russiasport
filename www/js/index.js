@@ -174,7 +174,7 @@ initPanel: function() {
 			method = 'onGetLive';
 		}
 		if (method === 'onGetVideo' || 'onGetLive' ) node.onClickNode( $(this).data('nid'), node[method] );
-		return false;
+		return;
 	})
 
 	$('.content-overlay').on('click', function(e) {
@@ -304,7 +304,9 @@ onGetNews: function(json){
         var news = json[i];
         html = '<li class="element swiper-slide">'+
         '<a href="article.html?nid='+news.nid+'">'+
-        ((typeof(news.image)=='string')?'<img src="'+news.image480x360.replace('webta.','')+'" style="max-width:100%;" alt="" title="" />':'')+
+        ( (typeof(news.image)=='string') ?
+        	'<div class="slide-image" style="background-image: url('+news.image480x360.replace('webta.','')+')"></div>' :
+        	'' ) +
         '<div class="element-text">'+
         '<p class="element-text-title">'+news.node_title+'</p>'+
         '<span class="element-text-time">'+news.time+'</span>'+
@@ -339,13 +341,15 @@ onGetVideo: function(json){
     for(var i in json){
         var video = json[i];
         html='<li class="element swiper-slide">'+
-        '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetVideo\')" data-nid="'+video.nid+'">'+
+        '<a href="#"  data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+
         '<div class="background"></div>'+
         '</div>'+
-        '<img src="'+(video.uri480x360 ? video.uri480x360.replace('webta.','') : '')+'" alt="" title=""/>'+
+        ( video.uri480x360 ?
+        	'<div class="slide-image" style="background-image: url('+video.uri480x360.replace('webta.','')+')"></div>' :
+        	'' ) +
         '<div class="element-text">'+
         '<p class="element-text-title">'+video.title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
@@ -391,13 +395,13 @@ onGetLive: function(json){
     for(var i in json){
         var video = json[i];
         html='<li class="element'+(video.is_live==1?' is-live':'')+' swiper-slide'+ (priority_index===parseInt(i, 10) ? ' priority' : '') +'">'+
-        '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetLive\')" data-nid="'+video.nid+'">'+
+        '<a href="#" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
         '<span class="text">cмотреть</span>'+
         '<div class="background"></div>'+
         '</div>'+
-        '<img src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
+        '<div class="slide-image" style="background-image: url('+video.uri480x360.replace('webta.','')+')"></div>'+
         '<div class="element-text">'+
         '<p class="element-text-title">'+video.node_title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
@@ -517,10 +521,10 @@ onDeviceReady: function() {
 
 },
 initSlider: function(element) {
+	console.log('called')
 	var init = function init() {
 		// if (!this.mySwipers) this.mySwipers = {_positions: {}};
 		var sourcesKey = element.substr(1, element.length-1);
-
 		sources[sourcesKey].slider = new Swiper( $(element).closest('.line').find('.swiper-container')[0] ,{
 			pagination: '.pagination',
 			loop: false,
@@ -528,7 +532,14 @@ initSlider: function(element) {
 			mode: app.is_landscape_mode ? 'horizontal' : 'vertical',
 			paginationClickable: true,
 			slidesPerView: 'auto',
+			onFirstInit: function(swiper) {
+				if (!swiper.swiped && sources[sourcesKey].lastSliderIndex) {
+					swiper.swipeTo(sources[sourcesKey].lastSliderIndex);
+					swiper.swiped = true;
+				}
+			},
 			onInit: function(swiper) {
+				console.log('init')
 				if ( swiper.slides.length>$(swiper.slides).filter('.swiper-slide-visible').length ) {
 					$(swiper.container).parent().find('.arrow-wrapper-next').show();
 				}
