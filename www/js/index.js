@@ -397,7 +397,7 @@ onGetLive: function(json){
         '<span class="text">cмотреть</span>'+
         '<div class="background"></div>'+
         '</div>'+
-        '<div class="slide-image" data-src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
+        '<img src="'+video.uri480x360.replace('webta.','')+'" alt="" title=""/>'+
         '<div class="element-text">'+
         '<p class="element-text-title">'+video.node_title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
