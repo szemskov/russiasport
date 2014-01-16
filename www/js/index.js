@@ -532,7 +532,6 @@ initSlider: function(element) {
 			paginationClickable: true,
 			slidesPerView: 'auto',
 			onFirstInit: function(swiper) {
-				console.log(12)
 				if (!swiper.swiped && sources[sourcesKey].lastSliderIndex) {
 					swiper.swipeTo(sources[sourcesKey].lastSliderIndex);
 					swiper.swiped = true;
@@ -587,7 +586,6 @@ initSlider: function(element) {
 				app.__load(sources[sourcesKey])
 			},
 			onSlideChangeEnd: function(swiper) {
-				console.log('changed', sources[sourcesKey].lastSliderIndex, swiper.activeIndex);
 				if ( swiper.activeIndex )
 				sources[sourcesKey].lastSliderIndex = swiper.activeIndex;
 			}
