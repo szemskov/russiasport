@@ -133,7 +133,7 @@ body.ios7{
 	width: 30.000em;
 }
 .element a>img {
-	background-image: url( attr("src") );
+	max-height: 100%;
 	width: 100%;
 }
 .transform-90 {
@@ -158,7 +158,7 @@ body.ios7{
 	position: absolute;
 	text-align: center;
 	top: 3.625em;
-	width: 3.4668%;
+	width: 6em;
 	z-index: 1;
 }
 .arrow-wrapper-prev {
@@ -169,7 +169,9 @@ body.ios7{
 	right: 0;
 }
 .header {
-	background: url('images/background-header-sochi.png') 0 0 repeat-x;
+	background: url("images/background-header-sochi.png"), url("images/background-header-sochi_back.png");
+	background-repeat: no-repeat, repeat-x;
+	background-position: center left, center right;
 	background-size: auto 100%;
 	height: 5.375em;
 	padding: 0.875em 1.0742% 0.875em 0.8301%;
@@ -562,35 +564,44 @@ body.panel-active .red_counter {
 	-webkit-transition: -webkit-transform 0.2s ease-in-out, margin 0.2s ease-in-out, width 0.2s ease-in-out;
 	transition: transform 0.2s ease-in-out;
 }
-@media only screen and (min-device-width : 1024px) and (max-device-width : 1920px) and (orientation : landscape) {
+
+
+@media only screen and (min-device-height : 360px) and (max-device-height: 600px) and (orientation : landscape) {
 	html {
 		font-size: 8px;
 	}
+	.arrow-wrapper {
+		top: 0.625em;
+	}
+	.line {
+		padding-top: 2px;
+		padding-bottom: 2px;
+		height: auto;
+	}
 	.slider {
-		height: 22.625em !important;
+		height: 21em !important;
+		overflow: hidden;
+	}
+	.slider .element {
+		width: 27.783902976846747em;
+		height: 21em;
 	}
 	.panel.left {
 		height: 725px;
 	}
-}
-@media only screen and (min-device-width : 600) and (max-device-width : 720) and (orientation : landscape) {
-	html {
-		font-size: 4.6875px;
-	}
-	.slider {
-		height: 22.625em !important;
-	}
-	.panel.left {
-		height: 725px;
+	.header {
+		height: 4.375em;
+		padding-bottom: 0;
+		padding-top: 0;
 	}
 }
 @media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {
 	html {
 		font-size: 8px;
 	}
-	.slider {
+/*	.slider {
 		height: 22.625em !important;
-	}
+	}*/
 	.panel.left {
 		height: 725px;
 	}
@@ -600,7 +611,6 @@ body.panel-active .red_counter {
 	html {
 		font-size: 8px;
 	}
-	
 	.header {
 		height: 5.375em;
 		position: absolute;
@@ -614,12 +624,12 @@ body.panel-active .red_counter {
 		box-sizing: content-box;
 		height: 22.625em;
         padding-bottom: 1em;
-		width: 240px;
+        overflow: hidden;
+		width: 100%;
 	}
     .element-text {
         margin-bottom: 1em;
     }
-
 	.line {
 		background-image: -webkit-linear-gradient(90deg, #c1d7ea, #e8f1f7);
 		background-image: -moz-linear-gradient(90deg, #c1d7ea, #e8f1f7);
@@ -644,8 +654,10 @@ body.panel-active .red_counter {
 	.panel.left {
 		background-image: url("images/background-sport-type-vertical.png");
 		float: none;
-		height: 35.188em;
-		margin: -29.813000000000002em 0 0;
+		/*height: 35.188em;*/
+		height: 211px;
+		/*margin: -29.813000000000002em 0 0;*/
+		margin: -168px 0 0;
 		padding: 1.313em 1.2369791666666665%;
 		width: 100%;
 	}

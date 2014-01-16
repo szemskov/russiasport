@@ -71,7 +71,7 @@ public class VideoPlayer extends CordovaPlugin {
         	
         	
         	builder.setTitle("Внимание")
-        			.setMessage(Html.fromHtml(uri+" Для просмотра контента необходимо установить VPlayer Video Player - <a href=\"https://play.google.com/store/apps/details?id=me.abitno.vplayer.t&hl=ru\">https://play.google.com/store/apps/details?id=me.abitno.vplayer.t</a>"))
+        			.setMessage(Html.fromHtml(" Для просмотра контента необходимо установить VPlayer Video Player - <a href=\"https://play.google.com/store/apps/details?id=me.abitno.vplayer.t&hl=ru\">https://play.google.com/store/apps/details?id=me.abitno.vplayer.t</a>"))
         			.setCancelable(true);
         	
         	builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { // Кнопка ОК
