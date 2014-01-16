@@ -532,9 +532,26 @@ initSlider: function(element) {
 			paginationClickable: true,
 			slidesPerView: 'auto',
 			onFirstInit: function(swiper) {
+				console.log(12)
 				if (!swiper.swiped && sources[sourcesKey].lastSliderIndex) {
 					swiper.swipeTo(sources[sourcesKey].lastSliderIndex);
 					swiper.swiped = true;
+				}
+				if ( swiper.slides.length>$(swiper.slides).filter('.swiper-slide-visible').length ) {
+					$(swiper.container).parent().find('.arrow-wrapper-next').show();
+				}
+				if (!swiper.swiped && sources[sourcesKey].lastSliderIndex) {
+					swiper.swipeTo(sources[sourcesKey].lastSliderIndex);
+					swiper.swiped = true;
+				}
+				var priority = $(swiper.slides).filter('.priority');
+				if (priority.length===0 || swiper.swiped) return false;
+				var priority_index = priority.eq(0).index();
+				if (priority_index===0) return false;
+				swiper.swipeTo(priority_index);
+				swiper.swiped = true;
+				if ( swiper.slides[priority_index].previousElementSibling.classList.contains('swiper-slide-visible') &&  sources[sourcesKey].stop!==true)  {
+					app.__load(sources[sourcesKey]);
 				}
 			},
 			onInit: function(swiper) {
@@ -570,6 +587,8 @@ initSlider: function(element) {
 				app.__load(sources[sourcesKey])
 			},
 			onSlideChangeEnd: function(swiper) {
+				console.log('changed', sources[sourcesKey].lastSliderIndex, swiper.activeIndex);
+				if ( swiper.activeIndex )
 				sources[sourcesKey].lastSliderIndex = swiper.activeIndex;
 			}
 		});
