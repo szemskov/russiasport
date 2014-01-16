@@ -133,15 +133,15 @@ body.ios7{
 	position: relative;
 	width: 30.000em;
 }
-.element>a {
+.element a {
 	display: block;
 	height: 100%;
 	width: 100%;
 }
-.slide-image {
+.element .slide-image {
 	height: 100%;
-	width: 100%;
 	background-size: cover;
+	width: 100%;
 }
 .transform-90 {
 	bottom: 2.133em;
@@ -233,9 +233,9 @@ div.background {
 .element-text {
 	background-color: white;
 	bottom: 0;
-	padding: 0 6.25% 2.92% 0.625em;
+	padding: 0 0.625em 2.92% 0.625em;
 	position: absolute;
-	width: 98.76543209876543%;
+	width: 100%;
 	z-index: 1;
 }
 #live .element.is-live .element-text {
@@ -574,7 +574,7 @@ body.panel-active .red_counter {
 }
 
 
-/*@media only screen and (min-device-height : 360px) and (max-device-height: 600px) and (orientation : landscape) {
+@media only screen and (min-device-height : 360px) and (max-device-height: 600px) and (orientation : landscape) {
 	html {
 		font-size: 8px;
 	}
@@ -613,7 +613,7 @@ body.panel-active .red_counter {
 	.panel.left {
 		height: 725px;
 	}
-}*/
+}
 
 @media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : portrait) {
 	html {

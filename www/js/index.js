@@ -169,11 +169,11 @@ initPanel: function() {
 		e.stopPropagation();
 		var method = $(this).closest('ul').attr('id');
 		if (method==='video') {
-			method = 'onGetVideo';
+			method = 'node.onGetVideo';
 		} else {
-			method = 'onGetLive';
+			method = 'node.onGetLive';
 		}
-		if (method === 'onGetVideo' || 'onGetLive' ) node.onClickNode( $(this).data('nid'), node[method] );
+		if (method === 'onGetVideo' || 'onGetLive' ) node.onClickNode( $(this).data('nid'), method);
 		return;
 	})
 
@@ -521,7 +521,6 @@ onDeviceReady: function() {
 
 },
 initSlider: function(element) {
-	console.log('called')
 	var init = function init() {
 		// if (!this.mySwipers) this.mySwipers = {_positions: {}};
 		var sourcesKey = element.substr(1, element.length-1);
@@ -539,7 +538,6 @@ initSlider: function(element) {
 				}
 			},
 			onInit: function(swiper) {
-				console.log('init')
 				if ( swiper.slides.length>$(swiper.slides).filter('.swiper-slide-visible').length ) {
 					$(swiper.container).parent().find('.arrow-wrapper-next').show();
 				}
