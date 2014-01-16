@@ -120,6 +120,7 @@ body.ios7{
 	overflow: hidden;
 }
 .slider {
+	height: 22.625em;
 	list-style-type: none;
 	overflow: hidden;
 	width: 5000px;
@@ -132,8 +133,14 @@ body.ios7{
 	position: relative;
 	width: 30.000em;
 }
-.element a>img {
-	max-height: 100%;
+.element a {
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+.element .slide-image {
+	height: 100%;
+	background-size: cover;
 	width: 100%;
 }
 .transform-90 {
@@ -174,11 +181,17 @@ body.ios7{
 	background-position: center left, center right;
 	background-size: auto 100%;
 	height: 5.375em;
-	padding: 0.875em 1.0742% 0.875em 0.8301%;
+	padding: 0 1.0742% 0 0.8301%;
+}
+.header .three {
+	padding: 0.875em 0;
+}
+.header .fullheight {
+	padding: 0;
+	height: 100%;
 }
 .header .icon-reload {
 	margin-left: 5.555555555555555%;
-	vertical-align: middle;
 }
 div.play {
 	box-sizing: border-box;
@@ -226,7 +239,7 @@ div.background {
 .element-text {
 	background-color: white;
 	bottom: 0;
-	padding: 0 6.25% 2.92% 0.625em;
+	padding: 0 0.625em 2.92% 0.625em;
 	position: absolute;
 	width: 98.76543209876543%;
 	z-index: 1;
@@ -300,8 +313,10 @@ div.background {
 }
 .icon-logo {
 	background-image: url("images/icon-logo.png");
-	x-height: 2.750em;
-	height: 2.313em;
+	background-size: 13.313em 2.313em;
+	box-sizing: content-box;
+	height: 100%;
+	padding: 0 3em;
 	width: 13.313em;
 }
 .icon-menu {
@@ -629,6 +644,7 @@ body.panel-active .red_counter {
 	}
     .element-text {
         margin-bottom: 1em;
+        width: 100%;
     }
 	.line {
 		background-image: -webkit-linear-gradient(90deg, #c1d7ea, #e8f1f7);
