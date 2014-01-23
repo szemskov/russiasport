@@ -306,7 +306,7 @@ onGetNews: function(json){
         '<a href="article.html?nid='+news.nid+'">'+
         ( (typeof(news.image)=='string') ?
         	'<div class="slide-image" style="background-image: url('+news.image480x360.replace('webta.','')+')"></div>' :
-        	'' ) +
+        	'<div class="slide-image" style="background: #C2C2C2;"></div>' ) +
         '<div class="element-text">'+
         '<p class="element-text-title">'+news.node_title+'</p>'+
         '<span class="element-text-time">'+news.time+'</span>'+
@@ -349,7 +349,7 @@ onGetVideo: function(json){
         '</div>'+
         ( video.uri480x360 ?
         	'<div class="slide-image" style="background-image: url('+video.uri480x360.replace('webta.','')+')"></div>' :
-        	'' ) +
+        	'<div class="slide-image" style="background: #C2C2C2;"></div>' ) +
         '<div class="element-text">'+
         '<p class="element-text-title">'+video.title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
@@ -403,7 +403,7 @@ onGetLive: function(json){
         '</div>'+
         ( video.uri480x360 ?
         	'<div class="slide-image" style="background-image: url('+video.uri480x360.replace('webta.','')+')"></div>' :
-        	'' ) +
+        	'<div class="slide-image" style="background: #C2C2C2;"></div>' ) +
         '<div class="element-text">'+
         '<p class="element-text-title">'+video.node_title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
