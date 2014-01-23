@@ -25,10 +25,22 @@ html {
 html,
 body,
 #videos,
-.content {
+.content,
+.content-overlay {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+}
+.content-overlay {
+	background-color: transparent;
+	display: none;
+	position: absolute;
+	z-index: 10;
+	top: 0;
+	left: 0;
+}
+.content {
+	position: relative;
 }
 /* Высота страницы - 100% высоты дисплея, для iOS сжимаем и сдвигаем вниз на высоту верхней "шапки" */
 html.ios7 {
@@ -82,7 +94,6 @@ html.android body.is_loading #is_loading {
 	display: inline-block;
 	height: 100%;
 	line-height: 0;
-	vertical-align: middle;
 	width: 33.3333% !important;
 }
 .three>* {
@@ -91,12 +102,15 @@ html.android body.is_loading #is_loading {
 .third {
 	text-align: right;
 }
+.centering {
+	text-align: center;
+}
 .line {
 	background-image: -webkit-linear-gradient(0deg, #c1d7ea 50%, #e8f1f7);
 	background-image: -moz-linear-gradient(0deg, #c1d7ea 50%, #e8f1f7);
 	background-image: linear-gradient(0deg, #c1d7ea 50%, #e8f1f7);
 	height: 30.250em;
-	padding: 3.625em 0 4.000em 5.34979%;
+	padding: 3.625em 0 4.000em 6.875em;
 	position: relative;
 }
 body.ios7{
@@ -114,23 +128,24 @@ body.ios7{
 	box-sizing: content-box;
 	float: left;
 	height: 22.625em;
-	padding-left: 0.375em;
+	padding-right: 0.375em;
 	position: relative;
 	width: 30.000em;
 }
 .element a>img {
+	max-height: 100%;
 	width: 100%;
 }
 .transform-90 {
-	bottom: 2.909em;
-	left: 1em;
+	bottom: 2.133em;
 	color: #009de3;
-	font-size: 1.375em;
+	font-size: 1.875em;
+	line-height: 3.667em;
 	position: absolute;
-	-webkit-transform-origin:0 0;
-	-moz-transform-origin:0 0;
-	-ms-transform-origin:0 0;
-	-o-transform-origin:0 0;
+	-webkit-transform-origin: left bottom;
+	-moz-transform-origin: left bottom;
+	-ms-transform-origin: left bottom;
+	-o-transform-origin: left bottom;
 	-webkit-transform: rotate(-90deg);
 	-moz-transform: rotate(-90deg);
 	-ms-transform: rotate(-90deg);
@@ -143,7 +158,7 @@ body.ios7{
 	position: absolute;
 	text-align: center;
 	top: 3.625em;
-	width: 3.4668%;
+	width: 6em;
 	z-index: 1;
 }
 .arrow-wrapper-prev {
@@ -154,7 +169,10 @@ body.ios7{
 	right: 0;
 }
 .header {
-	background: url('images/background-header.png');
+	background: url("images/background-header-sochi.png"), url("images/background-header-sochi_back.png");
+	background-repeat: no-repeat, repeat-x;
+	background-position: center left, center right;
+	background-size: auto 100%;
 	height: 5.375em;
 	padding: 0.875em 1.0742% 0.875em 0.8301%;
 }
@@ -173,6 +191,7 @@ div.play {
 	position: absolute;
 	text-align: center;
 	top: 6.714em;
+	z-index: 0;
 }
 div.background {
 	filter:alpha(opacity=85);
@@ -210,13 +229,14 @@ div.background {
 	padding: 0 6.25% 2.92% 0.625em;
 	position: absolute;
 	width: 98.76543209876543%;
+	z-index: 1;
 }
 #live .element.is-live .element-text {
 	background-color: #D72658;
 }
 .element-text-title {
 	color: #d72658;
-	font-size: 1.500em;
+	font-size: 1.700em;
 	margin: 0.292em 0 0.167em;
 	padding-right: 13.3%;
 	line-height: 1em;	
@@ -233,7 +253,7 @@ div.background {
 }
 .element-text-time {
 	color: #02a4ec;
-	font-size: 1.063em;
+	font-size: 1.263em;
 	margin-right: 1.875%;
 }
 #live .element.is-live .element-text-time {
@@ -241,7 +261,7 @@ div.background {
 }
 .element-text-date {
 	color: #564f52;
-	font-size: 1em;
+	font-size: 1.2em;
 }
 #live .element.is-live .element-text-date {
 	color: #FFEA00;
@@ -280,8 +300,9 @@ div.background {
 }
 .icon-logo {
 	background-image: url("images/icon-logo.png");
-	cursor: auto;
-	height: 2.750em;
+	x-height: 2.750em;
+	height: 2.313em;
+	width: 13.313em;
 }
 .icon-menu {
 	background-image: url("images/icon-menu-inactive.png");
@@ -520,9 +541,17 @@ body.panel-active .panel {
 	-webkit-transform: translateX(100%);
 	-moz-transform: translateX(100%);
 	transform: translateX(100%);
+	/*margin-left: 0;*/
+}
+body.panel-active .content-overlay {
+	display: block;
 }
 body.panel-active .content {
 	margin: 0 26.708984375%;
+	/*width: 73.291015625%;*/
+}
+body.panel-active .red_counter {
+	display: none !important;
 }
 .panel.left #sport_types {
 	height: 100%;
@@ -531,18 +560,48 @@ body.panel-active .content {
 }
 
 .animated {
-	-moz-transition: -moz-transform 0.2s linear;
-	-webkit-transition: -webkit-transform 0.2s linear, margin 0.2s linear;
-	transition: transform 0.2s linear;
+	-moz-transition: -moz-transform 0.2s ease-in-out;
+	-webkit-transition: -webkit-transform 0.2s ease-in-out, margin 0.2s ease-in-out, width 0.2s ease-in-out;
+	transition: transform 0.2s ease-in-out;
 }
 
+
+@media only screen and (min-device-height : 360px) and (max-device-height: 600px) and (orientation : landscape) {
+	html {
+		font-size: 8px;
+	}
+	.arrow-wrapper {
+		top: 0.625em;
+	}
+	.line {
+		padding-top: 2px;
+		padding-bottom: 2px;
+		height: auto;
+	}
+	.slider {
+		height: 21em !important;
+		overflow: hidden;
+	}
+	.slider .element {
+		width: 27.783902976846747em;
+		height: 21em;
+	}
+	.panel.left {
+		height: 725px;
+	}
+	.header {
+		height: 4.375em;
+		padding-bottom: 0;
+		padding-top: 0;
+	}
+}
 @media only screen and (min-device-width : 768px) and (max-device-width : 1920px) and (orientation : landscape) {
 	html {
 		font-size: 8px;
 	}
-	.slider {
+/*	.slider {
 		height: 22.625em !important;
-	}
+	}*/
 	.panel.left {
 		height: 725px;
 	}
@@ -552,7 +611,6 @@ body.panel-active .content {
 	html {
 		font-size: 8px;
 	}
-	
 	.header {
 		height: 5.375em;
 		position: absolute;
@@ -566,12 +624,12 @@ body.panel-active .content {
 		box-sizing: content-box;
 		height: 22.625em;
         padding-bottom: 1em;
-		width: 240px;
+        overflow: hidden;
+		width: 100%;
 	}
     .element-text {
         margin-bottom: 1em;
     }
-
 	.line {
 		background-image: -webkit-linear-gradient(90deg, #c1d7ea, #e8f1f7);
 		background-image: -moz-linear-gradient(90deg, #c1d7ea, #e8f1f7);
@@ -596,8 +654,10 @@ body.panel-active .content {
 	.panel.left {
 		background-image: url("images/background-sport-type-vertical.png");
 		float: none;
-		height: 35.188em;
-		margin: -29.813000000000002em 0 0;
+		/*height: 35.188em;*/
+		height: 211px;
+		/*margin: -29.813000000000002em 0 0;*/
+		margin: -168px 0 0;
 		padding: 1.313em 1.2369791666666665%;
 		width: 100%;
 	}
@@ -609,8 +669,7 @@ body.panel-active .content {
 		margin-top: 5.375em;
 	}
 	body.panel-active .content {
-		margin-right: 0;
-		margin-bottom: 28.125em;
+		margin: 0 0 28.125em 0;
 	}
 	.transform-90 {
 		bottom: auto;
@@ -659,17 +718,16 @@ body.panel-active .content {
 }
 .red_counter {
 	background-color: red;
-	background-color: rgba(255,0,0,0.8);
+	background-color: rgba(255,0,0,1);
 	border-radius: 50%;
-	bottom: 0;
 	color: white;
-	height: 1.9375em;
-	line-height: 1.9375em;
-	left: 0;
+	font-size: 1.500em;
+	height: 1.667em;
+	line-height: 1.667em;
 	margin: auto;
 	position: absolute;
-	right: 0;
+	right: -0.375em;
 	text-align: center;
-	top: 0;
-	width: 1.9375em;
+	top: -0.250em;
+	width: 1.667em;
 }

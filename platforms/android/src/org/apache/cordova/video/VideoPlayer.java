@@ -27,6 +27,10 @@ import android.app.AlertDialog;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.PluginResult;
+import android.text.Html;
+import android.widget.TextView;
+import android.text.method.LinkMovementMethod;
+import android.content.DialogInterface;
 
 public class VideoPlayer extends CordovaPlugin {
     @Override
@@ -64,11 +68,22 @@ public class VideoPlayer extends CordovaPlugin {
         	this.cordova.getActivity().startActivity(intent);
         } catch(Exception e){
         	AlertDialog.Builder builder = new AlertDialog.Builder(this.cordova.getActivity());
+        	
+        	
         	builder.setTitle("Внимание")
-        			.setMessage("Для просмотра контента необходимо установить RTSP player")
+        			.setMessage(Html.fromHtml(" Для просмотра контента необходимо установить VPlayer Video Player - <a href=\"https://play.google.com/store/apps/details?id=me.abitno.vplayer.t&hl=ru\">https://play.google.com/store/apps/details?id=me.abitno.vplayer.t</a>"))
         			.setCancelable(true);
+        	
+        	builder.setPositiveButton("OK", new DialogInterface.OnClickListener() { // Кнопка ОК
+        	    @Override
+        	    public void onClick(DialogInterface dialog, int which) {
+        	        dialog.dismiss(); // Отпускает диалоговое окно					
+        	    }
+        	});
+        	
         	AlertDialog alert = builder.create();
         	alert.show();
+        	((TextView)alert.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
         }
         
     }

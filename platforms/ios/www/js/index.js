@@ -80,7 +80,7 @@ var sources = {
 	"live" : {"ph":"#live",
 		"url":"http://russiasport.ru/api.php?video&format=json&proccess&hubs&offset=:offset&count=:limit&phrase=:phrase&tag_tids[]=:tids",
         "title":"Трансляции",
-		"limit":12,
+		"limit":30,
 		"offset":0,
 		"stop":false,
 		"data": [],
@@ -162,27 +162,77 @@ initPanel: function() {
 	for(var data_type in tags){
 		panel.append('<div class="sport-icon-element sport-icon-element-'+(++i)+' '+data_type+(tags[data_type].active?' active':'')+'"><div data-type="'+data_type+'" class="icon"></div>'+tags[data_type].name+'</div>');
 		if (tags[data_type].active) selectedSportTypeCounter+=1;
-		$('#menu_icon .red_counter', '.header').text(selectedSportTypeCounter);
+		$('#menu_icon .red_counter', '.header').text(selectedSportTypeCounter)[selectedSportTypeCounter===0?'hide':'show']();
 	}
-	$('.icon-menu, #close').on('click', function() {
-		$('body').toggleClass('panel-active');
+
+	$('body').on('click.openVideo', '.swiper-slide>a', function(e) {
+		e.stopPropagation();
+		var method = $(this).closest('ul').attr('id');
+		if (method==='video') {
+			method = 'onGetVideo';
+		} else {
+			method = 'onGetLive';
+		}
+		if (method === 'onGetVideo' || 'onGetLive' ) node.onClickNode( $(this).data('nid'), node[method] );
+		return false;
 	})
+
+	$('.content-overlay').on('click', function(e) {
+		$('body').toggleClass('panel-active');
+		e.stopPropagation();
+		return false;
+	})
+	$('.icon-menu, #close').on(app.event, function(e) {
+		e.stopPropagation();
+		$('body').toggleClass('panel-active');
+	});
+	$('.icon.icon-logo').on(app.event, function(e) {
+		e.stopPropagation();
+		window.localStorage.removeItem('tags');
+		window.localStorage.removeItem('lastSearch');
+		document.location.reload();
+	});
 	/* Клик по кнопкам в левой панели */
-	$('#sport_types').on('click.touch', '.sport-icon-element', function() {
+	$('#sport_types').on(app.event, '.sport-icon-element', (function() {
+		var $sport_types = $(this).closest('#sport_types');
+		return function(e) {
+						e.stopPropagation();
+						app.loading.show_loading();
 						 /*вид спорта*/
 						 var type = this.classList[2];
 						 tags[type].active = this.classList.contains('active')?0:1;
 						 window.localStorage.setItem("tags", $.toJSON(tags));
 						 this.classList[ this.classList.contains('active') ? 'remove' : 'add' ]('active');
-						 app.loading.show_loading() && app.resetAppInits() && app.initContent();
-						 });
+
+						 var $red_counter = $('#menu_icon .red_counter', '.header'),
+						 	counter =  $red_counter.text();
+
+						 counter = parseInt(counter, 10);
+						 counter = counter + (tags[type].active ? +1 : -1);
+						 $red_counter.text(counter);
+						 if ( counter===0 ) {
+						 	$red_counter.hide();
+						 } else {
+						 	$red_counter.show();
+						 }
+						if ( $sport_types.timer ) clearTimeout($sport_types.timer)
+						$sport_types.timer = setTimeout(function() {
+							app.resetAppInits() && app.initContent();
+						}, 1500)
+
+						delete $red_counter;
+						delete counter;
+		}
+	})() );
 	
 	
-	$('.icon.icon-menu').on('click', function() {
+	$('.icon.icon-menu').on(app.event, function(e) {
+							e.stopPropagation();
 							$('#menu_icon').attr( 'checked', !$('#menu_icon').attr('checked') );
 							});
 	
-	$('.icon-reload').on('click', function() {
+	$('.icon-reload').on(app.event, function(e) {
+						e.stopPropagation();
 						document.location.reload();
 						// app.loading.show_loading() && app.resetAppInits() && app.initContent();
 						});
@@ -300,10 +350,10 @@ onGetVideo: function(json){
         '<p class="element-text-title">'+video.title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
         '<span class="element-text-date">'+video.dt+'</span>'+
-        '<p class="element-comments">'+
+        /*'<p class="element-comments">'+
         '<span class="icon icon-comments"></span>'+
         video.comment_count+
-        '</p>'+
+        '</p>'+*/
         '</div>'+
         '</a>'+
         '</li>';
@@ -327,9 +377,20 @@ onGetVideo: function(json){
 onGetLive: function(json){
     var html = '';
     this.updateSources(sources['live'], json);
+    if (!sources['live'].slider) { // если первый раз инициализация, то ищем лайвы и прошедшие анонсы
+		var live_indexes = json.map(function(obj) {
+			return obj.is_live;
+		}).indexOf(1);
+		var livetime_indexes = json.map(function(obj) {
+			var current_time = new Date().getTime();
+			var anounce_time = new Date(obj.live_time*1000);
+			return current_time>=anounce_time;
+		}).indexOf(true);
+		var priority_index = live_indexes>-1 ? live_indexes : livetime_indexes>-1 ? livetime_indexes : null;
+	}
     for(var i in json){
         var video = json[i];
-        html='<li class="element'+(video.is_live==1?' is-live':'')+' swiper-slide">'+
+        html='<li class="element'+(video.is_live==1?' is-live':'')+' swiper-slide'+ (priority_index===parseInt(i, 10) ? ' priority' : '') +'">'+
         '<a href="#" onclick="node.onClickNode($(this).attr(\'data-nid\'),\'node.onGetLive\')" data-nid="'+video.nid+'">'+
         '<div class="play">'+
         '<div class="triangle"></div>'+
@@ -341,10 +402,10 @@ onGetLive: function(json){
         '<p class="element-text-title">'+video.node_title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
         '<span class="element-text-date">'+(video.is_live==1?'в эфире':video.dt)+'</span>'+
-        '<p class="element-comments">'+
+        /*'<p class="element-comments">'+
         '<span class="icon icon-comments"></span>'+
         video.comment_count+
-        '</p>'+
+        '</p>'+*/
         '</div>'+
         '</a>'+
         '</li>';
@@ -384,6 +445,7 @@ __load: function(source){
 prepareUrl: function(source) {
 	var tids = this._getActiveTags();
 	var searchPhrase = window.localStorage.getItem('lastSearch') ? window.localStorage.getItem('lastSearch') : source.phrase;
+	if (source.limit>12 && source.offset>0) source.limit = 12;
 	//init placeholders
 	url = source.url.replace(':limit',source.limit)
 	.replace(':offset',source.offset)
@@ -410,6 +472,8 @@ onDeviceReady: function() {
 	if (navigator.userAgent.toLowerCase().search('android')>-1) {
 		$('html').addClass('android');
 	}
+	var ua = navigator.userAgent;
+	app.event = (ua.match(/iPad|Android/i)) ? "touchstart" : "click";
 	app.receivedEvent('deviceready');
 	
 	/*init panel*/
@@ -472,12 +536,13 @@ initSlider: function(element) {
 					swiper.swipeTo(sources[sourcesKey].lastSliderIndex);
 					swiper.swiped = true;
 				}
-				var lives = $(swiper.slides).filter('.is-live');
-				if (lives.length===0 || swiper.swiped) return false;
-				var live_index = lives.eq(0).index();
-				swiper.swipeTo(live_index);
+				var priority = $(swiper.slides).filter('.priority');
+				if (priority.length===0 || swiper.swiped) return false;
+				var priority_index = priority.eq(0).index();
+				if (priority_index===0) return false;
+				swiper.swipeTo(priority_index);
 				swiper.swiped = true;
-				if ( swiper.slides[live_index].previousElementSibling.classList.contains('swiper-slide-visible') &&  sources[sourcesKey].stop!==true)  {
+				if ( swiper.slides[priority_index].previousElementSibling.classList.contains('swiper-slide-visible') &&  sources[sourcesKey].stop!==true)  {
 					app.__load(sources[sourcesKey]);
 				}
 			},
@@ -521,12 +586,14 @@ initSlider: function(element) {
 				}
 			}
 		}, true)
-		$(element).closest('.line').find('.arrow-wrapper-prev').on('click.swipePrev', function(e){
+		$(element).closest('.line').find('.arrow-wrapper-prev').on(app.event+'.swipePrev', function(e){
+			e.stopPropagation();
 			e.preventDefault();
 			sources[sourcesKey].slider.swipePrev();
 		})
 		
-		$(element).closest('.line').find('.arrow-wrapper-next').on('click.swipeNext', function(e){
+		$(element).closest('.line').find('.arrow-wrapper-next').on(app.event+'.swipeNext', function(e){
+			e.stopPropagation();
 			e.preventDefault();
 			sources[sourcesKey].slider.swipeNext();
 		})

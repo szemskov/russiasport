@@ -35,6 +35,7 @@
 		7E7966E61810823500FA85AD /* icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DC1810823500FA85AD /* icon-small.png */; };
 		7E7966E71810823500FA85AD /* icon-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E7966DD1810823500FA85AD /* icon-small@2x.png */; };
 		8F091D86FBD942E39DCB638F /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 3090F545AE724F2BA555092D /* CDVReachability.m */; };
+		B62DD035805C4BEDB8CEF3F4 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4C075ED53A46A4AB982FA6 /* CDVInAppBrowser.m */; };
 		F32A8F911864681F00D3F919 /* Icon-57.png in Resources */ = {isa = PBXBuildFile; fileRef = F32A8F901864681F00D3F919 /* Icon-57.png */; };
 		F32A8F931864684000D3F919 /* Icon-57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F32A8F921864684000D3F919 /* Icon-57@2x.png */; };
 		F3C7B2301857276C00AFEE23 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C7B2251857276C00AFEE23 /* Default-568h@2x.png */; };
@@ -49,7 +50,6 @@
 		F3C7B2391857276C00AFEE23 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C7B22E1857276C00AFEE23 /* Default@2x~iphone.png */; };
 		F3C7B23A1857276C00AFEE23 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C7B22F1857276C00AFEE23 /* Default~iphone.png */; };
 		F840E1F1165FE0F500CFE078 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = F840E1F0165FE0F500CFE078 /* config.xml */; };
-		B62DD035805C4BEDB8CEF3F4 /* CDVInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4C075ED53A46A4AB982FA6 /* CDVInAppBrowser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,10 +100,12 @@
 		7E7966DB1810823500FA85AD /* icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-76@2x.png"; sourceTree = "<group>"; };
 		7E7966DC1810823500FA85AD /* icon-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-small.png"; sourceTree = "<group>"; };
 		7E7966DD1810823500FA85AD /* icon-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-small@2x.png"; sourceTree = "<group>"; };
+		7FBA6655E00D45A0A295F20F /* CDVInAppBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowser.h; path = org.apache.cordova.inappbrowser/CDVInAppBrowser.h; sourceTree = "<group>"; };
 		87C34D63702042A4B2CA8856 /* CDVReachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVReachability.h; path = "org.apache.cordova.network-information/CDVReachability.h"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Russiasport-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Russiasport-Info.plist"; path = "../Russiasport-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		AD177AA99C9B415BBA4D56E8 /* CDVConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVConnection.h; path = "org.apache.cordova.network-information/CDVConnection.h"; sourceTree = "<group>"; };
 		D79A3C0A44714B4F901D83EF /* AudioToolbox.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		DC4C075ED53A46A4AB982FA6 /* CDVInAppBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVInAppBrowser.m; path = org.apache.cordova.inappbrowser/CDVInAppBrowser.m; sourceTree = "<group>"; };
 		E19AB452E01C449B9A2E1825 /* CDVNotification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVNotification.m; path = org.apache.cordova.dialogs/CDVNotification.m; sourceTree = "<group>"; };
 		E7078275EDF2447BBF8795E1 /* CDVConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CDVConnection.m; path = "org.apache.cordova.network-information/CDVConnection.m"; sourceTree = "<group>"; };
 		EF482DF96AF64B65963C0AD5 /* CDVNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CDVNotification.h; path = org.apache.cordova.dialogs/CDVNotification.h; sourceTree = "<group>"; };
@@ -123,8 +125,6 @@
 		F3ECACD6186184310091747E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F41836B9685449488626083D /* SystemConfiguration.framework */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = Russiasport/config.xml; sourceTree = "<group>"; };
-		DC4C075ED53A46A4AB982FA6 /* CDVInAppBrowser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVInAppBrowser.m"; path = "org.apache.cordova.inappbrowser/CDVInAppBrowser.m"; sourceTree = "<group>"; fileEncoding = 4; };
-		7FBA6655E00D45A0A295F20F /* CDVInAppBrowser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVInAppBrowser.h"; path = "org.apache.cordova.inappbrowser/CDVInAppBrowser.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -491,7 +491,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = Russiasport;
-				PROVISIONING_PROFILE = "4E9F57F3-6D13-40C1-93D1-05EF0CF918A2";
+				PROVISIONING_PROFILE = "8E7BE73B-DB52-43D0-95AF-8FDDBA07F1BD";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -525,7 +525,7 @@
 					"-ObjC",
 				);
 				PRODUCT_NAME = Russiasport;
-				PROVISIONING_PROFILE = "4E9F57F3-6D13-40C1-93D1-05EF0CF918A2";
+				PROVISIONING_PROFILE = "8E7BE73B-DB52-43D0-95AF-8FDDBA07F1BD";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
