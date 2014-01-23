@@ -182,8 +182,8 @@ initPanel: function() {
 		e.stopPropagation();
 		return false;
 	})
-	$('.icon-menu, #close').on(app.event, function(e) {
-		e.stopPropagation();
+$('.icon-menu, #close').on(app.event, function(e) {
+	e.stopPropagation();
 		$('body').toggleClass('panel-active');
 	});
 	$('.icon.icon-logo').on(app.event, function(e) {
@@ -401,7 +401,9 @@ onGetLive: function(json){
         '<span class="text">cмотреть</span>'+
         '<div class="background"></div>'+
         '</div>'+
-        '<div class="slide-image" style="background-image: url('+video.uri480x360.replace('webta.','')+')"></div>'+
+        ( video.uri480x360 ?
+        	'<div class="slide-image" style="background-image: url('+video.uri480x360.replace('webta.','')+')"></div>' :
+        	'' ) +
         '<div class="element-text">'+
         '<p class="element-text-title">'+video.node_title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+

@@ -617,9 +617,9 @@ body.panel-active .red_counter {
 	html {
 		font-size: 8px;
 	}
-/*	.slider {
+	html.ios7 .slider {
 		height: 22.625em !important;
-	}*/
+	}
 	.panel.left {
 		height: 725px;
 	}
