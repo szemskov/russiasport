@@ -502,8 +502,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: SERGEY ZEMSKOV (PZU54AD24U)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: SERGEY ZEMSKOV (PZU54AD24U)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Russiasport/Russiasport-Prefix.pch";
