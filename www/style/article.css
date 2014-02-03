@@ -85,6 +85,18 @@ html.ios7 .header {
 	vertical-align: middle;
 	width: 33.3333% !important;
 }
+.fullwidth {
+	widows: 100%;
+}
+.three.fullwidth {
+	text-align: right;
+}
+.three>a {
+	display: inline-block;
+	height: 100%;
+	padding: 0 10px;
+	margin-right: -10px;
+}
 .two {
 	display: inline-block;
 	height: 100%;
@@ -104,7 +116,7 @@ html.ios7 .header {
 .icon-reload {
 	background-image: url("images/icon-reload.png");
 	background-position: center right;
-	height: 2.750em;
+	width: 2.500em;
 }
 .icon-logo {
 	background-image: url("images/icon-logo.png");
