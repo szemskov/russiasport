@@ -193,7 +193,7 @@ var node = {
 		        $('html').addClass('ios7');
 		    }
 			
-			$('body').empty();
+			$('body').empty().show();
 			var params = $.parseParams(document.location.search);
 			if(typeof(params.nid)!='undefined'){
 				node.nid = params.nid;

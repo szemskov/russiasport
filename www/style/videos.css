@@ -31,6 +31,9 @@ body,
 	height: 100%;
 	overflow: hidden;
 }
+body {
+	display: none;
+}
 .content-overlay {
 	background-color: transparent;
 	display: none;

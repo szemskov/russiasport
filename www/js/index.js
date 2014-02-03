@@ -481,7 +481,7 @@ onDeviceReady: function() {
 	var ua = navigator.userAgent;
 	app.event = (ua.match(/iPad|Android/i)) ? "touchstart" : "click";
 	app.receivedEvent('deviceready');
-	
+	$('body').show();
 	/*init panel*/
 	app.initPanel();
 	app.receivedEvent('initpanel');
