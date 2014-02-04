@@ -23,15 +23,29 @@ html * {
 	font-family: RussoOne;
 	 -webkit-tap-highlight-color:rgba(0,0,0,0);
 }
-html.ios7 {
-    height: 100%;
-	box-sizing: border-box;
-	padding-top: 20px;
+html.ios7 .header {
+	background: url("images/background-header.png") 0 0 transparent repeat-x;
+}
+html.ios7 .icon-logo:after {
+	content: "";
+	background: url("images/background-header-soch_2014.png") 0 0 transparent no-repeat;
+	background-size: 100% 100%;
+	display: block;
+	float: right;
+	height: 20.5px;
+	margin-right: -58px;
+	width: 46px;
+	-webkit-transform: translateY(50%);
+	-moz-transform: rotate(50%);
+	transform: rotate(50%);
 }
 html,
 body,
 .header {
 	width: 100%;
+}
+body {
+	display: none;
 }
 #is_loading {
 	display: none;

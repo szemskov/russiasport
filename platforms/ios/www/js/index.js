@@ -150,11 +150,11 @@ resetAppInits: function() { //сброс конфига по дефолту и �
 	return true;
 },
 initPanel: function() {
-	/*if(DEBUG){
+	if(DEBUG){
 		for(var i in sources){
 			sources[i]['url'] = sources[i]['url'].replace('russiasport.ru','russiasport.webta.ru');
 		}
-	}*/
+	}
 	this.onOffSearch_field();
 	var panel = jQuery('#sport_types');
 	i=0;
@@ -481,7 +481,7 @@ onDeviceReady: function() {
 	var ua = navigator.userAgent;
 	app.event = (ua.match(/iPad|Android/i)) ? "touchstart" : "click";
 	app.receivedEvent('deviceready');
-	
+	$('body').show();
 	/*init panel*/
 	app.initPanel();
 	app.receivedEvent('initpanel');
