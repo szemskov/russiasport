@@ -97,7 +97,7 @@ var node = {
 			
 			$('body').html(
 			    '<div id="article"> '+
-				    '<div class="header"><div class="three"></div><div class="three icon icon-logo"></div><div class="three"><a href="javascript:document.location.hash=\'\'; document.location.reload();"><div class="icon icon-reload"></div></a></div></div>'+
+				    '<div class="header"><div class="three"></div><div class="three centering fullheight"><div class="icon icon-logo"></div></div><div class="three fullwidth"><a href="javascript:document.location.hash=\'\'; document.location.reload();"><div class="icon icon-reload"></div></a></div></div>'+
 				     '<div class="popup popup-line clearfix">'+
 				    	'<a href="index.html"><p class="navigate">Назад к новостям</p></a>'+
 				    	'<p id="date" class="date">'+node.dt+'</p>'+

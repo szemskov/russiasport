@@ -23,8 +23,10 @@ html * {
 	font-family: RussoOne;
 	 -webkit-tap-highlight-color:rgba(0,0,0,0);
 }
-html.ios7 .header {
-	background: url("images/background-header.png") 0 0 transparent repeat-x;
+html.ios7 {
+    height: 100%;
+	box-sizing: border-box;
+	padding-top: 20px;
 }
 html.ios7 .icon-logo:after {
 	content: "";
@@ -43,9 +45,6 @@ html,
 body,
 .header {
 	width: 100%;
-}
-body {
-	display: none;
 }
 #is_loading {
 	display: none;
@@ -67,7 +66,17 @@ body.is_loading #is_loading {
 	background-position: center left, center right;
 	background-size: auto 100%;
 	height: 5.375em;
-	padding: 0.875em 1.0742% 0.875em 0.8301%;
+	padding: 0 1.0742% 0 0.8301%;
+}
+html.ios7 .header {
+	background: url("images/background-header.png") 0 0 transparent repeat-x;
+}
+.header .fullheight {
+	padding: 0;
+	height: 100%;
+}
+.centering {
+	text-align: center;
 }
 .three {
 	display: inline-block;
@@ -75,6 +84,18 @@ body.is_loading #is_loading {
 	line-height: 0;
 	vertical-align: middle;
 	width: 33.3333% !important;
+}
+.fullwidth {
+	widows: 100%;
+}
+.three.fullwidth {
+	text-align: right;
+}
+.three>a {
+	display: inline-block;
+	height: 100%;
+	padding: 0 10px;
+	margin-right: -10px;
 }
 .two {
 	display: inline-block;
@@ -88,18 +109,22 @@ body.is_loading #is_loading {
 	background-repeat: no-repeat;
 	background-size: contain;
 	cursor: pointer;
+	display: inline-block;
 	height: 100%;
 	width: 100%;
 }
 .icon-reload {
 	background-image: url("images/icon-reload.png");
 	background-position: center right;
-	height: 2.750em;
+	width: 2.500em;
 }
 .icon-logo {
 	background-image: url("images/icon-logo.png");
-	cursor: auto;
-	height: 2.750em;
+	background-size: 13.313em 2.313em;
+	box-sizing: content-box;
+	height: 100%;
+	padding: 0 3em;
+	width: 13.313em;
 }
 .icon-menu-inactive {
 	background-image: none;
