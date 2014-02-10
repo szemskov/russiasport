@@ -433,10 +433,12 @@ onGetLive: function(json){
 },
 __load: function(source){
     if(navigator.onLine){
+
         url = app.prepareUrl(source);
         $.ajax({
                type: 'GET',
                url: url,
+               timeout: 60000,
                contentType: "application/json",
                jsonpCallback: source.callback,
                dataType: 'jsonp',
