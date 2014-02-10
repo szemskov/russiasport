@@ -38,7 +38,7 @@ if(!tags){
 	tags = {
 		"biatlon": {"name":"Биатлон", "tid":190991, "active":0},
 		"bobsplay": {"name":"Бобслей", "tid":190992, "active":0},
-		"skeleton": {"name":"Горные лыжи", "tid":191005, "active":0},
+		"mountains_skiing": {"name":"Горные лыжи", "tid":191005, "active":0},
 		"kyorling": {"name":"Керлинг", "tid":190994, "active":0},
 		"skiing_dvoeborie": {"name":"Лыжное двоеборье", "tid":191007, "active":0},
 		"skiing_race": {"name":"Лыжные гонки", "tid":191006, "active":0},
@@ -150,11 +150,11 @@ resetAppInits: function() { //сброс конфига по дефолту и �
 	return true;
 },
 initPanel: function() {
-	/*if(DEBUG){
+	if(DEBUG){
 		for(var i in sources){
 			sources[i]['url'] = sources[i]['url'].replace('russiasport.ru','russiasport.webta.ru');
 		}
-	}*/
+	}
 	this.onOffSearch_field();
 	var panel = jQuery('#sport_types');
 	i=0;
@@ -182,8 +182,8 @@ initPanel: function() {
 		e.stopPropagation();
 		return false;
 	})
-	$('.icon-menu, #close').on(app.event, function(e) {
-		e.stopPropagation();
+$('.icon-menu, #close').on(app.event, function(e) {
+	e.stopPropagation();
 		$('body').toggleClass('panel-active');
 	});
 	$('.icon.icon-logo').on(app.event, function(e) {
@@ -306,7 +306,7 @@ onGetNews: function(json){
         '<a href="article.html?nid='+news.nid+'">'+
         ( (typeof(news.image)=='string') ?
         	'<div class="slide-image" style="background-image: url('+news.image480x360.replace('webta.','')+')"></div>' :
-        	'' ) +
+        	'<div class="slide-image" style="background: #C2C2C2;"></div>' ) +
         '<div class="element-text">'+
         '<p class="element-text-title">'+news.node_title+'</p>'+
         '<span class="element-text-time">'+news.time+'</span>'+
@@ -349,7 +349,7 @@ onGetVideo: function(json){
         '</div>'+
         ( video.uri480x360 ?
         	'<div class="slide-image" style="background-image: url('+video.uri480x360.replace('webta.','')+')"></div>' :
-        	'' ) +
+        	'<div class="slide-image" style="background: #C2C2C2;"></div>' ) +
         '<div class="element-text">'+
         '<p class="element-text-title">'+video.title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
@@ -401,7 +401,9 @@ onGetLive: function(json){
         '<span class="text">cмотреть</span>'+
         '<div class="background"></div>'+
         '</div>'+
-        '<div class="slide-image" style="background-image: url('+video.uri480x360.replace('webta.','')+')"></div>'+
+        ( video.uri480x360 ?
+        	'<div class="slide-image" style="background-image: url('+video.uri480x360.replace('webta.','')+')"></div>' :
+        	'<div class="slide-image" style="background: #C2C2C2;"></div>' ) +
         '<div class="element-text">'+
         '<p class="element-text-title">'+video.node_title+'</p>'+
         '<span class="element-text-time">'+video.time+'</span>'+
@@ -431,10 +433,12 @@ onGetLive: function(json){
 },
 __load: function(source){
     if(navigator.onLine){
+
         url = app.prepareUrl(source);
         $.ajax({
                type: 'GET',
                url: url,
+               timeout: 60000,
                contentType: "application/json",
                jsonpCallback: source.callback,
                dataType: 'jsonp',
@@ -479,7 +483,7 @@ onDeviceReady: function() {
 	var ua = navigator.userAgent;
 	app.event = (ua.match(/iPad|Android/i)) ? "touchstart" : "click";
 	app.receivedEvent('deviceready');
-	
+	$('body').show();
 	/*init panel*/
 	app.initPanel();
 	app.receivedEvent('initpanel');

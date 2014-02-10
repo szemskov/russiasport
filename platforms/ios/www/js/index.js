@@ -38,7 +38,7 @@ if(!tags){
 	tags = {
 		"biatlon": {"name":"Биатлон", "tid":190991, "active":0},
 		"bobsplay": {"name":"Бобслей", "tid":190992, "active":0},
-		"skeleton": {"name":"Горные лыжи", "tid":191005, "active":0},
+		"mountains_skiing": {"name":"Горные лыжи", "tid":191005, "active":0},
 		"kyorling": {"name":"Керлинг", "tid":190994, "active":0},
 		"skiing_dvoeborie": {"name":"Лыжное двоеборье", "tid":191007, "active":0},
 		"skiing_race": {"name":"Лыжные гонки", "tid":191006, "active":0},
@@ -433,10 +433,12 @@ onGetLive: function(json){
 },
 __load: function(source){
     if(navigator.onLine){
+
         url = app.prepareUrl(source);
         $.ajax({
                type: 'GET',
                url: url,
+               timeout: 60000,
                contentType: "application/json",
                jsonpCallback: source.callback,
                dataType: 'jsonp',
