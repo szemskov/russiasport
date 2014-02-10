@@ -32,7 +32,7 @@ $.each({
     }
 });
 
-var DEBUG = true;
+var DEBUG = false;
 var tags = window.localStorage.getItem("tags");
 if(!tags){
 	tags = {
