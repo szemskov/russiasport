@@ -91,6 +91,9 @@ html.ios7 .header {
 .three.fullwidth {
 	text-align: right;
 }
+.right {
+	text-align: right;
+}
 .three>a {
 	display: inline-block;
 	height: 100%;
@@ -116,6 +119,7 @@ html.ios7 .header {
 .icon-reload {
 	background-image: url("images/icon-reload.png");
 	background-position: center right;
+	height: 2.500em;
 	width: 2.500em;
 }
 .icon-logo {

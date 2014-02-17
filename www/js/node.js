@@ -116,7 +116,7 @@ var node = {
 				'<div class="text">'+ content  +'</div>'+
 			'</div>'+
 			'<div class="under-line under-line-comments clearfix" id="comments-block">'+
-				'<div class="two text">Комментарии</div><div class="two">'+
+				'<div class="two text">Комментарии</div><div class="two right">'+
 					'<a href="javascript:('+
 						(function() {
 							var href = document.location.pathname;
@@ -149,6 +149,11 @@ var node = {
 			var script = document.createElement('script');
 			script.innerHTML = 'if (document.location.hash.length) document.location.href=document.location.hash';
 			document.body.appendChild(script);
+
+			if ( $('#Gallery').length ) {
+				Code.photoSwipe('a', '#Gallery');
+			}
+
 		},
 		onClickNode: function(nid, callback){
             if(navigator.onLine){
