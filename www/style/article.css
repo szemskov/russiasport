@@ -119,8 +119,11 @@ html.ios7 .header {
 .icon-reload {
 	background-image: url("images/icon-reload.png");
 	background-position: center right;
-	height: 2.500em;
+	height: 100%;
 	width: 2.500em;
+}
+.two.right .icon-reload {
+	height: 2.500em;
 }
 .icon-logo {
 	background-image: url("images/icon-logo.png");
